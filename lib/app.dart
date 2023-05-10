@@ -9,7 +9,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-    MaterialApp(
+    const MaterialApp(
       title: 'App for Pregnant Woman',
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),

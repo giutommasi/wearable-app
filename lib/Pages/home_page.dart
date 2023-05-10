@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        drawer: Expanded(child: Text('')),
+        drawer: const Expanded(child: Text('')),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
