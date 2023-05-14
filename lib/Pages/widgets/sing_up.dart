@@ -66,8 +66,8 @@ class _SignUpState extends State<SignUp> {
                     Container(
                       alignment: Alignment.bottomCenter,
                       child:Text('OR', style: TextStyle(color: Colors.pink.shade200),)),
-                    Text('Insert SignIn with Google'),
-                    Container(
+                    const Text('Insert SignIn with Google'),
+                    const SizedBox(
                       height: 200,
                       child: Text(''),
                     )
@@ -80,7 +80,7 @@ class _SignUpState extends State<SignUp> {
   Widget _nameField() => Padding(
         padding: const EdgeInsets.only(right: 14.0, top: 8.0, left: 14.0),
         child: TextField(
-          autofillHints: [AutofillHints.name],    //Il telefono suggerisce nome/email o qualsiasi altro dato dell'utente
+          autofillHints: const [AutofillHints.name],    //Il telefono suggerisce nome/email o qualsiasi altro dato dell'utente
           focusNode: _focusNodeName,
           inputFormatters: [
             FilteringTextInputFormatter.allow(digitNameValidator)],    
@@ -112,7 +112,7 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: [
               TextFormField(
-                autofillHints: [AutofillHints.email],
+                autofillHints: const [AutofillHints.email],
                 //onTapOutside: (void onClick) => Navigator.pop(context), se clicchi fuori dal testo, check email corretta/errata, da implementare[...]
                 //controller: textController,   [da implemetare nel controllo email valida]
                 // validator: (email) => email != null && !EmailValidator.validate(email)

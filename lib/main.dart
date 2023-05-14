@@ -12,7 +12,7 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(App());
+  runApp(const App());
 }
 
 // ctrl K ctrl c     ctrl k ctrl U
