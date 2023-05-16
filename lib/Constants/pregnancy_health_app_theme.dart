@@ -4,6 +4,8 @@ class PHAppTheme {
   PHAppTheme._();
 
   static const Color pink = Color.fromRGBO(244, 143, 177, 1);
+  static const Color red = Color(0xFFE53535);
+
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFF2F3F8);
