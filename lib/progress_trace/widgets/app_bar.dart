@@ -1,5 +1,4 @@
 import 'package:exam/Constants/pregnancy_health_app_theme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProgressAppBar extends StatefulWidget {
@@ -130,28 +129,66 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                               ),
                             ),
                             SizedBox(
-                                width: 300,
-                                child:
-                                    CupertinoSlidingSegmentedControl<TimeRange>(
-                                  groupValue: TimeRange.lastYear,
-                                  onValueChanged: (index) {
-                                    print("Value Changed");
-                                  },
-                                  children: const {
-                                    TimeRange.last30Days: Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text("Today"),
+                              height: 38,
+                              width: 38,
+                              child: InkWell(
+                                highlightColor: Colors.transparent,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(32.0)),
+                                onTap: () {},
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.keyboard_arrow_left,
+                                    color: PHAppTheme.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8),
+                                    child: Icon(
+                                      Icons.calendar_today,
+                                      color: PHAppTheme.grey,
+                                      size: 18,
                                     ),
-                                    TimeRange.lastYear: Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text("Last 7 Days"),
+                                  ),
+                                  Text(
+                                    '15 May',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: PHAppTheme.fontName,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 18,
+                                      letterSpacing: -0.2,
+                                      color: PHAppTheme.darkerText,
                                     ),
-                                    TimeRange.allTime: Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: Text("All Time"),
-                                    )
-                                  },
-                                )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 38,
+                              width: 38,
+                              child: InkWell(
+                                highlightColor: Colors.transparent,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(32.0)),
+                                onTap: () {},
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.keyboard_arrow_right,
+                                    color: PHAppTheme.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -164,22 +201,5 @@ class ProgressAppBarState extends State<ProgressAppBar> {
         )
       ],
     );
-  }
-}
-
-enum TimeRange {
-  last30Days,
-  lastYear,
-  allTime;
-
-  Duration? duration() {
-    switch (this) {
-      case TimeRange.last30Days:
-        return const Duration(days: 30);
-      case TimeRange.lastYear:
-        return const Duration(days: 365);
-      case TimeRange.allTime:
-        return null;
-    }
   }
 }
