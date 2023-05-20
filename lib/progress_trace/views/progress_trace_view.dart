@@ -1,14 +1,12 @@
-import 'package:exam/progress_trace/ui_view/steps_card_view.dart';
-import 'package:exam/progress_trace/ui_view/glass_view.dart';
-import 'package:exam/progress_trace/ui_view/calories_card_view.dart';
-import 'package:exam/progress_trace/ui_view/title_view.dart';
+import 'package:exam/progress_trace/views/sleep_card_view.dart';
+import 'package:exam/progress_trace/views/steps_card_view.dart';
+import 'package:exam/progress_trace/views/calories_card_view.dart';
+import 'package:exam/progress_trace/views/title_view.dart';
 import 'package:exam/Constants/pregnancy_health_app_theme.dart';
-import 'package:exam/progress_trace/views/meals_list_view.dart';
-import 'package:exam/progress_trace/views/water_view.dart';
 import 'package:exam/progress_trace/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../ui_view/steps_alert_view.dart';
+import '../views/analysis_alert_view.dart';
 
 class ProgressTraceUI extends StatefulWidget {
   const ProgressTraceUI({Key? key, required this.animationController})
@@ -103,19 +101,29 @@ class _ProgressTraceUIState extends State<ProgressTraceUI>
         animationController: widget.animationController!,
       ),
     );
+
     listViews.add(
-      StepsAlertView(
-          animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-              CurvedAnimation(
-                  parent: widget.animationController!,
-                  curve: const Interval((1 / count) * 8, 1.0,
-                      curve: Curves.fastOutSlowIn))),
-          animationController: widget.animationController!),
+      AnalysisAlertView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve:
+                Interval((1 / count) * 3, 1.0, curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
+      ),
     );
+    // listViews.add(
+    //   StepsAlertView(
+    //       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+    //           CurvedAnimation(
+    //               parent: widget.animationController!,
+    //               curve: const Interval((1 / count) * 8, 1.0,
+    //                   curve: Curves.fastOutSlowIn))),
+    //       animationController: widget.animationController!),
+    // );
 
     listViews.add(
       TitleView(
-        titleTxt: 'Water',
+        titleTxt: 'Sleep',
         subTxt: 'Aqua SmartBottle',
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
@@ -126,15 +134,37 @@ class _ProgressTraceUIState extends State<ProgressTraceUI>
     );
 
     listViews.add(
-      WaterView(
-        mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-            CurvedAnimation(
-                parent: widget.animationController!,
-                curve: const Interval((1 / count) * 7, 1.0,
-                    curve: Curves.fastOutSlowIn))),
-        mainScreenAnimationController: widget.animationController!,
+      SleepCardView(
+        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+            parent: widget.animationController!,
+            curve: const Interval((1 / count) * 7, 1.0,
+                curve: Curves.fastOutSlowIn))),
+        animationController: widget.animationController!,
       ),
     );
+
+    // listViews.add(
+    //   TitleView(
+    //     titleTxt: 'Water',
+    //     subTxt: 'Aqua SmartBottle',
+    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController!,
+    //         curve: const Interval((1 / count) * 6, 1.0,
+    //             curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController!,
+    //   ),
+    // );
+
+    // listViews.add(
+    //   WaterView(
+    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
+    //         CurvedAnimation(
+    //             parent: widget.animationController!,
+    //             curve: const Interval((1 / count) * 7, 1.0,
+    //                 curve: Curves.fastOutSlowIn))),
+    //     mainScreenAnimationController: widget.animationController!,
+    //   ),
+    // );
     // listViews.add(
     //   GlassView(
     //       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
