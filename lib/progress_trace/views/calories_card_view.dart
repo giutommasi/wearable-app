@@ -1,7 +1,6 @@
 import 'package:exam/Constants/pregnancy_health_app_theme.dart';
 import 'package:exam/main.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import '../widgets/curve_painter.dart';
 

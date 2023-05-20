@@ -23,9 +23,9 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
 
   @override
   void initState() {
-    tabIconsList.forEach((BottomBarIconData tab) {
+    for (var tab in tabIconsList) {
       tab.isSelected = false;
-    });
+    }
     tabIconsList[0].isSelected = true;
 
     animationController = AnimationController(

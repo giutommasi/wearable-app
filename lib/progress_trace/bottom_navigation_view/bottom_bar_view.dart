@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'package:exam/Constants/pregnancy_health_app_theme.dart';
 import 'package:exam/progress_trace/models/bottom_bar_icon_data.dart';
-import 'package:exam/main.dart';
 import 'package:flutter/material.dart';
 
 class BottomBarView extends StatefulWidget {
@@ -260,12 +259,12 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                     scale: Tween<double>(begin: 0.0, end: 1.0).animate(
                         CurvedAnimation(
                             parent: widget.tabIconData!.animationController!,
-                            curve: Interval(0.2, 1.0,
+                            curve: const Interval(0.2, 1.0,
                                 curve: Curves.fastOutSlowIn))),
                     child: Container(
                       width: 8,
                       height: 8,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: PHAppTheme.pink,
                         shape: BoxShape.circle,
                       ),
@@ -281,12 +280,12 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                     scale: Tween<double>(begin: 0.0, end: 1.0).animate(
                         CurvedAnimation(
                             parent: widget.tabIconData!.animationController!,
-                            curve: Interval(0.5, 0.8,
+                            curve: const Interval(0.5, 0.8,
                                 curve: Curves.fastOutSlowIn))),
                     child: Container(
                       width: 4,
                       height: 4,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: PHAppTheme.pink,
                         shape: BoxShape.circle,
                       ),
@@ -302,12 +301,12 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                     scale: Tween<double>(begin: 0.0, end: 1.0).animate(
                         CurvedAnimation(
                             parent: widget.tabIconData!.animationController!,
-                            curve: Interval(0.5, 0.6,
+                            curve: const Interval(0.5, 0.6,
                                 curve: Curves.fastOutSlowIn))),
                     child: Container(
                       width: 6,
                       height: 6,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: PHAppTheme.pink,
                         shape: BoxShape.circle,
                       ),
