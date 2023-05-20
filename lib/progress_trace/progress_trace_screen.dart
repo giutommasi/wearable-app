@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Constants/pregnancy_health_app_theme.dart';
+import 'bottom_navigation_view/bottom_bar_view.dart';
+import 'models/bottom_bar_icon_data.dart';
 import 'views/progress_trace_view.dart';
 
 class ProgressTraceScreen extends StatefulWidget {
@@ -13,12 +15,19 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
+  List<BottomBarIconData> tabIconsList = BottomBarIconData.tabIconsList;
+
   Widget tabBody = Container(
     color: PHAppTheme.background,
   );
 
   @override
   void initState() {
+    tabIconsList.forEach((BottomBarIconData tab) {
+      tab.isSelected = false;
+    });
+    tabIconsList[0].isSelected = true;
+
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
     tabBody = ProgressTraceUI(animationController: animationController);
@@ -51,7 +60,7 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
               return Stack(
                 children: <Widget>[
                   tabBody,
-                  // bottomBar(),
+                  bottomBar(),
                 ],
               );
             }
@@ -66,40 +75,40 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
     return true;
   }
 
-  // Widget bottomBar() {
-  //   return Column(
-  //     children: <Widget>[
-  //       const Expanded(
-  //         child: SizedBox(),
-  //       ),
-  //       BottomBarView(
-  //         tabIconsList: tabIconsList,
-  //         addClick: () {},
-  //         changeIndex: (int index) {
-  //           if (index == 0 || index == 2) {
-  //             animationController?.reverse().then<dynamic>((data) {
-  //               if (!mounted) {
-  //                 return;
-  //               }
-  //               setState(() {
-  //                 tabBody =
-  //                     MyDiaryScreen(animationController: animationController);
-  //               });
-  //             });
-  //           } else if (index == 1 || index == 3) {
-  //             animationController?.reverse().then<dynamic>((data) {
-  //               if (!mounted) {
-  //                 return;
-  //               }
-  //               setState(() {
-  //                 tabBody =
-  //                     TrainingScreen(animationController: animationController);
-  //               });
-  //             });
-  //           }
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
+  Widget bottomBar() {
+    return Column(
+      children: <Widget>[
+        const Expanded(
+          child: SizedBox(),
+        ),
+        BottomBarView(
+          tabIconsList: tabIconsList,
+          addClick: () {},
+          changeIndex: (int index) {
+            if (index == 0 || index == 2) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      ProgressTraceUI(animationController: animationController);
+                });
+              });
+            } else if (index == 1 || index == 3) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody =
+                      ProgressTraceUI(animationController: animationController);
+                });
+              });
+            }
+          },
+        ),
+      ],
+    );
+  }
 }
