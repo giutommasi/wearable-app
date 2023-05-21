@@ -1,23 +1,22 @@
+import 'package:intl/intl.dart';
+
 class Calories {
-  String? hours;
-  String? minutes;
-  String? seconds;
-  double? _calories;
+  final DateTime date;
+  final double calories;
 
-  Calories(double calories, String time) {
-    _calories = calories;
-    List<String> times = time.split(':');
+  Calories({required this.date, required this.calories});
 
-    hours = times[0];
-    minutes = times[1];
-    seconds = times[2];
-  }
+  Calories.fromJson(Map<String, dynamic> json)
+      : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),
+        // Steps is a double
+        calories = num.parse(json["data"]
+            .map((e) => num.parse(e["value"]))
+            .toList() // List<int>
+            .fold(0, (prev, element) => prev + element) // double
+            .toStringAsFixed(2)) as double;
 
-  double get steps {
-    return _calories!;
-  }
-
-  String get timestamp {
-    return '$hours:$minutes';
-  }
-}
+  @override
+  String toString() {
+    return 'Calories(time: $date, value: $calories)';
+  } //toString
+}//Steps
