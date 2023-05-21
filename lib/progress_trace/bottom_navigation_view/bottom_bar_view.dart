@@ -61,14 +61,6 @@ class _BottomBarViewState extends State<BottomBarView>
                                     widget.changeIndex!(0);
                                   }),
                             ),
-                            SizedBox(
-                              width: Tween<double>(begin: 0.0, end: 1.0)
-                                      .animate(CurvedAnimation(
-                                          parent: animationController!,
-                                          curve: Curves.fastOutSlowIn))
-                                      .value *
-                                  64.0,
-                            ),
                             Expanded(
                               child: TabIcons(
                                   tabIconData: widget.tabIconsList?[1],
@@ -77,14 +69,6 @@ class _BottomBarViewState extends State<BottomBarView>
                                         widget.tabIconsList?[1]);
                                     widget.changeIndex!(1);
                                   }),
-                            ),
-                            SizedBox(
-                              width: Tween<double>(begin: 0.0, end: 1.0)
-                                      .animate(CurvedAnimation(
-                                          parent: animationController!,
-                                          curve: Curves.fastOutSlowIn))
-                                      .value *
-                                  64.0,
                             ),
                             Expanded(
                               child: TabIcons(
