@@ -31,7 +31,7 @@ class BottomBarIconData {
         index: 1,
         isSelected: false,
         animationController: null,
-        description: 'Last 7 Days'),
+        description: '7 Days'),
     BottomBarIconData(
         imagePath: 'assets/images/progress_trace/page_3.png',
         selectedImagePath: 'assets/images/progress_trace/page_3s.png',
