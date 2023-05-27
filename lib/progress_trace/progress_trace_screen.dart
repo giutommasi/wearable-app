@@ -1,3 +1,4 @@
+import 'package:exam/utils/impact.dart';
 import 'package:flutter/material.dart';
 import '../Constants/pregnancy_health_app_theme.dart';
 import 'bottom_navigation_view/bottom_bar_view.dart';
@@ -14,6 +15,8 @@ class ProgressTraceScreen extends StatefulWidget {
 class ProgressTraceScreenState extends State<ProgressTraceScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
+  bool impactUp = false;
+  late Future<bool> _data;
 
   List<BottomBarIconData> tabIconsList = BottomBarIconData.tabIconsList;
 
@@ -23,6 +26,8 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
 
   @override
   void initState() {
+    _data = getData();
+
     for (var tab in tabIconsList) {
       tab.isSelected = false;
     }
@@ -47,7 +52,7 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
-          future: getData(),
+          future: _data,
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -71,8 +76,12 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
+    bool result = await Impact.isUp();
+    if (result) {
+      await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+      return result;
+    }
+    return result;
   }
 
   Widget bottomBar() {
