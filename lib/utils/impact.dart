@@ -1,17 +1,19 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import 'impact_util.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Impact {
   //This method allows to check if the IMPACT backend is up
-  static Future<bool> impactUp() async {
+  static Future<bool> isUp() async {
     //Create the request
     final url = ImpactUtil.baseUrl + ImpactUtil.pingEndpoint;
 
     //Get the response
-    print('Calling: $url');
+    debugPrint('Calling: $url');
     final response = await http.get(Uri.parse(url));
 
     //Just return if the status code is OK
@@ -28,7 +30,7 @@ class Impact {
     };
 
     //Get the response
-    print('Calling: $url');
+    debugPrint('Calling: $url');
     final response = await http.post(Uri.parse(url), body: body);
 
     //If response is OK, decode it and store the tokens. Otherwise do nothing.
@@ -52,7 +54,7 @@ class Impact {
     final body = {'refresh': refresh};
 
     //Get the response
-    print('Calling: $url');
+    debugPrint('Calling: $url');
     final response = await http.post(Uri.parse(url), body: body);
 
     //If the response is OK, set the tokens in SharedPreferences to the new values
