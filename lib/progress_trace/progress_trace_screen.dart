@@ -1,5 +1,5 @@
 import 'package:exam/Constants/impact.dart';
-import 'package:exam/progress_trace/models/calories.dart';
+import 'package:exam/database/entities/calories.dart';
 import 'package:exam/services/impact_api.dart';
 import 'package:exam/services/impact_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,8 @@ import 'package:intl/intl.dart';
 import '../Constants/pregnancy_health_app_theme.dart';
 import 'bottom_navigation_view/bottom_bar_view.dart';
 import 'models/bottom_bar_icon_data.dart';
-import 'models/sleep.dart';
-import 'models/steps.dart';
+import '../database/entities/sleep.dart';
+import '../database/entities/steps.dart';
 import 'views/progress_trace_view.dart';
 
 class ProgressTraceScreen extends StatefulWidget {
@@ -98,7 +98,7 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
     debugPrint(calories!.toString());
 
     Sleep? sleep = await ImpactApi.getSleep(
-        ImpactDataType.sleep, DateFormat('yyyy-MM-dd').parse("2023-05-10"));
+        ImpactDataType.sleep, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
     if (sleep != null) {
       debugPrint(sleep.toString());
     }

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:exam/Constants/impact.dart';
-import 'package:exam/progress_trace/models/sleep.dart';
+import 'package:exam/database/entities/sleep.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
@@ -10,8 +10,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../progress_trace/models/calories.dart';
-import '../progress_trace/models/steps.dart';
+import '../database/entities/calories.dart';
+import '../database/entities/steps.dart';
 import 'impact_auth.dart';
 
 class ImpactApi {
