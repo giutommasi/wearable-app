@@ -8,7 +8,7 @@ class Calories {
 
   Calories.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),
-        // Steps is a double
+        // Calories is a double
         calories = num.parse(json["data"]
             .map((e) => num.parse(e["value"]))
             .toList() // List<int>

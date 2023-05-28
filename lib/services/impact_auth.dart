@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'impact_const.dart';
+import '../Constants/impact.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Impact {
+class ImpactAuth {
   //This method allows to check if the IMPACT backend is up
   static Future<bool> isUp() async {
     //Create the request
-    final url = ImpactConst.baseUrl + ImpactConst.pingEndpoint;
+    final url = Impact.baseUrl + Impact.pingEndpoint;
 
     //Get the response
     debugPrint('Calling: $url');
@@ -18,16 +18,13 @@ class Impact {
 
     //Just return if the status code is OK
     return response.statusCode == 200;
-  } //_isImpactUp
+  } //isUp
 
   //This method allows to obtain the JWT token pair from IMPACT and store it in SharedPreferences
   static Future<int> getAndStoreTokens() async {
     //Create the request
-    final url = ImpactConst.baseUrl + ImpactConst.tokenEndpoint;
-    final body = {
-      'username': ImpactConst.username,
-      'password': ImpactConst.password
-    };
+    final url = Impact.baseUrl + Impact.tokenEndpoint;
+    final body = {'username': Impact.username, 'password': Impact.password};
 
     //Get the response
     debugPrint('Calling: $url');
@@ -48,7 +45,7 @@ class Impact {
   //This method allows to refrsh the stored JWT in SharedPreferences
   static Future<int> refreshTokens() async {
     //Create the request
-    final url = ImpactConst.baseUrl + ImpactConst.refreshEndpoint;
+    final url = Impact.baseUrl + Impact.refreshEndpoint;
     final sp = await SharedPreferences.getInstance();
     final refresh = sp.getString('refresh');
     final body = {'refresh': refresh};
