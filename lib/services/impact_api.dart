@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:js_interop';
 
 import 'package:exam/Constants/impact.dart';
 import 'package:exam/progress_trace/models/sleep.dart';
