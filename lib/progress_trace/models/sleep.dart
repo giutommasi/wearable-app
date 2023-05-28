@@ -1,10 +1,12 @@
 import 'package:intl/intl.dart';
 
+import '../../utils/date_utils.dart';
+
 class Sleep {
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
-  final int duration;
+  final int duration; // minutes
   final int minutesAsleep;
   final int minutesAwake;
   final int efficiency;
@@ -20,18 +22,17 @@ class Sleep {
 
   Sleep.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),
-        startTime =
-            DateFormat('MM-dd HH:mm:ss').parse('${json["data"]["startTime"]}'),
-        endTime =
-            DateFormat('MM-dd HH:mm:ss').parse('${json["data"]["endTime"]}'),
-        // Steps is a double
-        duration = json["data"]["duration"],
+        startTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+            '${json["date"].split("-")[0]}-${json["data"]["startTime"]}'),
+        endTime = DateFormat('yyyy-MM-dd HH:mm:ss')
+            .parse('${json["date"].split("-")[0]}-${json["data"]["endTime"]}'),
+        duration = json["data"]["duration"] / 1000 as int,
         minutesAsleep = json["data"]["minutesAsleep"],
         minutesAwake = json["data"]["minutesAwake"],
         efficiency = json["data"]["efficiency"];
 
   @override
   String toString() {
-    return 'Calories(time: $date, value: $startTime $endTime $efficiency $date $duration $minutesAsleep $minutesAwake)';
+    return 'Sleep(time: ${DateUtils.dateOnly(date)}, value: $startTime $endTime $efficiency $duration $minutesAsleep $minutesAwake)';
   } //toString
-}//Steps
+}//Sleep

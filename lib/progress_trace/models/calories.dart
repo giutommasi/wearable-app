@@ -19,4 +19,4 @@ class Calories {
   String toString() {
     return 'Calories(time: $date, value: $calories)';
   } //toString
-}//Steps
+}//Calories
