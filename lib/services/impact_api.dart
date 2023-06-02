@@ -31,9 +31,10 @@ class ImpactApi {
 
       if (type == ImpactDataType.steps) {
         for (var i = 0; i < decodedResponse['data'].length; i++) {
+          if ((decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+
           steps.add(Steps.fromJson(decodedResponse['data'][i]));
         }
-
         return steps;
       }
     }
@@ -58,6 +59,8 @@ class ImpactApi {
 
       if (type == ImpactDataType.calories) {
         for (var i = 0; i < decodedResponse['data'].length; i++) {
+          if ((decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+
           calories.add(Calories.fromJson(decodedResponse['data'][i]));
         }
 
@@ -85,6 +88,8 @@ class ImpactApi {
 
       if (type == ImpactDataType.sleep) {
         for (var i = 0; i < decodedResponse['data'].length; i++) {
+          if ((decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+
           sleep.add(Sleep.fromJson(decodedResponse['data'][i]));
         }
 
@@ -105,6 +110,8 @@ class ImpactApi {
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
       if (type == ImpactDataType.steps) {
+        if ((decodedResponse['data'] as List).isEmpty) return null;
+
         return Steps.fromJson(decodedResponse['data']);
       }
     }
@@ -123,6 +130,8 @@ class ImpactApi {
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
       if (type == ImpactDataType.calories) {
+        if ((decodedResponse['data'] as List).isEmpty) return null;
+
         return Calories.fromJson(decodedResponse['data']);
       }
     }
@@ -139,9 +148,8 @@ class ImpactApi {
     //if OK parse the response, otherwise return null
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
-      if (decodedResponse['data'].length == 0) {
-        return null;
-      }
+      if ((decodedResponse['data'] as List).isEmpty) return null;
+
       if (type == ImpactDataType.sleep) {
         return Sleep.fromJson(decodedResponse['data']);
       }
