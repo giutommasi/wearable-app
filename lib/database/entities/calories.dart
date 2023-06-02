@@ -1,9 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'calories')
+@Entity(tableName: 'Calories')
 class Calories {
-  
   @PrimaryKey(autoGenerate: true)
   int? id;
   final DateTime date;
@@ -12,7 +11,10 @@ class Calories {
   double eaten = 0;
 
   Calories(
-      {this.id, required this.date, required this.burned, required this.dayOfTheWeek});
+      {this.id,
+      required this.date,
+      required this.burned,
+      required this.dayOfTheWeek});
 
   Calories.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),

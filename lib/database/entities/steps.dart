@@ -1,10 +1,14 @@
+import 'package:floor/floor.dart';
 import 'package:intl/intl.dart';
 
+@Entity(tableName: 'Steps')
 class Steps {
+  @PrimaryKey(autoGenerate: true)
+  int? id;
   final DateTime date;
   final int steps;
 
-  Steps({required this.date, required this.steps});
+  Steps({this.id, required this.date, required this.steps});
 
   Steps.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),

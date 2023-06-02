@@ -1,8 +1,12 @@
+import 'package:floor/floor.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/date_utils.dart';
 
+@Entity(tableName: 'Sleep')
 class Sleep {
+  @PrimaryKey(autoGenerate: true)
+  int? id;
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
@@ -26,7 +30,7 @@ class Sleep {
             '${json["date"].split("-")[0]}-${json["data"]["startTime"]}'),
         endTime = DateFormat('yyyy-MM-dd HH:mm:ss')
             .parse('${json["date"].split("-")[0]}-${json["data"]["endTime"]}'),
-        duration = json["data"]["duration"] / 1000 as int,
+        duration = json["data"]["duration"] ~/ 1000,
         minutesAsleep = json["data"]["minutesAsleep"],
         minutesAwake = json["data"]["minutesAwake"],
         efficiency = json["data"]["efficiency"];
