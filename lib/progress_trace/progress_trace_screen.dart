@@ -1,5 +1,11 @@
+import 'dart:math';
+
 import 'package:exam/Constants/impact.dart';
 import 'package:exam/database/entities/calories.dart';
+import 'package:exam/repositories/calories_repository.dart';
+import 'package:exam/repositories/repository.dart';
+import 'package:exam/repositories/sleep_repository.dart';
+import 'package:exam/repositories/steps_repository.dart';
 import 'package:exam/services/impact_api.dart';
 import 'package:exam/services/impact_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +16,7 @@ import 'models/bottom_bar_icon_data.dart';
 import '../database/entities/sleep.dart';
 import '../database/entities/steps.dart';
 import 'views/progress_trace_view.dart';
+import 'package:provider/provider.dart';
 
 class ProgressTraceScreen extends StatefulWidget {
   const ProgressTraceScreen({super.key});
@@ -22,7 +29,9 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   bool impactUp = false;
-  late Future<bool> _data;
+  late Future<Steps> steps;
+  late Future<Calories> calories;
+  late Future<Sleep> sleep;
 
   List<BottomBarIconData> tabIconsList = BottomBarIconData.tabIconsList;
 
@@ -32,8 +41,6 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
 
   @override
   void initState() {
-    _data = getData();
-
     for (var tab in tabIconsList) {
       tab.isSelected = false;
     }
@@ -58,9 +65,10 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
-          future: _data,
+          future: getData(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (!snapshot.hasData) {
+              print("Not Done");
               return const Center(
                   child: Center(
                 child: CircularProgressIndicator(
@@ -68,6 +76,7 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
                 ),
               ));
             } else {
+              print("Done");
               return Stack(
                 children: <Widget>[
                   tabBody,
@@ -82,32 +91,60 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
   }
 
   Future<bool> getData() async {
+    final stepsRepo = Provider.of<StepsRepository>(context, listen: false);
+    final caloriesRepo =
+        Provider.of<CaloriesRepository>(context, listen: false);
+    final sleepRepo = Provider.of<SleepRepository>(context, listen: false);
+
     bool result = await ImpactAuth.isUp();
-    int tokenResult = await ImpactAuth.getAndStoreTokens();
 
-    debugPrint(tokenResult.toString());
+    if (!result) {
+      const snackBar = SnackBar(
+        content: Text('Impact services are down!'),
+      );
 
-    debugPrint(DateTime(2023, 05, 02).toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
 
-    Steps? steps = await ImpactApi.getSteps(
-        ImpactDataType.steps, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
-    debugPrint(steps!.toString());
-
-    Calories? calories = await ImpactApi.getCalories(
-        ImpactDataType.calories, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
-    debugPrint(calories!.toString());
-
-    Sleep? sleep = await ImpactApi.getSleep(
-        ImpactDataType.sleep, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
-    if (sleep != null) {
-      debugPrint(sleep.toString());
+      return false;
     }
 
-    if (result) {
-      await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-      return result;
+    await ImpactAuth.getAndStoreTokens();
+
+    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+    steps = stepsRepo.selectDay(yesterday);
+    calories = caloriesRepo.selectDay(yesterday);
+    sleep = sleepRepo.selectDay(yesterday);
+
+    try {
+      //await Future.wait([steps, calories, sleep]);
+      await Future.wait([steps]);
+    } catch (e) {
+      print(e);
+      Navigator.pop(context, "Error while retrieving data from impact");
     }
-    return result;
+
+    print("Data retrieved");
+
+    // debugPrint(tokenResult.toString());
+
+    // debugPrint(DateTime(2023, 05, 02).toString());
+
+    // Steps? steps = await ImpactApi.getSteps(
+    //     ImpactDataType.steps, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
+    // debugPrint(steps!.toString());
+
+    // Calories? calories = await ImpactApi.getCalories(
+    //     ImpactDataType.calories, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
+    // debugPrint(calories!.toString());
+
+    // Sleep? sleep = await ImpactApi.getSleep(
+    //     ImpactDataType.sleep, DateFormat('yyyy-MM-dd').parse("2023-05-11"));
+    // if (sleep != null) {
+    //   debugPrint(sleep.toString());
+    // }
+    return true;
   }
 
   Widget bottomBar() {
