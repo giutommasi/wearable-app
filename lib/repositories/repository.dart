@@ -1,7 +1,6 @@
 import 'package:exam/database/database.dart';
-import 'package:flutter/material.dart';
 
-abstract class Repository<T> extends ChangeNotifier {
+abstract class Repository<T> {
   //The state of the database is just the AppDatabase
   final AppDatabase database;
 

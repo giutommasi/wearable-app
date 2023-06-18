@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:exam/Constants/impact.dart';
 import 'package:exam/database/database.dart';
 import 'package:exam/repositories/repository.dart';
