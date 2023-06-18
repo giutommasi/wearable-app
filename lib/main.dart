@@ -29,9 +29,12 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => stepsRepository),
-      ChangeNotifierProvider(create: (context) => caloriesRepository),
-      ChangeNotifierProvider(create: (context) => sleepRepository),
+      ChangeNotifierProvider<StepsRepository>(
+          create: (context) => stepsRepository),
+      ChangeNotifierProvider<CaloriesRepository>(
+          create: (context) => caloriesRepository),
+      ChangeNotifierProvider<SleepRepository>(
+          create: (context) => sleepRepository),
     ],
     child: const App(),
   ));

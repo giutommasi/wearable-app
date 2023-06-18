@@ -171,8 +171,23 @@ class _$StepsDao extends StepsDao {
   }
 
   @override
+  Future<List<Steps>> findSteps(DateTime day) async {
+    return _queryAdapter.queryList('SELECT * FROM Steps WHERE date = ?1',
+        mapper: (Map<String, Object?> row) => Steps(
+            id: row['id'] as int?,
+            date: _dateTimeConverter.decode(row['date'] as int),
+            steps: row['steps'] as int),
+        arguments: [_dateTimeConverter.encode(day)]);
+  }
+
+  @override
   Future<void> insertSteps(Steps steps) async {
     await _stepsInsertionAdapter.insert(steps, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertAllSteps(List<Steps> steps) async {
+    await _stepsInsertionAdapter.insertList(steps, OnConflictStrategy.abort);
   }
 
   @override
@@ -247,8 +262,24 @@ class _$CaloriesDao extends CaloriesDao {
   }
 
   @override
+  Future<List<Calories>> findCalories(DateTime day) async {
+    return _queryAdapter.queryList('SELECT * FROM Calories WHERE date = ?1',
+        mapper: (Map<String, Object?> row) => Calories(
+            id: row['id'] as int?,
+            date: _dateTimeConverter.decode(row['date'] as int),
+            burned: row['burned'] as double,
+            dayOfTheWeek: row['dayOfTheWeek'] as int),
+        arguments: [_dateTimeConverter.encode(day)]);
+  }
+
+  @override
   Future<void> insertCalories(Calories calories) async {
     await _caloriesInsertionAdapter.insert(calories, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertAllCalories(List<Calories> steps) async {
+    await _caloriesInsertionAdapter.insertList(steps, OnConflictStrategy.abort);
   }
 
   @override
@@ -335,8 +366,27 @@ class _$SleepDao extends SleepDao {
   }
 
   @override
+  Future<List<Sleep>> findSleep(DateTime day) async {
+    return _queryAdapter.queryList('SELECT * FROM Sleep WHERE date = ?1',
+        mapper: (Map<String, Object?> row) => Sleep(
+            startTime: _dateTimeConverter.decode(row['startTime'] as int),
+            endTime: _dateTimeConverter.decode(row['endTime'] as int),
+            minutesAsleep: row['minutesAsleep'] as int,
+            minutesAwake: row['minutesAwake'] as int,
+            efficiency: row['efficiency'] as int,
+            date: _dateTimeConverter.decode(row['date'] as int),
+            duration: row['duration'] as int),
+        arguments: [_dateTimeConverter.encode(day)]);
+  }
+
+  @override
   Future<void> insertSleep(Sleep sleep) async {
     await _sleepInsertionAdapter.insert(sleep, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertAllSleep(List<Sleep> sleep) async {
+    await _sleepInsertionAdapter.insertList(sleep, OnConflictStrategy.abort);
   }
 
   @override
