@@ -112,14 +112,17 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
 
     await ImpactAuth.getAndStoreTokens();
 
-    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime(now.year, now.month, now.day)
+        .subtract(const Duration(days: 1));
+
     steps = stepsRepo.selectDay(yesterday);
     calories = caloriesRepo.selectDay(yesterday);
     sleep = sleepRepo.selectDay(yesterday);
 
     try {
-      //await Future.wait([steps, calories, sleep]);
-      await Future.wait([steps]);
+      await Future.wait([steps, calories, sleep]);
+      //await Future.wait([steps]);
     } catch (e) {
       print(e);
       Navigator.pop(context, "Error while retrieving data from impact");

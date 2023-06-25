@@ -1,5 +1,10 @@
 import 'package:exam/Constants/pregnancy_health_app_theme.dart';
+import 'package:exam/repositories/calories_repository.dart';
+import 'package:exam/repositories/sleep_repository.dart';
+import 'package:exam/repositories/steps_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ProgressAppBar extends StatefulWidget {
   const ProgressAppBar(
@@ -19,6 +24,8 @@ class ProgressAppBarState extends State<ProgressAppBar> {
   Animation<double>? topBarAnimation;
 
   double topBarOpacity = 0.0;
+  String selectedDate = getYesterdayDate();
+  bool nextDayEnabled = false;
 
   @override
   void initState() {
@@ -135,7 +142,37 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                 highlightColor: Colors.transparent,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(32.0)),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    final nextSelection =
+                                        getNextDay(selectedDate);
+
+                                    DateTime d = DateFormat('dd MMM yy')
+                                        .parse(nextSelection);
+
+                                    final now = DateTime.now();
+                                    nextDayEnabled = !d.isAtSameMomentAs(
+                                        DateTime(now.year, now.month, now.day));
+                                    print(DateTime(now.year, now.month, now.day)
+                                        .toString());
+                                    print(nextDayEnabled);
+                                    print(d.toString());
+                                    if (!nextDayEnabled) return;
+
+                                    selectedDate = nextSelection;
+                                    print("Date: " + selectedDate);
+
+                                    Provider.of<CaloriesRepository>(context,
+                                            listen: false)
+                                        .updateDailyCalories(d);
+                                    Provider.of<StepsRepository>(context,
+                                            listen: false)
+                                        .updateDailySteps(d);
+                                    Provider.of<SleepRepository>(context,
+                                            listen: false)
+                                        .updateDailySleep(d);
+                                  });
+                                },
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_left,
@@ -144,14 +181,14 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                 ),
                               ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(
+                            Padding(
+                              padding: const EdgeInsets.only(
                                 left: 8,
                                 right: 8,
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  Padding(
+                                  const Padding(
                                     padding: EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Icons.calendar_today,
@@ -160,9 +197,9 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                     ),
                                   ),
                                   Text(
-                                    '15 May',
+                                    selectedDate,
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: PHAppTheme.fontName,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 18,
@@ -180,7 +217,27 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                 highlightColor: Colors.transparent,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(32.0)),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    selectedDate = getPreviousDay(selectedDate);
+                                    nextDayEnabled = true;
+                                    print("Date: " + selectedDate);
+
+                                    DateTime d = DateFormat('dd MMM yy')
+                                        .parse(selectedDate);
+
+                                    Provider.of<CaloriesRepository>(context,
+                                            listen: false)
+                                        .updateDailyCalories(d);
+
+                                    Provider.of<StepsRepository>(context,
+                                            listen: false)
+                                        .updateDailySteps(d);
+                                    Provider.of<SleepRepository>(context,
+                                            listen: false)
+                                        .updateDailySleep(d);
+                                  });
+                                },
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_right,
@@ -202,4 +259,25 @@ class ProgressAppBarState extends State<ProgressAppBar> {
       ],
     );
   }
+}
+
+String getYesterdayDate() {
+  DateTime now = DateTime.now();
+  DateTime yesterday =
+      DateTime(now.year, now.month, now.day).subtract(const Duration(days: 1));
+  return DateFormat('dd MMM yy').format(yesterday);
+}
+
+String getPreviousDay(String day) {
+  DateTime temp = DateFormat('dd MMM yy').parse(day);
+  temp = temp.subtract(const Duration(days: 1));
+
+  return DateFormat('dd MMM yy').format(temp);
+}
+
+String getNextDay(String day) {
+  DateTime temp = DateFormat('dd MMM yy').parse(day);
+  temp = temp.add(const Duration(days: 1));
+
+  return DateFormat('dd MMM yy').format(temp);
 }
