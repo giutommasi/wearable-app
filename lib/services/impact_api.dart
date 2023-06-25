@@ -31,7 +31,10 @@ class ImpactApi {
 
       if (type == ImpactDataType.steps) {
         for (var i = 0; i < decodedResponse['data'].length; i++) {
-          if ((decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+          if (decodedResponse['data'][i]['data'] is List &&
+              (decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+          if (decodedResponse['data'][i]['data'] is Map &&
+              (decodedResponse['data'][i]['data'] as Map).isEmpty) continue;
 
           steps.add(Steps.fromJson(decodedResponse['data'][i]));
         }
@@ -59,7 +62,10 @@ class ImpactApi {
 
       if (type == ImpactDataType.calories) {
         for (var i = 0; i < decodedResponse['data'].length; i++) {
-          if ((decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+          if (decodedResponse['data'][i]['data'] is List &&
+              (decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+          if (decodedResponse['data'][i]['data'] is Map &&
+              (decodedResponse['data'][i]['data'] as Map).isEmpty) continue;
 
           calories.add(Calories.fromJson(decodedResponse['data'][i]));
         }
@@ -88,7 +94,10 @@ class ImpactApi {
 
       if (type == ImpactDataType.sleep) {
         for (var i = 0; i < decodedResponse['data'].length; i++) {
-          if ((decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+          if (decodedResponse['data'][i]['data'] is List &&
+              (decodedResponse['data'][i]['data'] as List).isEmpty) continue;
+          if (decodedResponse['data'][i]['data'] is Map &&
+              (decodedResponse['data'][i]['data'] as Map).isEmpty) continue;
 
           sleep.add(Sleep.fromJson(decodedResponse['data'][i]));
         }
@@ -110,7 +119,10 @@ class ImpactApi {
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
       if (type == ImpactDataType.steps) {
-        if ((decodedResponse['data'] as Map).isEmpty) return null;
+        if (decodedResponse['data'] is List &&
+            (decodedResponse['data'] as List).isEmpty) return null;
+        if (decodedResponse['data'] is Map &&
+            (decodedResponse['data'] as Map).isEmpty) return null;
 
         return Steps.fromJson(decodedResponse['data']);
       }
@@ -130,7 +142,10 @@ class ImpactApi {
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
       if (type == ImpactDataType.calories) {
-        if ((decodedResponse['data'] as Map).isEmpty) return null;
+        if (decodedResponse['data'] is List &&
+            (decodedResponse['data'] as List).isEmpty) return null;
+        if (decodedResponse['data'] is Map &&
+            (decodedResponse['data'] as Map).isEmpty) return null;
 
         return Calories.fromJson(decodedResponse['data']);
       }
@@ -148,7 +163,10 @@ class ImpactApi {
     //if OK parse the response, otherwise return null
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(response.body);
-      if ((decodedResponse['data'] as Map).isEmpty) return null;
+      if (decodedResponse['data'] is List &&
+          (decodedResponse['data'] as List).isEmpty) return null;
+      if (decodedResponse['data'] is Map &&
+          (decodedResponse['data'] as Map).isEmpty) return null;
 
       if (type == ImpactDataType.sleep) {
         return Sleep.fromJson(decodedResponse['data']);
