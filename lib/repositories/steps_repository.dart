@@ -13,20 +13,41 @@ class StepsRepository extends ChangeNotifier implements Repository {
 
   StepsRepository({required this.database});
 
+  final List<Steps> _loadedSteps = [];
+
+  void updateDailySteps(DateTime day) async {
+    _loadedSteps.clear();
+    _loadedSteps.add(await selectDay(day));
+    notifyListeners();
+  }
+
+  void updateWeeklySteps(DateTime day) async {
+    if (_loadedSteps.isEmpty) _loadedSteps.addAll(await selectAll());
+    notifyListeners();
+  }
+
+  Steps? get dailySteps => _loadedSteps.isEmpty ? null : _loadedSteps.first;
+  List<Steps> get weeklySteps => _loadedSteps;
+
   //This method wraps the findAllStepss() method of the DAO
   @override
   Future<List<Steps>> selectAll() async {
     List<Steps> results = await database.stepsDao.findAllSteps();
 
     if (results.isEmpty) {
-      List<Steps>? steps = await ImpactApi.getStepsRange(ImpactDataType.steps,
-          DateFormat('yyyy-MM-dd').parse("2023-01-01"), DateTime.now());
+      DateTime now = DateTime.now();
+      DateTime sevenDaysBefore = DateTime(now.year, now.month, now.day)
+          .subtract(const Duration(days: 6));
+
+      List<Steps>? steps = await ImpactApi.getStepsRange(
+          ImpactDataType.steps, sevenDaysBefore, now);
 
       if (steps == null) {
-        throw Exception("Could not retrieve steps from Impact: ");
+        print("Steps not available");
+        return Future.value([Steps(date: now, steps: 0, last: now)]);
       }
 
-      await database.stepsDao.insertAllSteps(steps);
+      await insert(steps);
 
       return Future<List<Steps>>.value(steps);
     }
@@ -39,16 +60,25 @@ class StepsRepository extends ChangeNotifier implements Repository {
     final results = await database.stepsDao.findSteps(day);
 
     if (results.isEmpty) {
+      DateTime now = DateTime.now();
       Steps? steps = await ImpactApi.getSteps(ImpactDataType.steps, day);
 
       if (steps == null) {
-        throw Exception("Could not retrieve steps from Impact: ");
+        print("Could not retrieve steps from Impact");
+        return Future.value(Steps(date: now, steps: 0, last: now));
       }
 
-      await database.stepsDao.insertSteps(steps);
+      await insert(steps);
+      _loadedSteps.clear();
+      _loadedSteps.add(steps);
+      notifyListeners();
 
       return Future<Steps>.value(steps);
     }
+
+    _loadedSteps.clear();
+    _loadedSteps.add(results.first);
+    notifyListeners();
 
     return results.first;
   } //selectDay

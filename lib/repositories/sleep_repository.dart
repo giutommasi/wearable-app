@@ -13,20 +13,49 @@ class SleepRepository extends ChangeNotifier implements Repository {
 
   SleepRepository({required this.database});
 
+  final List<Sleep> _loadedSleep = [];
+
+  void updateDailySleep(DateTime day) async {
+    _loadedSleep.clear();
+    _loadedSleep.add(await selectDay(day));
+    notifyListeners();
+  }
+
+  void updateWeeklySleep(DateTime day) async {
+    if (_loadedSleep.isEmpty) _loadedSleep.addAll(await selectAll());
+    notifyListeners();
+  }
+
+  Sleep? get dailySleep => _loadedSleep.isEmpty ? null : _loadedSleep.first;
+  List<Sleep> get weeklySleep => _loadedSleep;
+
   //This method wraps the findAllSleeps() method of the DAO
   @override
   Future<List<Sleep>> selectAll() async {
     List<Sleep> results = await database.sleepDao.findAllSleep();
 
     if (results.isEmpty) {
-      List<Sleep>? sleep = await ImpactApi.getSleepRange(ImpactDataType.steps,
-          DateFormat('yyyy-MM-dd').parse("2023-01-01"), DateTime.now());
+      DateTime now = DateTime.now();
+      DateTime sevenDaysBefore = DateTime(now.year, now.month, now.day)
+          .subtract(const Duration(days: 6));
+      List<Sleep>? sleep = await ImpactApi.getSleepRange(
+          ImpactDataType.steps, sevenDaysBefore, now);
 
       if (sleep == null) {
-        throw Exception("Could not retrieve steps from Impact: ");
+        print("No sleep available");
+        return Future.value([
+          Sleep(
+              startTime: now,
+              endTime: now,
+              minutesAsleep: 0,
+              minutesAwake: 0,
+              efficiency: 0,
+              date: now,
+              duration: 0)
+        ]);
       }
 
-      await database.sleepDao.insertAllSleep(sleep);
+      await insert(sleep);
 
       return Future<List<Sleep>>.value(sleep);
     }
@@ -42,13 +71,27 @@ class SleepRepository extends ChangeNotifier implements Repository {
       Sleep? sleep = await ImpactApi.getSleep(ImpactDataType.sleep, day);
 
       if (sleep == null) {
-        throw Exception("Could not retrieve sleep from Impact: ");
+        return Future.value(Sleep(
+            startTime: day,
+            endTime: day,
+            minutesAsleep: 0,
+            minutesAwake: 0,
+            efficiency: 0,
+            date: day,
+            duration: 0));
       }
 
-      await database.sleepDao.insertSleep(sleep);
+      await insert(sleep);
+      _loadedSleep.clear();
+      _loadedSleep.add(sleep);
+      notifyListeners();
 
       return Future<Sleep>.value(sleep);
     }
+
+    _loadedSleep.clear();
+    _loadedSleep.add(results.first);
+    notifyListeners();
 
     return results.first;
   } //selectDay

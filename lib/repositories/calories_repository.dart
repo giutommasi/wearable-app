@@ -12,22 +12,41 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
 
   CaloriesRepository({required this.database});
 
+  final List<Calories> _loadedCalories = [];
+
+  void updateDailyCalories(DateTime day) async {
+    _loadedCalories.clear();
+    _loadedCalories.add(await selectDay(day));
+    notifyListeners();
+  }
+
+  void updateWeeklyCalories(DateTime day) async {
+    if (_loadedCalories.isEmpty) _loadedCalories.addAll(await selectAll());
+    notifyListeners();
+  }
+
+  Calories? get dailyCalories =>
+      _loadedCalories.isEmpty ? null : _loadedCalories.first;
+  List<Calories> get weeklyCalories => _loadedCalories;
+
   //This method wraps the findAllCaloriess() method of the DAO
   @override
   Future<List<Calories>> selectAll() async {
     final results = await database.caloriesDao.findAllCalories();
 
     if (results.isEmpty) {
-      final sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
+      DateTime now = DateTime.now();
+      DateTime sevenDaysAgo = now.subtract(const Duration(days: 6));
 
       List<Calories>? calories = await ImpactApi.getCaloriesRange(
           ImpactDataType.steps, sevenDaysAgo, DateTime.now());
 
       if (calories == null) {
-        throw Exception("Could not retrieve calories from Impact: ");
+        print("No Calories available");
+        return Future.value([Calories(date: now, burned: 0, dayOfTheWeek: 1)]);
       }
 
-      await database.caloriesDao.insertAllCalories(calories);
+      await insert(calories);
 
       return Future<List<Calories>>.value(calories);
     }
@@ -44,13 +63,19 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
           await ImpactApi.getCalories(ImpactDataType.calories, day);
 
       if (calories == null) {
-        throw Exception("Could not retrieve calories from Impact: ");
+        return Future.value(Calories(date: day, burned: 0, dayOfTheWeek: 1));
       }
 
-      await database.caloriesDao.insertCalories(calories);
-
+      await insert(calories);
+      _loadedCalories.clear();
+      _loadedCalories.add(calories);
+      notifyListeners();
       return Future<Calories>.value(calories);
     }
+
+    _loadedCalories.clear();
+    _loadedCalories.add(results.first);
+    notifyListeners();
 
     return results.first;
   } //selectDay
@@ -60,7 +85,6 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   @override
   Future<void> insert(calories) async {
     await database.caloriesDao.insertCalories(calories);
-    notifyListeners();
   } //insertCalories
 
   //This method wraps the deleteCalories() method of the DAO.
@@ -68,7 +92,6 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   @override
   Future<void> delete(calories) async {
     await database.caloriesDao.deleteCalories(calories);
-    notifyListeners();
   } //removeCalories
 
   //This method wraps the updateCalories() method of the DAO.
@@ -76,6 +99,5 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   @override
   Future<void> update(calories) async {
     await database.caloriesDao.updateCalories(calories);
-    notifyListeners();
   }
 } //DatabaseRepository
