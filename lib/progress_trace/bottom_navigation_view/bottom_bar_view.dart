@@ -55,7 +55,7 @@ class _BottomBarViewState extends State<BottomBarView>
                       height: 62,
                       child: Padding(
                         padding:
-                            const EdgeInsets.only(left: 8, right: 8, top: 4),
+                            const EdgeInsets.only(left: 0, right: 0, top: 4),
                         child: Row(
                           children: <Widget>[
                             Expanded(
@@ -76,21 +76,9 @@ class _BottomBarViewState extends State<BottomBarView>
                                     widget.changeIndex!(1);
                                   }),
                             ),
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList?[2],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(
-                                        widget.tabIconsList?[2]);
-                                    widget.changeIndex!(2);
-                                  }),
-                            ),
                           ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.bottom,
                     )
                   ],
                 ),
@@ -225,6 +213,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
               alignment: AlignmentDirectional.center,
               children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ScaleTransition(
                       alignment: Alignment.center,
