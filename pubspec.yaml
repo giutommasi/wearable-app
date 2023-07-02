@@ -46,6 +46,11 @@ dependencies:
   jwt_decoder: ^2.0.1
   floor: ^1.4.2
   provider: ^6.0.0
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
+  crypt: ^4.3.0
 
 dev_dependencies:
   flutter_test:
