@@ -1,6 +1,7 @@
 import 'package:exam/progress_trace/progress_trace_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'Pages/profile_page.dart';
 import 'Pages/welcome_page.dart';
 
 class App extends StatelessWidget {
@@ -11,6 +12,9 @@ class App extends StatelessWidget {
         title: 'App for Pregnant Woman',
         debugShowCheckedModeBanner: false,
         home: const WelcomePage(),
-        routes: {"/progress/": (context) => const ProgressTraceScreen()},
+        routes: {
+          "/progress/": (context) => const ProgressTraceScreen(),
+          "/account/": (context) => const ProfilePage()
+        },
       );
 }

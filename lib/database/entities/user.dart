@@ -8,9 +8,9 @@ class User {
   int? id;
 
   final String username;
-  final String firstName;
-  final String lastName;
-  final String password;
+  String firstName;
+  String lastName;
+  String password;
 
   User(
       {this.id,

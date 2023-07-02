@@ -86,9 +86,15 @@ class _HomePageState extends State<HomePage> {
                                       const AssetImage('assets/profile.png')),
                             ),
                             SizedBox(width: W.toDouble() * 0.05),
-                            Text('Hi ${user.firstName}!',
-                                style: const TextStyle(
-                                    fontSize: 32, fontWeight: FontWeight.w200)),
+                            Consumer<UserRepository>(
+                              builder: (context, userRepo, child) {
+                                return Text(
+                                    'Hi ${userRepo.signedUser.firstName}!',
+                                    style: const TextStyle(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.w200));
+                              },
+                            ),
                           ]),
                       SizedBox(height: H.toDouble() * 0.05),
                       SizedBox(
@@ -129,23 +135,27 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                UserAccountsDrawerHeader(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [
-                          gradientStart,
-                          gradientEnd,
-                        ],
-                        begin: FractionalOffset(0.0, 0.0),
-                        end: FractionalOffset(1.0, 1.0)),
-                  ),
-                  accountName: Text(user.firstName),
-                  accountEmail: Text(user.username),
-                  currentAccountPicture: CircleAvatar(
-                      radius: (W.toDouble()) *
-                          0.15, //dimensione proporzionale allo schermo
-                      backgroundImage: const AssetImage('assets/profile.png')),
-                ),
+                Consumer<UserRepository>(builder: (context, userRepo, child) {
+                  return UserAccountsDrawerHeader(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            gradientStart,
+                            gradientEnd,
+                          ],
+                          begin: FractionalOffset(0.0, 0.0),
+                          end: FractionalOffset(1.0, 1.0)),
+                    ),
+                    accountName: Text(
+                        "${userRepo.signedUser.firstName} ${userRepo.signedUser.lastName}"),
+                    accountEmail: Text(userRepo.signedUser.username),
+                    currentAccountPicture: CircleAvatar(
+                        radius: (W.toDouble()) *
+                            0.15, //dimensione proporzionale allo schermo
+                        backgroundImage:
+                            const AssetImage('assets/profile.png')),
+                  );
+                }),
                 ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text("Logout"),
@@ -276,7 +286,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await Navigator.pushNamed(context, "/account/");
+                          },
                           child: Column(
                             children: [
                               Icon(Icons.account_circle_outlined,
