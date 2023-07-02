@@ -123,7 +123,7 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'My Progress',
+                                  'Progress',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontFamily: PHAppTheme.fontName,
