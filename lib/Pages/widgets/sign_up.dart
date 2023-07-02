@@ -357,7 +357,7 @@ class _SignUpState extends State<SignUp> {
       return 'Email cannot be blank';
     }
 
-    return !regex.hasMatch(value!) ? 'Enter a valid email address' : null;
+    return !regex.hasMatch(value) ? 'Enter a valid email address' : null;
   }
 
   String? validatePassword(String? value) {
