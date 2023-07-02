@@ -62,30 +62,29 @@ class AnalysisAlertView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 100,
-                                            right: 16,
-                                            top: 30,
-                                            bottom: 25),
-                                        child: Text(
-                                          "In the last 24 hours, you walked 7000 steps and exceeded of 300 Kcal. Keep an eye.",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontFamily: PHAppTheme.fontName,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            letterSpacing: 0.0,
-                                            color: PHAppTheme.nearlyDarkBlue,
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 110),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: Text(
+                                            "In the last 24 hours, you walked 7000 steps and exceeded of 300 Kcal. Keep an eye.",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily: PHAppTheme.fontName,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              letterSpacing: 0.0,
+                                              color: PHAppTheme.nearlyDarkBlue,
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
