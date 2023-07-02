@@ -4,7 +4,6 @@ import 'package:exam/repositories/calories_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../database/entities/calories.dart';
 import '../widgets/curve_painter.dart';
 
 class CaloriesCardView extends StatelessWidget {

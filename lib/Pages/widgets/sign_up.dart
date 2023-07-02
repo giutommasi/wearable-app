@@ -4,7 +4,6 @@ import 'package:exam/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../home_page.dart';
 import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
@@ -325,7 +324,7 @@ class _SignUpState extends State<SignUp> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
         onPressed: () {
-          print("Valid: " + _formKey.currentState!.validate().toString());
+          print("Valid: ${_formKey.currentState!.validate()}");
 
           final valid = _formKey.currentState != null &&
               _formKey.currentState!.validate();
@@ -339,12 +338,6 @@ class _SignUpState extends State<SignUp> {
               style: TextStyle(color: Colors.white, fontSize: 16.0)),
         ),
       );
-
-  void _HomePage(BuildContext context) {
-    Navigator.pop(context);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => (const HomePage())));
-  }
 
   String? validateEmail(String? value) {
     const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
