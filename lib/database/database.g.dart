@@ -67,6 +67,8 @@ class _$AppDatabase extends AppDatabase {
 
   SleepDao? _sleepDaoInstance;
 
+  UserDao? _userDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -89,11 +91,15 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `steps` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `steps` INTEGER NOT NULL, `last` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Calories` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `dayOfTheWeek` INTEGER NOT NULL, `burned` REAL NOT NULL, `eaten` REAL NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `minutesAsleep` INTEGER NOT NULL, `minutesAwake` INTEGER NOT NULL, `efficiency` INTEGER NOT NULL)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `password` TEXT NOT NULL)');
+        await database.execute(
+            'CREATE UNIQUE INDEX `index_User_username` ON `User` (`username`)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -115,6 +121,11 @@ class _$AppDatabase extends AppDatabase {
   SleepDao get sleepDao {
     return _sleepDaoInstance ??= _$SleepDao(database, changeListener);
   }
+
+  @override
+  UserDao get userDao {
+    return _userDaoInstance ??= _$UserDao(database, changeListener);
+  }
 }
 
 class _$StepsDao extends StepsDao {
@@ -128,7 +139,8 @@ class _$StepsDao extends StepsDao {
             (Steps item) => <String, Object?>{
                   'id': item.id,
                   'date': _dateTimeConverter.encode(item.date),
-                  'steps': item.steps
+                  'steps': item.steps,
+                  'last': _dateTimeConverter.encode(item.last)
                 }),
         _stepsUpdateAdapter = UpdateAdapter(
             database,
@@ -137,7 +149,8 @@ class _$StepsDao extends StepsDao {
             (Steps item) => <String, Object?>{
                   'id': item.id,
                   'date': _dateTimeConverter.encode(item.date),
-                  'steps': item.steps
+                  'steps': item.steps,
+                  'last': _dateTimeConverter.encode(item.last)
                 }),
         _stepsDeletionAdapter = DeletionAdapter(
             database,
@@ -146,7 +159,8 @@ class _$StepsDao extends StepsDao {
             (Steps item) => <String, Object?>{
                   'id': item.id,
                   'date': _dateTimeConverter.encode(item.date),
-                  'steps': item.steps
+                  'steps': item.steps,
+                  'last': _dateTimeConverter.encode(item.last)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -167,7 +181,8 @@ class _$StepsDao extends StepsDao {
         mapper: (Map<String, Object?> row) => Steps(
             id: row['id'] as int?,
             date: _dateTimeConverter.decode(row['date'] as int),
-            steps: row['steps'] as int));
+            steps: row['steps'] as int,
+            last: _dateTimeConverter.decode(row['last'] as int)));
   }
 
   @override
@@ -176,7 +191,8 @@ class _$StepsDao extends StepsDao {
         mapper: (Map<String, Object?> row) => Steps(
             id: row['id'] as int?,
             date: _dateTimeConverter.decode(row['date'] as int),
-            steps: row['steps'] as int),
+            steps: row['steps'] as int,
+            last: _dateTimeConverter.decode(row['last'] as int)),
         arguments: [_dateTimeConverter.encode(day)]);
   }
 
@@ -397,6 +413,107 @@ class _$SleepDao extends SleepDao {
   @override
   Future<void> deleteSleep(Sleep sleep) async {
     await _sleepDeletionAdapter.delete(sleep);
+  }
+}
+
+class _$UserDao extends UserDao {
+  _$UserDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _userInsertionAdapter = InsertionAdapter(
+            database,
+            'User',
+            (User item) => <String, Object?>{
+                  'id': item.id,
+                  'username': item.username,
+                  'firstName': item.firstName,
+                  'lastName': item.lastName,
+                  'password': item.password
+                }),
+        _userUpdateAdapter = UpdateAdapter(
+            database,
+            'User',
+            ['id'],
+            (User item) => <String, Object?>{
+                  'id': item.id,
+                  'username': item.username,
+                  'firstName': item.firstName,
+                  'lastName': item.lastName,
+                  'password': item.password
+                }),
+        _userDeletionAdapter = DeletionAdapter(
+            database,
+            'User',
+            ['id'],
+            (User item) => <String, Object?>{
+                  'id': item.id,
+                  'username': item.username,
+                  'firstName': item.firstName,
+                  'lastName': item.lastName,
+                  'password': item.password
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<User> _userInsertionAdapter;
+
+  final UpdateAdapter<User> _userUpdateAdapter;
+
+  final DeletionAdapter<User> _userDeletionAdapter;
+
+  @override
+  Future<int?> countUser(String username) async {
+    return _queryAdapter.query('SELECT COUNT(*) FROM User WHERE username = ?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [username]);
+  }
+
+  @override
+  Future<User?> selectUser(
+    String username,
+    String password,
+  ) async {
+    return _queryAdapter.query(
+        'SELECT * FROM User WHERE username = ?1 AND password = ?2 limit 1',
+        mapper: (Map<String, Object?> row) => User(
+            id: row['id'] as int?,
+            username: row['username'] as String,
+            firstName: row['firstName'] as String,
+            lastName: row['lastName'] as String,
+            password: row['password'] as String),
+        arguments: [username, password]);
+  }
+
+  @override
+  Future<User?> selectSignedUser(String username) async {
+    return _queryAdapter.query('SELECT * FROM User WHERE username = ?1 limit 1',
+        mapper: (Map<String, Object?> row) => User(
+            id: row['id'] as int?,
+            username: row['username'] as String,
+            firstName: row['firstName'] as String,
+            lastName: row['lastName'] as String,
+            password: row['password'] as String),
+        arguments: [username]);
+  }
+
+  @override
+  Future<void> insertUser(User user) async {
+    await _userInsertionAdapter.insert(user, OnConflictStrategy.rollback);
+  }
+
+  @override
+  Future<void> updateUser(User user) async {
+    await _userUpdateAdapter.update(user, OnConflictStrategy.rollback);
+  }
+
+  @override
+  Future<void> deleteUser(User user) async {
+    await _userDeletionAdapter.delete(user);
   }
 }
 

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:exam/database/daos/sleep_dao.dart';
 import 'package:exam/database/daos/steps_dao.dart';
+import 'package:exam/database/daos/user_dao.dart';
 import 'package:exam/database/typeConverters/dateTimeConverter.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -13,6 +14,7 @@ import 'package:exam/database/entities/calories.dart';
 import 'package:exam/database/entities/sleep.dart';
 
 import 'daos/calories_dao.dart';
+import 'entities/user.dart';
 //The generated code will be in database.g.dart
 part 'database.g.dart';
 
@@ -20,10 +22,11 @@ part 'database.g.dart';
 //We also added a TypeConverter to manage the DateTime of a Meal entry, since DateTimes are not natively
 //supported by Floor.
 @TypeConverters([DateTimeConverter])
-@Database(version: 1, entities: [Steps, Calories, Sleep])
+@Database(version: 1, entities: [Steps, Calories, Sleep, User])
 abstract class AppDatabase extends FloorDatabase {
   //Add all the daos as getters here
   StepsDao get stepsDao;
   CaloriesDao get caloriesDao;
   SleepDao get sleepDao;
+  UserDao get userDao;
 }//AppDatabase
