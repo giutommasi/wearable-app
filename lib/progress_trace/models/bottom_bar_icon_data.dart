@@ -32,12 +32,5 @@ class BottomBarIconData {
         isSelected: false,
         animationController: null,
         description: '7 Days'),
-    BottomBarIconData(
-        imagePath: 'assets/images/progress_trace/page_3.png',
-        selectedImagePath: 'assets/images/progress_trace/page_3s.png',
-        index: 2,
-        isSelected: false,
-        animationController: null,
-        description: 'All Time'),
   ];
 }
