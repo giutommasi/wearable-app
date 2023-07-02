@@ -69,6 +69,8 @@ class _$AppDatabase extends AppDatabase {
 
   UserDao? _userDaoInstance;
 
+  ProfileDao? _profileDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -99,6 +101,8 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `password` TEXT NOT NULL)');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `profile_username` TEXT NOT NULL, `pregnantWeek` INTEGER, `birthday` INTEGER, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+        await database.execute(
             'CREATE UNIQUE INDEX `index_User_username` ON `User` (`username`)');
 
         await callback?.onCreate?.call(database, version);
@@ -125,6 +129,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   UserDao get userDao {
     return _userDaoInstance ??= _$UserDao(database, changeListener);
+  }
+
+  @override
+  ProfileDao get profileDao {
+    return _profileDaoInstance ??= _$ProfileDao(database, changeListener);
   }
 }
 
@@ -517,5 +526,91 @@ class _$UserDao extends UserDao {
   }
 }
 
+class _$ProfileDao extends ProfileDao {
+  _$ProfileDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _profileInsertionAdapter = InsertionAdapter(
+            database,
+            'Profile',
+            (Profile item) => <String, Object?>{
+                  'id': item.id,
+                  'profile_username': item.profileUsername,
+                  'pregnantWeek': item.pregnantWeek,
+                  'birthday': _nullDateTimeConverter.encode(item.birthday)
+                }),
+        _profileUpdateAdapter = UpdateAdapter(
+            database,
+            'Profile',
+            ['id'],
+            (Profile item) => <String, Object?>{
+                  'id': item.id,
+                  'profile_username': item.profileUsername,
+                  'pregnantWeek': item.pregnantWeek,
+                  'birthday': _nullDateTimeConverter.encode(item.birthday)
+                }),
+        _profileDeletionAdapter = DeletionAdapter(
+            database,
+            'Profile',
+            ['id'],
+            (Profile item) => <String, Object?>{
+                  'id': item.id,
+                  'profile_username': item.profileUsername,
+                  'pregnantWeek': item.pregnantWeek,
+                  'birthday': _nullDateTimeConverter.encode(item.birthday)
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<Profile> _profileInsertionAdapter;
+
+  final UpdateAdapter<Profile> _profileUpdateAdapter;
+
+  final DeletionAdapter<Profile> _profileDeletionAdapter;
+
+  @override
+  Future<List<Profile>> findAllProfile() async {
+    return _queryAdapter.queryList('SELECT * FROM Profile',
+        mapper: (Map<String, Object?> row) => Profile(
+            id: row['id'] as int?,
+            profileUsername: row['profile_username'] as String,
+            pregnantWeek: row['pregnantWeek'] as int?,
+            birthday: _nullDateTimeConverter.decode(row['birthday'] as int?)));
+  }
+
+  @override
+  Future<Profile?> findProfile(String username) async {
+    return _queryAdapter.query(
+        'SELECT * FROM Profile WHERE profile_username = ?1 LIMIT 1',
+        mapper: (Map<String, Object?> row) => Profile(
+            id: row['id'] as int?,
+            profileUsername: row['profile_username'] as String,
+            pregnantWeek: row['pregnantWeek'] as int?,
+            birthday: _nullDateTimeConverter.decode(row['birthday'] as int?)),
+        arguments: [username]);
+  }
+
+  @override
+  Future<void> insertProfile(Profile profile) async {
+    await _profileInsertionAdapter.insert(profile, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateProfile(Profile profile) async {
+    await _profileUpdateAdapter.update(profile, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteProfile(Profile profile) async {
+    await _profileDeletionAdapter.delete(profile);
+  }
+}
+
 // ignore_for_file: unused_element
 final _dateTimeConverter = DateTimeConverter();
+final _nullDateTimeConverter = NullDateTimeConverter();

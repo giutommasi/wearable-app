@@ -1,10 +1,12 @@
 import 'package:exam/Constants/colors.dart';
 import 'package:exam/Pages/welcome_page.dart';
 import 'package:exam/database/entities/user.dart';
+import 'package:exam/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../database/entities/profile.dart';
 import '../repositories/user_repository.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,12 +21,15 @@ class _HomePageState extends State<HomePage> {
   Color signUpColor = Colors.pink.shade200;
   bool isFemale = true; //Da inserire icona in profilo
   late User user;
+  late Profile profile;
 
   @override
   void initState() {
     super.initState();
     final userRepo = Provider.of<UserRepository>(context, listen: false);
     user = userRepo.signedUser;
+    final profileRepo = Provider.of<ProfileRepository>(context, listen: false);
+    profile = profileRepo.signedProfile;
   }
 
   @override
@@ -81,15 +86,15 @@ class _HomePageState extends State<HomePage> {
                                       const AssetImage('assets/profile.png')),
                             ),
                             SizedBox(width: W.toDouble() * 0.05),
-                            Text('Ciao ${user.firstName}!',
+                            Text('Hi ${user.firstName}!',
                                 style: const TextStyle(
                                     fontSize: 32, fontWeight: FontWeight.w200)),
                           ]),
                       SizedBox(height: H.toDouble() * 0.05),
                       SizedBox(
                         height: H.toDouble() * 0.05,
-                        child: const Text('N settimana',
-                            style: TextStyle(fontSize: 26)),
+                        child: Text('Week ${profile.pregnantWeek}',
+                            style: const TextStyle(fontSize: 26)),
                       ),
                       Card(
                           color: Colors.white,

@@ -1,5 +1,7 @@
 import 'package:crypt/crypt.dart';
+import 'package:exam/database/entities/profile.dart';
 import 'package:exam/database/entities/user.dart';
+import 'package:exam/repositories/profile_repository.dart';
 import 'package:exam/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -385,6 +387,8 @@ class _SignUpState extends State<SignUp> {
       form.save();
 
       final userRepo = Provider.of<UserRepository>(context, listen: false);
+      final profileRepo =
+          Provider.of<ProfileRepository>(context, listen: false);
 
       int? users = await userRepo.countUser(_username);
 
@@ -407,6 +411,8 @@ class _SignUpState extends State<SignUp> {
           firstName: _firstName,
           lastName: _lastName,
           password: _password));
+
+      await profileRepo.insert(Profile(profileUsername: _username));
 
       form.reset();
       if (context.mounted) {

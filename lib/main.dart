@@ -1,5 +1,6 @@
 import 'package:exam/database/database.dart';
 import 'package:exam/repositories/calories_repository.dart';
+import 'package:exam/repositories/profile_repository.dart';
 import 'package:exam/repositories/sleep_repository.dart';
 import 'package:exam/repositories/steps_repository.dart';
 import 'package:exam/repositories/user_repository.dart';
@@ -28,6 +29,7 @@ void main() async {
   final caloriesRepository = CaloriesRepository(database: database);
   final sleepRepository = SleepRepository(database: database);
   final userRepository = UserRepository(database: database);
+  final profileRepository = ProfileRepository(database: database);
 
   setupWindow();
 
@@ -41,6 +43,9 @@ void main() async {
           create: (context) => sleepRepository),
       ChangeNotifierProvider<UserRepository>(
         create: (context) => userRepository,
+      ),
+      ChangeNotifierProvider<ProfileRepository>(
+        create: (context) => profileRepository,
       )
     ],
     child: const App(),
