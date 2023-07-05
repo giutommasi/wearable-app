@@ -17,6 +17,7 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   void updateDailyCalories(DateTime day) async {
     _loadedCalories.clear();
     _loadedCalories.add(await selectDay(day));
+
     notifyListeners();
   }
 

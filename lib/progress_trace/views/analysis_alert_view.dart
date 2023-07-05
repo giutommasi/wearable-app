@@ -63,7 +63,8 @@ class AnalysisAlertView extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Padding(
-                                    padding: EdgeInsets.only(left: 110),
+                                    padding: EdgeInsets.only(
+                                        left: 100, top: 10, right: 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -76,10 +77,11 @@ class AnalysisAlertView extends StatelessWidget {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily: PHAppTheme.fontName,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w400,
                                               fontSize: 14,
                                               letterSpacing: 0.0,
-                                              color: PHAppTheme.nearlyDarkBlue,
+                                              color: Color.fromARGB(
+                                                  255, 159, 14, 91),
                                             ),
                                           ),
                                         )
@@ -93,10 +95,10 @@ class AnalysisAlertView extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: -16,
+                        top: -15,
                         left: 0,
                         child: SizedBox(
-                          width: 110,
+                          width: 115,
                           height: 110,
                           child: Image.asset(
                               "assets/images/progress_trace/runner.png"),

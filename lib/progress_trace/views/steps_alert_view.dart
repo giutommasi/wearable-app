@@ -31,7 +31,7 @@ class StepsAlertView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: HexColor("#f9d7d7"),
+                            color: HexColor("#a82aa4"),
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 bottomLeft: Radius.circular(8.0),
@@ -57,7 +57,7 @@ class StepsAlertView extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color: HexColor("#d02f2f").withOpacity(0.6),
+                                    color: HexColor("#211f20").withOpacity(0.8),
                                   ),
                                 ),
                               ),

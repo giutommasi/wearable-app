@@ -1,7 +1,9 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum ImpactDataType { steps, calories, sleep }
+// un modo per vincolare la variabile ad assumere solo un set di valori
 
+// costruzione url
 class Impact {
   static String baseUrl = 'https://impact.dei.unipd.it/bwthw/';
   static String pingEndpoint = 'gate/v1/ping/';
@@ -23,3 +25,4 @@ class Impact {
     return '$baseUrl$dataUrl${type.name}$patient/daterange/start_date/$startDate/end_date/$endDate';
   }
 }
+// stessa cosa per un range di date

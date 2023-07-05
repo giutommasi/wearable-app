@@ -27,13 +27,13 @@ class Sleep {
   Sleep.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),
         startTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
-            '${json["date"].split("-")[0]}-${json["data"]["startTime"]}'),
-        endTime = DateFormat('yyyy-MM-dd HH:mm:ss')
-            .parse('${json["date"].split("-")[0]}-${json["data"]["endTime"]}'),
-        duration = json["data"]["duration"] ~/ 1000,
-        minutesAsleep = json["data"]["minutesAsleep"],
-        minutesAwake = json["data"]["minutesAwake"],
-        efficiency = json["data"]["efficiency"];
+            '${json["date"].split("-")[0]}-${json["data"][0]["startTime"]}'),
+        endTime = DateFormat('yyyy-MM-dd HH:mm:ss').parse(
+            '${json["date"].split("-")[0]}-${json["data"][0]["endTime"]}'),
+        duration = json["data"][0]["duration"] ~/ 1000,
+        minutesAsleep = json["data"][0]["minutesAsleep"],
+        minutesAwake = json["data"][0]["minutesAwake"],
+        efficiency = json["data"][0]["efficiency"];
 
   @override
   String toString() {

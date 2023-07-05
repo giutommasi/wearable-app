@@ -29,7 +29,7 @@ class SleepCardView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  color: PHAppTheme.white,
+                  color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -37,7 +37,7 @@ class SleepCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: PHAppTheme.grey.withOpacity(0.2),
+                        color: Color.fromRGBO(13, 71, 161, 1).withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -77,7 +77,7 @@ class SleepCardView extends StatelessWidget {
                                             fontFamily: PHAppTheme.fontName,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 32,
-                                            color: HexColor("#00A0FF"),
+                                            color: Color(0xFF80DEEA),
                                           ),
                                         ),
                                       ),
@@ -103,7 +103,8 @@ class SleepCardView extends StatelessWidget {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 letterSpacing: 0.0,
-                                                color: HexColor('#00A0FF'),
+                                                color: Color.fromARGB(
+                                                    255, 244, 143, 177),
                                               ),
                                             ),
                                           ],
@@ -131,7 +132,7 @@ class SleepCardView extends StatelessWidget {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
                                                 letterSpacing: 0.0,
-                                                color: PHAppTheme.pink,
+                                                color: Color(0xFF80DEEA),
                                               ),
                                             ),
                                           ],
@@ -157,15 +158,19 @@ class SleepCardView extends StatelessWidget {
                                                   width: 100,
                                                   height: 100,
                                                   decoration: BoxDecoration(
-                                                    color: PHAppTheme.white,
+                                                    color: Color.fromARGB(
+                                                        255, 255, 255, 255),
                                                     borderRadius:
                                                         const BorderRadius.all(
                                                       Radius.circular(100.0),
                                                     ),
                                                     border: Border.all(
                                                         width: 4,
-                                                        color: PHAppTheme
-                                                            .nearlyDarkBlue
+                                                        color: Color.fromARGB(
+                                                                255,
+                                                                143,
+                                                                31,
+                                                                143)
                                                             .withOpacity(0.2)),
                                                   ),
                                                   child: Column(
@@ -185,10 +190,10 @@ class SleepCardView extends StatelessWidget {
                                                               .fontName,
                                                           fontWeight:
                                                               FontWeight.normal,
-                                                          fontSize: 24,
+                                                          fontSize: 27,
                                                           letterSpacing: 0.0,
-                                                          color: PHAppTheme
-                                                              .nearlyDarkBlue,
+                                                          color: Color.fromARGB(
+                                                              255, 159, 14, 91),
                                                         ),
                                                       ),
                                                       Text(
@@ -216,9 +221,9 @@ class SleepCardView extends StatelessWidget {
                                                 child: CustomPaint(
                                                   painter: CurvePainter(
                                                       colors: [
-                                                        HexColor("#00A0FF"),
-                                                        HexColor("#00A0FF"),
-                                                        HexColor("#00B6F0")
+                                                        HexColor("#f48fb1"),
+                                                        HexColor("#f48fb1"),
+                                                        HexColor("#f48fb1")
                                                       ],
                                                       // Max 345
                                                       angle: getAngle(
@@ -255,7 +260,7 @@ class SleepCardView extends StatelessWidget {
                       child: Container(
                         height: 2,
                         decoration: const BoxDecoration(
-                          color: PHAppTheme.background,
+                          color: Color.fromARGB(255, 255, 255, 255),
                           borderRadius: BorderRadius.all(Radius.circular(4.0)),
                         ),
                       ),
@@ -305,12 +310,8 @@ class SleepCardView extends StatelessWidget {
                                                     animation!.value),
                                                 height: 4,
                                                 decoration: BoxDecoration(
-                                                  gradient:
-                                                      LinearGradient(colors: [
-                                                    HexColor('#00B6F0'),
-                                                    HexColor('#00B6F0')
-                                                        .withOpacity(0.5),
-                                                  ]),
+                                                  color: Color.fromARGB(
+                                                      255, 244, 143, 177),
                                                   borderRadius:
                                                       const BorderRadius.all(
                                                           Radius.circular(4.0)),

@@ -91,29 +91,30 @@ class _HomePageState extends State<HomePage> {
                                 return Text(
                                     'Hi ${userRepo.signedUser.firstName}!',
                                     style: const TextStyle(
-                                        fontSize: 32,
-                                        fontWeight: FontWeight.w200));
+                                        fontSize: 33,
+                                        fontWeight: FontWeight.w300));
                               },
                             ),
                           ]),
-                      SizedBox(height: H.toDouble() * 0.05),
+                      SizedBox(height: H.toDouble() * 0.04),
                       SizedBox(
-                        height: H.toDouble() * 0.05,
+                        height: H.toDouble() * 0.06,
                         child: Text('Week ${profile.pregnantWeek}',
-                            style: const TextStyle(fontSize: 26)),
+                            style: const TextStyle(
+                                fontSize: 27, fontWeight: FontWeight.w300)),
                       ),
                       Card(
                           color: Colors.white,
                           clipBehavior: Clip.hardEdge,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(7.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                    height: H.toDouble() * 0.45,
-                                    width: W.toDouble() * 0.7,
+                                    height: H.toDouble() * 0.3,
+                                    width: W.toDouble() * 0.6,
                                     child: const Image(
                                         image: AssetImage(
                                             'assets/baby.png'))), //Non sarà const la variabile

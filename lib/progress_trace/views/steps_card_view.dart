@@ -36,7 +36,8 @@ class StepsCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: PHAppTheme.grey.withOpacity(0.2),
+                        color:
+                            Color.fromARGB(236, 128, 222, 234).withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -75,7 +76,8 @@ class StepsCardView extends StatelessWidget {
                                             fontFamily: PHAppTheme.fontName,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 32,
-                                            color: PHAppTheme.red,
+                                            color: Color.fromARGB(
+                                                255, 244, 143, 177),
                                           ),
                                         ),
                                       ),
@@ -139,7 +141,8 @@ class StepsCardView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12,
                                             letterSpacing: 0.0,
-                                            color: PHAppTheme.red,
+                                            color: Color.fromARGB(
+                                                255, 214, 96, 151),
                                           ),
                                         ),
                                       ),
@@ -209,8 +212,8 @@ class StepsCardView extends StatelessWidget {
                                                 decoration: BoxDecoration(
                                                   gradient:
                                                       LinearGradient(colors: [
-                                                    HexColor('#E53535'),
-                                                    HexColor('#E53535')
+                                                    HexColor('#d64b8e'),
+                                                    HexColor('#d64b8e')
                                                         .withOpacity(0.5),
                                                   ]),
                                                   borderRadius:

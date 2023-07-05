@@ -28,7 +28,7 @@ class CaloriesCardView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  color: PHAppTheme.white,
+                  color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -36,7 +36,8 @@ class CaloriesCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: PHAppTheme.grey.withOpacity(0.2),
+                        color:
+                            Color.fromARGB(255, 244, 143, 177).withOpacity(0.7),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -64,7 +65,7 @@ class CaloriesCardView extends StatelessWidget {
                                               height: 48,
                                               width: 2,
                                               decoration: BoxDecoration(
-                                                color: HexColor('#87A0E5')
+                                                color: HexColor('#60cef0')
                                                     .withOpacity(0.5),
                                                 borderRadius:
                                                     const BorderRadius.all(
@@ -304,8 +305,8 @@ class CaloriesCardView extends StatelessWidget {
                                               ),
                                               border: Border.all(
                                                   width: 4,
-                                                  color: PHAppTheme
-                                                      .nearlyDarkBlue
+                                                  color: Color.fromARGB(
+                                                          255, 11, 70, 166)
                                                       .withOpacity(0.2)),
                                             ),
                                             child: Column(
@@ -322,10 +323,10 @@ class CaloriesCardView extends StatelessWidget {
                                                         PHAppTheme.fontName,
                                                     fontWeight:
                                                         FontWeight.normal,
-                                                    fontSize: 24,
+                                                    fontSize: 26,
                                                     letterSpacing: 0.0,
-                                                    color: PHAppTheme
-                                                        .nearlyDarkBlue,
+                                                    color: Color.fromRGBO(
+                                                        13, 71, 161, 1),
                                                   ),
                                                 ),
                                                 Text(
@@ -350,7 +351,7 @@ class CaloriesCardView extends StatelessWidget {
                                           child: CustomPaint(
                                             painter: CurvePainter(
                                                 colors: [
-                                                  PHAppTheme.nearlyDarkBlue,
+                                                  Color(0xFF80DEEA),
                                                   HexColor("#8A98E8"),
                                                   HexColor("#8A98E8")
                                                 ],
