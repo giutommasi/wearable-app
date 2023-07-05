@@ -395,7 +395,6 @@ int getMaxSteps() {
 String getLastMeasurement(StepsRepository repo) {
   final step = repo.dailySteps;
   if (step != null) {
-    print(step.last);
     return DateFormat("EEE HH:mm:ss").format(step.last).toString();
   }
 
