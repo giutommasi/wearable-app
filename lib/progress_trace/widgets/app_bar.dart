@@ -153,14 +153,9 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                     final now = DateTime.now();
                                     nextDayEnabled = !d.isAtSameMomentAs(
                                         DateTime(now.year, now.month, now.day));
-                                    print(DateTime(now.year, now.month, now.day)
-                                        .toString());
-                                    print(nextDayEnabled);
-                                    print(d.toString());
                                     if (!nextDayEnabled) return;
 
                                     selectedDate = nextSelection;
-                                    print("Date: " + selectedDate);
 
                                     Provider.of<CaloriesRepository>(context,
                                             listen: false)
@@ -221,7 +216,7 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                   setState(() {
                                     selectedDate = getPreviousDay(selectedDate);
                                     nextDayEnabled = true;
-                                    print("Date: " + selectedDate);
+                                    print("Date: $selectedDate");
 
                                     DateTime d = DateFormat('dd MMM yy')
                                         .parse(selectedDate);

@@ -33,7 +33,6 @@ We use [Semantic Versioning](http://semver.org/) for versioning
 
 ## Authors (Lexical Order)
 
-  - **Gallo Rossana**
   - **Tommasi Giulia**
   - **Varotto Nicolo**
 

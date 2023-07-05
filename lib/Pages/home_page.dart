@@ -249,7 +249,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await Navigator.pushNamed(context, "/food_plan/");
+                          },
                           child: Column(
                             children: [
                               Icon(Icons.description_outlined,
