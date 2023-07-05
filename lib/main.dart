@@ -1,8 +1,8 @@
 
 
+import 'package:exam/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'app.dart';
 
 void main() {
   
@@ -12,7 +12,7 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(App());
+  runApp(ProfilePage());
 }
 
 // ctrl K ctrl c     ctrl k ctrl U

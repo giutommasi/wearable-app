@@ -5,6 +5,8 @@ import '../Constants/colors.dart';
 import 'authentication.dart';
 
 class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key});
+
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }  

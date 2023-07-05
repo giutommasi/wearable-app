@@ -11,7 +11,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) =>
     MaterialApp(
       title: 'App for Pregnant Woman',
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, //remuve debug label from the screen
       home: WelcomePage(),
     );
   }
