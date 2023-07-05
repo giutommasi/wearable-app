@@ -1,5 +1,5 @@
 import 'package:exam/Pages/widgets/login.dart';
-import 'package:exam/Pages/widgets/sing_up.dart';
+import 'package:exam/Pages/widgets/sign_up.dart';
 import 'package:exam/misc/bubble_indicator_painter.dart';
 import 'package:flutter/material.dart';
 import '../Constants/button.dart';
@@ -34,7 +34,9 @@ class _AuthPageState extends State<AuthPage> {
         extendBodyBehindAppBar: true,
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height, //Ritorna dimensioni telefono attuale
+            height: MediaQuery.of(context)
+                .size
+                .height, //Ritorna dimensioni telefono attuale
             width: MediaQuery.of(context).size.width,
             //padding: const EdgeInsets.only(bottom: 25),
             decoration: const BoxDecoration(
@@ -46,36 +48,33 @@ class _AuthPageState extends State<AuthPage> {
                   begin: FractionalOffset(0.0, 0.0),
                   end: FractionalOffset(1.0, 1.0)),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              
-              children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               _logoWidget(),
-              const SizedBox(height: 22),
+              const SizedBox(height: 5),
               _selectorWidget(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 5),
               _pageViewWidget(),
             ]),
           ),
         ),
       );
 
+  Widget _logoWidget() => const Padding(
+        padding: EdgeInsets.only(top: 0), //SArebbbe 50
+        child: Image(
+          image: AssetImage('assets/logo.png'),
+          height: 150,
+        ),
+      );
 
-Widget _logoWidget() => const Padding(
-      padding: EdgeInsets.only(top: 50), //SArebbbe 50
-      child: Image(
-        image: AssetImage('assets/logo.png'),
-        height: 190,
-      ),
-    );
-
-Widget _selectorWidget() => Card(
+  Widget _selectorWidget() => Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         elevation: 3,
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(color: Colors.pink.shade300, width: 0.6),
-              color: Colors.white,//Colors.pink.shade200,
+              color: Colors.white, //Colors.pink.shade200,
               borderRadius: const BorderRadius.all(Radius.circular(
                   aBorder))), //Creo un container di forma arrotondata
           width: 300,
@@ -131,23 +130,21 @@ Widget _selectorWidget() => Card(
         ),
       );
 
-Widget _pageViewWidget() => 
-SizedBox(
-  height: 500,//pageLogin? 350 : 800,
-      child: PageView(
-        onPageChanged: (index) {
-          setState(() {
-            pageLogin? true : false;
-            signInColor = index == 0? Colors.white : Colors.pink.shade200;
-            signUpColor = index == 1? Colors.white : Colors.pink.shade200;
-          });
-        },
-        controller: _pageController,
-        children: const [
-          Login(),
-          SignUp(),
-        ],
-      ),
-    );
-    
+  Widget _pageViewWidget() => SizedBox(
+        height: 560, //pageLogin? 350 : 800,
+        child: PageView(
+          onPageChanged: (index) {
+            setState(() {
+              pageLogin ? true : false;
+              signInColor = index == 0 ? Colors.white : Colors.pink.shade200;
+              signUpColor = index == 1 ? Colors.white : Colors.pink.shade200;
+            });
+          },
+          controller: _pageController,
+          children: const [
+            Login(),
+            SignUp(),
+          ],
+        ),
+      );
 }

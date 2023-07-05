@@ -1,6 +1,14 @@
+import 'package:crypt/crypt.dart';
+import 'package:exam/Pages/widgets/profile_alert.dart';
+import 'package:exam/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../database/entities/profile.dart';
+import '../../database/entities/user.dart';
+import '../../repositories/user_repository.dart';
 import '../home_page.dart';
 
 class Login extends StatefulWidget {
@@ -13,6 +21,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool isChecked = false;
   bool _obscureTextPassword = true;
+
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   final _focusNodeEmail = FocusNode();
   final _focusNodePw = FocusNode();
 
@@ -97,6 +109,7 @@ class _LoginState extends State<Login> {
           focusNode: _focusNodeEmail,
           keyboardType: TextInputType.emailAddress,
           style: const TextStyle(fontSize: 16.0, color: Color(0xFFF48FB1)),
+          controller: username,
           decoration: const InputDecoration(
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.pink)),
@@ -129,6 +142,7 @@ class _LoginState extends State<Login> {
           obscureText: _obscureTextPassword,
           keyboardType: TextInputType.visiblePassword,
           style: const TextStyle(fontSize: 16.0, color: Color(0xFFF48FB1)),
+          controller: password,
           decoration: InputDecoration(
               focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.pink)),
@@ -178,11 +192,37 @@ class _LoginState extends State<Login> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
-        onPressed: () {
-          if (isChecked) {
-            _HomePage(context);
+        onPressed: () async {
+          final userRepo = Provider.of<UserRepository>(context, listen: false);
+          final profileRepo =
+              Provider.of<ProfileRepository>(context, listen: false);
+
+          // Default rounds and random salt generated
+          final hashedPwd =
+              Crypt.sha256(password.text, rounds: 10000, salt: 'abcde1234')
+                  .toString();
+          User? user = await userRepo.selectUser(username.text, hashedPwd);
+          Profile? profile = await profileRepo.selectProfile(username.text);
+
+          if (user == null || profile == null) {
+            if (context.mounted) {
+              const snackBar = SnackBar(
+                content: Text('Credentials not valid'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+            return;
           }
-          _HomePage(context);
+
+          if (isChecked) {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            prefs.setString("username", username.text);
+          }
+
+          if (context.mounted) {
+            _homePage(context);
+          }
         },
         child: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 9),
@@ -192,8 +232,23 @@ class _LoginState extends State<Login> {
       );
 }
 
-void _HomePage(BuildContext context) {
-  Navigator.pop(context);
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => (const HomePage())));
+void _homePage(BuildContext context) async {
+  final profileRepo = Provider.of<ProfileRepository>(context, listen: false);
+  Profile profile = profileRepo.signedProfile;
+
+  if (profile.birthday == null || profile.pregnantWeek == null) {
+    ProfileAlert alert = ProfileAlert(profile: profile);
+    bool? profileUpdated = await alert.showProfileAlert(context);
+    if (profileUpdated != null && profileUpdated) {
+      if (context.mounted) {
+        Navigator.pop(context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => (const HomePage())));
+      }
+    }
+  } else {
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => (const HomePage())));
+  }
 }
