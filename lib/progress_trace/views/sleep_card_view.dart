@@ -29,7 +29,7 @@ class SleepCardView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -37,7 +37,7 @@ class SleepCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: Color.fromRGBO(13, 71, 161, 1).withOpacity(0.6),
+                        color: const Color.fromRGBO(13, 71, 161, 1).withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -73,7 +73,7 @@ class SleepCardView extends StatelessWidget {
                                         child: Text(
                                           '${getSleep(repo).duration ~/ 3600}H${((getSleep(repo).duration / 60) % 60).toInt()}M',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontFamily: PHAppTheme.fontName,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 32,
@@ -98,7 +98,7 @@ class SleepCardView extends StatelessWidget {
                                             Text(
                                               'You fall asleep at ${getFallASleep(getSleep(repo))}',
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontFamily: PHAppTheme.fontName,
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: 12,
@@ -158,7 +158,7 @@ class SleepCardView extends StatelessWidget {
                                                   width: 100,
                                                   height: 100,
                                                   decoration: BoxDecoration(
-                                                    color: Color.fromARGB(
+                                                    color: const Color.fromARGB(
                                                         255, 255, 255, 255),
                                                     borderRadius:
                                                         const BorderRadius.all(
@@ -166,7 +166,7 @@ class SleepCardView extends StatelessWidget {
                                                     ),
                                                     border: Border.all(
                                                         width: 4,
-                                                        color: Color.fromARGB(
+                                                        color: const Color.fromARGB(
                                                                 255,
                                                                 143,
                                                                 31,
@@ -309,11 +309,11 @@ class SleepCardView extends StatelessWidget {
                                                         getGoalHour()) *
                                                     animation!.value),
                                                 height: 4,
-                                                decoration: BoxDecoration(
+                                                decoration: const BoxDecoration(
                                                   color: Color.fromARGB(
                                                       255, 244, 143, 177),
                                                   borderRadius:
-                                                      const BorderRadius.all(
+                                                      BorderRadius.all(
                                                           Radius.circular(4.0)),
                                                 ),
                                               )

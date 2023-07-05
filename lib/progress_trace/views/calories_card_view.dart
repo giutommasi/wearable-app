@@ -28,7 +28,7 @@ class CaloriesCardView extends StatelessWidget {
                   left: 24, right: 24, top: 16, bottom: 18),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       bottomLeft: Radius.circular(8.0),
@@ -37,7 +37,7 @@ class CaloriesCardView extends StatelessWidget {
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color:
-                            Color.fromARGB(255, 244, 143, 177).withOpacity(0.7),
+                            const Color.fromARGB(255, 244, 143, 177).withOpacity(0.7),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -305,7 +305,7 @@ class CaloriesCardView extends StatelessWidget {
                                               ),
                                               border: Border.all(
                                                   width: 4,
-                                                  color: Color.fromARGB(
+                                                  color: const Color.fromARGB(
                                                           255, 11, 70, 166)
                                                       .withOpacity(0.2)),
                                             ),
@@ -351,7 +351,7 @@ class CaloriesCardView extends StatelessWidget {
                                           child: CustomPaint(
                                             painter: CurvePainter(
                                                 colors: [
-                                                  Color(0xFF80DEEA),
+                                                  const Color(0xFF80DEEA),
                                                   HexColor("#8A98E8"),
                                                   HexColor("#8A98E8")
                                                 ],
