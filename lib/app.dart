@@ -1,6 +1,7 @@
 import 'package:exam/progress_trace/progress_trace_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'Pages/food_plan.dart';
 import 'Pages/profile_page.dart';
 import 'Pages/welcome_page.dart';
 
@@ -14,7 +15,8 @@ class App extends StatelessWidget {
         home: const WelcomePage(),
         routes: {
           "/progress/": (context) => const ProgressTraceScreen(),
-          "/account/": (context) => const ProfilePage()
+          "/account/": (context) => const ProfilePage(),
+          "/food_plan/": (context) => const FoodPlanPage()
         },
       );
 }
