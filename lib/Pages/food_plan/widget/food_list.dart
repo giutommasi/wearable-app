@@ -8,7 +8,7 @@ class FoodList extends StatelessWidget {
   final Function callback;
   //final Meal food;
 
-  const FoodList(this.count, this.selected, this.callback);
+  const FoodList(this.count, this.selected, this.callback, {super.key});
 
   //rest.menu.keys.tolist
   @override
@@ -37,7 +37,7 @@ class FoodList extends StatelessWidget {
             ),
           ),
         ), 
-        separatorBuilder: (_,index) => SizedBox(width: 14,), 
+        separatorBuilder: (_,index) => const SizedBox(width: 14,), 
         itemCount: 6)
       
      

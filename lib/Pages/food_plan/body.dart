@@ -16,6 +16,8 @@ void showSnackbar(BuildContext context) {
 
 
 class Body extends StatefulWidget {
+  const Body({super.key});
+
   @override
   _BodyState createState() => _BodyState();
 }
@@ -148,7 +150,7 @@ class _BodyState extends State<Body>{
 class PlanCard extends StatefulWidget {
   final DailyPlanItem products;
   // //final Function press;
-  PlanCard({required this.products});
+  const PlanCard({super.key, required this.products});
 
   @override
   _PlanCardState createState() => _PlanCardState();
@@ -156,6 +158,7 @@ class PlanCard extends StatefulWidget {
 
 class _PlanCardState extends State<PlanCard> {
 
+  @override
   void initState() {
     super.initState();
     restoreSavedValues();
@@ -190,7 +193,7 @@ class _PlanCardState extends State<PlanCard> {
                     color: Colors.grey,
                     //spreadRadius: 1,
                     blurRadius: 1,
-                    offset: const Offset(-2, 2),
+                    offset: Offset(-2, 2),
                   ),
                 ],
                 color: widget.products.color.withOpacity(0.90),
@@ -198,7 +201,7 @@ class _PlanCardState extends State<PlanCard> {
               ),
               child: Column(
                 children: [
-                Container(
+                SizedBox(
                   height: HEIGHT * 0.75,
                   child: Stack(
                     children: [

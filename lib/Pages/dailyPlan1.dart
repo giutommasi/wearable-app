@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 class DailyPlan1 extends StatefulWidget {
   final int count;
-  const DailyPlan1({required this.count});
+  const DailyPlan1({super.key, required this.count});
 
   @override
   State<StatefulWidget> createState() => _DailyPlan1State();
@@ -148,7 +148,7 @@ class _DailyPlan1State extends State<DailyPlan1> {
 
 class Macros extends StatelessWidget {
   final int index;
-  const Macros({
+  const Macros({super.key, 
     required this.index,
     required this.Width,
   });
@@ -193,7 +193,7 @@ class _DietProgress extends StatelessWidget {
   final double progress, width;
   final Color ProgressColor;
 
-  const _DietProgress({super.key, required this.ingredient, required this.leftAmount, required this.progress, required this.ProgressColor, required this.width});
+  const _DietProgress({required this.ingredient, required this.leftAmount, required this.progress, required this.ProgressColor, required this.width});
 
   @override
   Widget build (BuildContext context) {
@@ -225,7 +225,7 @@ class _DietProgress extends StatelessWidget {
               ],
             ),
             const SizedBox(width: 10),
-            Text('${leftAmount}%', style: const TextStyle(color: Colors.white),)
+            Text('$leftAmount%', style: const TextStyle(color: Colors.white),)
           ],
         ),
       ],
@@ -239,8 +239,7 @@ class _RadialProgress extends StatelessWidget {
   final int index;
 
   const _RadialProgress(
-      {super.key,
-      required this.index,
+      {required this.index,
       required this.height,
       required this.width,
       required this.progress});
@@ -249,7 +248,7 @@ class _RadialProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _RadialPainter(progress: progress),
-      child: Container(
+      child: SizedBox(
         height: height,
         width: width,
         child: Center(
@@ -290,7 +289,7 @@ class _RadialPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..strokeWidth = 5
-      ..color = Color(0xFFFFFFFF)
+      ..color = const Color(0xFFFFFFFF)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 

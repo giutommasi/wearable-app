@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color color;
   final bool page;
 
-  const CustomAppBar({
+  const CustomAppBar({super.key, 
     required this.color,
     required this.title,
     required this.icon,
@@ -56,7 +56,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 
