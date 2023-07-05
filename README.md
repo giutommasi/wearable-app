@@ -1,42 +1,16 @@
-# Wearable-app
+# exam
 
-## Version
-0.1.0
-
-< Brief Application Description >
+A new Flutter project.
 
 ## Getting Started
 
-This file describes at a high level the architecture of the wearable applcation, together with the functionalities exposed and the instructions to make it up and running.
+This project is a starting point for a Flutter application.
 
-### Prerequisites
+A few resources to get you started if this is your first Flutter project:
 
-* Dart == 2.19.3
-* Flutter == 3.7.6
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-### Installing
-
-Download this project, import it into your IDE and run it
-
-We can add here more steps
-
-    example command
-
-
-## Deployment
-
-Additional notes to deploy this on a live system
-
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning
-
-## Authors (Lexical Order)
-
-  - **Gallo Rossana**
-  - **Tommasi Giulia**
-  - **Varotto Nicolo**
-
-## License
-
-Empty for now
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
