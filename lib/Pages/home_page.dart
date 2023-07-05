@@ -92,16 +92,31 @@ class _HomePageState extends State<HomePage> {
                                     'Hi ${userRepo.signedUser.firstName}!',
                                     style: const TextStyle(
                                         fontSize: 33,
-                                        fontWeight: FontWeight.w300));
+                                        fontWeight: FontWeight.w300,
+                                        fontStyle: FontStyle.italic,
+                                        color: Color.fromARGB(221, 5, 36, 62)));
                               },
                             ),
                           ]),
                       SizedBox(height: H.toDouble() * 0.04),
                       SizedBox(
-                        height: H.toDouble() * 0.06,
+                        height: H.toDouble() * 0.05,
                         child: Text('Week ${profile.pregnantWeek}',
                             style: const TextStyle(
-                                fontSize: 27, fontWeight: FontWeight.w300)),
+                                fontSize: 27,
+                                fontWeight: FontWeight.w300,
+                                fontStyle: FontStyle.italic,
+                                color: Color.fromARGB(221, 5, 36, 62))),
+                      ),
+                      SizedBox(
+                        height: H.toDouble() * 0.06,
+                        child: Text(
+                            'Your baby size with ${profile.pregnantWeek}',
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w200,
+                                fontStyle: FontStyle.italic,
+                                color: Color.fromARGB(221, 5, 36, 62))),
                       ),
                       Card(
                           color: Colors.white,

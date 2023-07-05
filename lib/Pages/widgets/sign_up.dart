@@ -134,7 +134,8 @@ class _SignUpState extends State<SignUp> {
                   borderSide: BorderSide(
                       width: 1, color: Color.fromRGBO(244, 143, 177, 1))),
               hintText: 'Enter your First name',
-              hintStyle: TextStyle(color: Color(0xFFF48FB1), fontSize: 17.0),
+              hintStyle: TextStyle(
+                  color: Color.fromARGB(255, 244, 143, 177), fontSize: 17.0),
               icon: Icon(Icons.person_outlined,
                   color: Color(0xFFF48FB1), size: 22.0)),
           onFieldSubmitted: (_) {
