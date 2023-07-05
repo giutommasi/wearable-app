@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Container(
           padding: const EdgeInsets.all(20.0),
           child: Form(
-            key: this._formKey,
+            key: _formKey,
             child: ListView(
               children: <Widget>[
                 TextFormField(

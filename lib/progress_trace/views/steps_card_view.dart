@@ -37,7 +37,7 @@ class StepsCardView extends StatelessWidget {
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color:
-                            Color.fromARGB(236, 128, 222, 234).withOpacity(0.6),
+                            const Color.fromARGB(236, 128, 222, 234).withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],

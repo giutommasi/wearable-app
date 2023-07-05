@@ -38,7 +38,7 @@ class _FoodPlanState extends State<FoodPlanPage> {
         appBar: const CustomAppBar(page: false, actions: Icons.import_contacts_outlined, icon: Icons.arrow_back, title: 'Food Plan', color: Colors.white),
         extendBodyBehindAppBar: true,
         extendBody: true,
-        body: Body(),
+        body: const Body(),
         floatingActionButtonLocation:
             FloatingActionButtonLocation.miniCenterFloat,
         floatingActionButton: isOpen ? BuildExtendedButton() : BuildButton(),

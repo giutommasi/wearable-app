@@ -216,7 +216,7 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                   setState(() {
                                     selectedDate = getPreviousDay(selectedDate);
                                     nextDayEnabled = true;
-                                    print("Date: " + selectedDate);
+                                    print("Date: $selectedDate");
 
                                     DateTime d = DateFormat('dd MMM yy')
                                         .parse(selectedDate);

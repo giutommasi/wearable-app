@@ -8,7 +8,7 @@ class FoodListView extends StatefulWidget {
   final Function callback;
   final PageController pageController;
 
-  FoodListView(this. count,this.selected, this.callback, this.pageController);
+  const FoodListView(this. count,this.selected, this.callback, this.pageController, {super.key});
   @override
   _FoodListViewState createState() => _FoodListViewState();
 }
@@ -200,8 +200,8 @@ class _FoodListViewState extends State<FoodListView> {
                                           if (food.details != null)
                                             Row(
                                               children: [
-                                                Icon(Icons.info_outline_rounded, color: gradientEnd,),
-                                                SizedBox(width: 10),
+                                                const Icon(Icons.info_outline_rounded, color: gradientEnd,),
+                                                const SizedBox(width: 10),
                                                 Text(
                                                   '${food.details}',
                                                   style:
@@ -209,11 +209,11 @@ class _FoodListViewState extends State<FoodListView> {
                                                 ),
                                               ],
                                             ),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                           Row(
                                             children: [
-                                              Icon(Icons.add_circle, color: Colors.blueAccent, ),
-                                              SizedBox(width: 10),
+                                              const Icon(Icons.add_circle, color: Colors.blueAccent, ),
+                                              const SizedBox(width: 10),
                                               Text(
                                                 'Protein: ${food.prot.toString()}g',
                                                 style:
@@ -221,11 +221,11 @@ class _FoodListViewState extends State<FoodListView> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                           Row(
                                             children: [
-                                              Icon(Icons.add_circle, color: Colors.yellowAccent, ),
-                                              SizedBox(width: 10),
+                                              const Icon(Icons.add_circle, color: Colors.yellowAccent, ),
+                                              const SizedBox(width: 10),
                                               Text(
                                                 'Carbohydrates: ${food.carbs.toString()}g',
                                                 style:
@@ -233,11 +233,11 @@ class _FoodListViewState extends State<FoodListView> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 10,),
+                                          const SizedBox(height: 10,),
                                           Row(
                                             children: [
-                                              Icon(Icons.add_circle, color: Colors.redAccent, ),
-                                              SizedBox(width: 10),
+                                              const Icon(Icons.add_circle, color: Colors.redAccent, ),
+                                              const SizedBox(width: 10),
                                               Text(
                                                 'Fat: ${food.fat.toString()}g',
                                                 style:
