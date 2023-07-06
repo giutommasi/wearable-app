@@ -2,7 +2,6 @@ import 'package:exam/database/database.dart';
 import 'package:exam/repositories/repository.dart';
 import 'package:flutter/material.dart';
 
-import '../Constants/impact.dart';
 import '../database/entities/sleep.dart';
 import '../services/impact_api.dart';
 

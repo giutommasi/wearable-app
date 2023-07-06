@@ -73,14 +73,14 @@ class ImpactApi {
         if (decodedResponse['data'][i]['data'] is List &&
             (decodedResponse['data'][i]['data'] as List).isEmpty) {
           calories.add(Calories(
-              date: DateFormat('yyyy-MM-dd').parse('${date}'),
+              date: DateFormat('yyyy-MM-dd').parse('$date'),
               burned: 0,
               dayOfTheWeek: 1));
           continue;
         } else if (decodedResponse['data'][i]['data'] is Map &&
             (decodedResponse['data'][i]['data'] as Map).isEmpty) {
           calories.add(Calories(
-              date: DateFormat('yyyy-MM-dd').parse('${date}'),
+              date: DateFormat('yyyy-MM-dd').parse('$date'),
               burned: 0,
               dayOfTheWeek: 1));
           continue;
