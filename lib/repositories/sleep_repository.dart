@@ -21,7 +21,7 @@ class SleepRepository extends ChangeNotifier implements Repository {
   }
 
   void updateWeeklySleep(DateTime day) async {
-    if (_loadedSleep.isEmpty) _loadedSleep.addAll(await selectAll());
+    if (_loadedSleep.isEmpty) _loadedSleep.addAll(await loadAll());
     notifyListeners();
   }
 
@@ -30,34 +30,40 @@ class SleepRepository extends ChangeNotifier implements Repository {
 
   //This method wraps the findAllSleeps() method of the DAO
   @override
-  Future<List<Sleep>> selectAll() async {
-    List<Sleep> results = await database.sleepDao.findAllSleep();
+  Future<List<Sleep>> loadAll() async {
+    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+    DateTime sevenDaysAgo = yesterday.subtract(const Duration(days: 7));
+    List<Sleep> results =
+        await database.sleepDao.findAllSleep(sevenDaysAgo, yesterday);
 
-    if (results.isEmpty) {
-      DateTime now = DateTime.now();
-      DateTime sevenDaysBefore = DateTime(now.year, now.month, now.day)
-          .subtract(const Duration(days: 6));
-      List<Sleep>? sleep = await ImpactApi.getSleepRange(
-          ImpactDataType.steps, sevenDaysBefore, now);
+    if (results.isEmpty || results.length < 7) {
+      List<Sleep>? sleep =
+          await ImpactApi.getSleepRange(sevenDaysAgo, yesterday);
 
       if (sleep == null) {
-        print("No sleep available");
         return Future.value([
           Sleep(
-              startTime: now,
-              endTime: now,
+              startTime: yesterday,
+              endTime: yesterday,
               minutesAsleep: 0,
               minutesAwake: 0,
               efficiency: 0,
-              date: now,
+              date: yesterday,
               duration: 0)
         ]);
       }
 
-      await insert(sleep);
+      await insertAll(sleep);
+      _loadedSleep.clear();
+      _loadedSleep.addAll(sleep);
+      notifyListeners();
 
       return Future<List<Sleep>>.value(sleep);
     }
+
+    _loadedSleep.clear();
+    _loadedSleep.addAll(results);
+    notifyListeners();
 
     return results;
   } //findAllSleeps
@@ -67,7 +73,7 @@ class SleepRepository extends ChangeNotifier implements Repository {
     final results = await database.sleepDao.findSleep(day);
 
     if (results.isEmpty) {
-      Sleep? sleep = await ImpactApi.getSleep(ImpactDataType.sleep, day);
+      Sleep? sleep = await ImpactApi.getSleep(day);
 
       if (sleep == null) {
         return Future.value(Sleep(
@@ -100,6 +106,12 @@ class SleepRepository extends ChangeNotifier implements Repository {
   @override
   Future<void> insert(sleep) async {
     await database.sleepDao.insertSleep(sleep);
+    notifyListeners();
+  } //insertSleep
+
+  @override
+  Future<void> insertAll(sleep) async {
+    await database.sleepDao.insertAllSleep(sleep.cast<Sleep>());
     notifyListeners();
   } //insertSleep
 

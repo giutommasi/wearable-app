@@ -37,7 +37,8 @@ class SleepCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color: const Color.fromRGBO(13, 71, 161, 1).withOpacity(0.6),
+                        color: const Color.fromRGBO(13, 71, 161, 1)
+                            .withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -166,7 +167,8 @@ class SleepCardView extends StatelessWidget {
                                                     ),
                                                     border: Border.all(
                                                         width: 4,
-                                                        color: const Color.fromARGB(
+                                                        color: const Color
+                                                                    .fromARGB(
                                                                 255,
                                                                 143,
                                                                 31,
@@ -589,6 +591,7 @@ String getWokeUp(Sleep sleep) {
 }
 
 String getAsleepPercentage(Sleep sleep) {
+  if (sleep.duration == 0) return "0";
   int duration = sleep.duration ~/ 60;
 
   int minutesAsleep = sleep.minutesAsleep;
@@ -597,6 +600,8 @@ String getAsleepPercentage(Sleep sleep) {
 }
 
 String getAwakePercentage(Sleep sleep) {
+  if (sleep.duration == 0) return "0";
+
   int duration = sleep.duration ~/ 60;
 
   int minutesAwake = sleep.minutesAwake;
@@ -612,5 +617,5 @@ double getAngle(Sleep sleep) {
 }
 
 int getGoalHour() {
-  return 8;
+  return Sleep.maxGoal;
 }

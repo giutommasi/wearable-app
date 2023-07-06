@@ -16,6 +16,8 @@ class Calories {
       required this.burned,
       required this.dayOfTheWeek});
 
+  static int caloriesGoal = 3700;
+
   Calories.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),
         dayOfTheWeek =

@@ -7,11 +7,12 @@ abstract class Repository<T> {
   //Default constructor
   Repository(this.database);
 
-  Future<List<T>> selectAll();
+  Future<List<T>> loadAll();
 
   Future<T> selectDay(DateTime day);
 
   Future<void> insert(T entity);
+  Future<void> insertAll(List<T> entity);
 
   Future<void> delete(T entity);
 
