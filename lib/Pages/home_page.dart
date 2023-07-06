@@ -110,8 +110,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(
                         height: H.toDouble() * 0.06,
-                        child: Text(
-                            'Your baby size with ${profile.pregnantWeek}',
+                        child: Text('Your baby size with',
                             style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w200,
