@@ -7,8 +7,8 @@ import '../entities/calories.dart';
 @dao
 abstract class CaloriesDao {
   //Query #1: SELECT -> this allows to obtain all the entries of the Calories table
-  @Query('SELECT * FROM Calories')
-  Future<List<Calories>> findAllCalories();
+  @Query('SELECT * FROM Calories WHERE date >= :start AND date <= :end')
+  Future<List<Calories>> findAllCalories(DateTime start, DateTime end);
 
   //Query #2: INSERT -> this allows to add a Calories in the table
   @insert

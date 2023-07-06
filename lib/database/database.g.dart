@@ -185,13 +185,21 @@ class _$StepsDao extends StepsDao {
   final DeletionAdapter<Steps> _stepsDeletionAdapter;
 
   @override
-  Future<List<Steps>> findAllSteps() async {
-    return _queryAdapter.queryList('SELECT * FROM Steps',
+  Future<List<Steps>> findAllSteps(
+    DateTime start,
+    DateTime end,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Steps WHERE date >= ?1 AND date <= ?2',
         mapper: (Map<String, Object?> row) => Steps(
             id: row['id'] as int?,
             date: _dateTimeConverter.decode(row['date'] as int),
             steps: row['steps'] as int,
-            last: _dateTimeConverter.decode(row['last'] as int)));
+            last: _dateTimeConverter.decode(row['last'] as int)),
+        arguments: [
+          _dateTimeConverter.encode(start),
+          _dateTimeConverter.encode(end)
+        ]);
   }
 
   @override
@@ -277,13 +285,21 @@ class _$CaloriesDao extends CaloriesDao {
   final DeletionAdapter<Calories> _caloriesDeletionAdapter;
 
   @override
-  Future<List<Calories>> findAllCalories() async {
-    return _queryAdapter.queryList('SELECT * FROM Calories',
+  Future<List<Calories>> findAllCalories(
+    DateTime start,
+    DateTime end,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Calories WHERE date >= ?1 AND date <= ?2',
         mapper: (Map<String, Object?> row) => Calories(
             id: row['id'] as int?,
             date: _dateTimeConverter.decode(row['date'] as int),
             burned: row['burned'] as double,
-            dayOfTheWeek: row['dayOfTheWeek'] as int));
+            dayOfTheWeek: row['dayOfTheWeek'] as int),
+        arguments: [
+          _dateTimeConverter.encode(start),
+          _dateTimeConverter.encode(end)
+        ]);
   }
 
   @override
@@ -378,8 +394,12 @@ class _$SleepDao extends SleepDao {
   final DeletionAdapter<Sleep> _sleepDeletionAdapter;
 
   @override
-  Future<List<Sleep>> findAllSleep() async {
-    return _queryAdapter.queryList('SELECT * FROM Sleep',
+  Future<List<Sleep>> findAllSleep(
+    DateTime start,
+    DateTime end,
+  ) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM Sleep WHERE date >= ?1 AND date <= ?2',
         mapper: (Map<String, Object?> row) => Sleep(
             startTime: _dateTimeConverter.decode(row['startTime'] as int),
             endTime: _dateTimeConverter.decode(row['endTime'] as int),
@@ -387,7 +407,11 @@ class _$SleepDao extends SleepDao {
             minutesAwake: row['minutesAwake'] as int,
             efficiency: row['efficiency'] as int,
             date: _dateTimeConverter.decode(row['date'] as int),
-            duration: row['duration'] as int));
+            duration: row['duration'] as int),
+        arguments: [
+          _dateTimeConverter.encode(start),
+          _dateTimeConverter.encode(end)
+        ]);
   }
 
   @override
