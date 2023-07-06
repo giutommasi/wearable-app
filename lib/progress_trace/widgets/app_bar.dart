@@ -144,22 +144,16 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                     Radius.circular(32.0)),
                                 onTap: () {
                                   setState(() {
-                                    final nextSelection =
-                                        getNextDay(selectedDate);
+                                    selectedDate = getPreviousDay(selectedDate);
+                                    nextDayEnabled = true;
 
                                     DateTime d = DateFormat('dd MMM yy')
-                                        .parse(nextSelection);
-
-                                    final now = DateTime.now();
-                                    nextDayEnabled = !d.isAtSameMomentAs(
-                                        DateTime(now.year, now.month, now.day));
-                                    if (!nextDayEnabled) return;
-
-                                    selectedDate = nextSelection;
+                                        .parse(selectedDate);
 
                                     Provider.of<CaloriesRepository>(context,
                                             listen: false)
                                         .updateDailyCalories(d);
+
                                     Provider.of<StepsRepository>(context,
                                             listen: false)
                                         .updateDailySteps(d);
@@ -214,17 +208,22 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                                     Radius.circular(32.0)),
                                 onTap: () {
                                   setState(() {
-                                    selectedDate = getPreviousDay(selectedDate);
-                                    nextDayEnabled = true;
-                                    print("Date: $selectedDate");
+                                    final nextSelection =
+                                        getNextDay(selectedDate);
 
                                     DateTime d = DateFormat('dd MMM yy')
-                                        .parse(selectedDate);
+                                        .parse(nextSelection);
+
+                                    final now = DateTime.now();
+                                    nextDayEnabled = !d.isAtSameMomentAs(
+                                        DateTime(now.year, now.month, now.day));
+                                    if (!nextDayEnabled) return;
+
+                                    selectedDate = nextSelection;
 
                                     Provider.of<CaloriesRepository>(context,
                                             listen: false)
                                         .updateDailyCalories(d);
-
                                     Provider.of<StepsRepository>(context,
                                             listen: false)
                                         .updateDailySteps(d);
