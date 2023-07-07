@@ -12,6 +12,7 @@ class StepsRepository extends ChangeNotifier implements Repository {
   StepsRepository({required this.database});
 
   final List<Steps> _loadedSteps = [];
+  final List<Steps> _weeklyLoadedSteps = [];
 
   void updateDailySteps(DateTime day) async {
     _loadedSteps.clear();
@@ -25,7 +26,7 @@ class StepsRepository extends ChangeNotifier implements Repository {
   }
 
   Steps? get dailySteps => _loadedSteps.isEmpty ? null : _loadedSteps.first;
-  List<Steps> get weeklySteps => _loadedSteps;
+  List<Steps> get weeklySteps => _weeklyLoadedSteps;
 
   //This method wraps the findAllStepss() method of the DAO
   @override
@@ -47,15 +48,15 @@ class StepsRepository extends ChangeNotifier implements Repository {
 
       await insertAll(steps);
 
-      _loadedSteps.clear();
-      _loadedSteps.addAll(steps);
+      _weeklyLoadedSteps.clear();
+      _weeklyLoadedSteps.addAll(steps);
       notifyListeners();
 
       return Future<List<Steps>>.value(steps);
     }
 
-    _loadedSteps.clear();
-    _loadedSteps.addAll(results);
+    _weeklyLoadedSteps.clear();
+    _weeklyLoadedSteps.addAll(results);
     notifyListeners();
 
     return results;

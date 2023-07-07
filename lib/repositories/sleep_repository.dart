@@ -12,6 +12,7 @@ class SleepRepository extends ChangeNotifier implements Repository {
   SleepRepository({required this.database});
 
   final List<Sleep> _loadedSleep = [];
+  final List<Sleep> _weeklyLoadedSleep = [];
 
   void updateDailySleep(DateTime day) async {
     _loadedSleep.clear();
@@ -25,7 +26,7 @@ class SleepRepository extends ChangeNotifier implements Repository {
   }
 
   Sleep? get dailySleep => _loadedSleep.isEmpty ? null : _loadedSleep.first;
-  List<Sleep> get weeklySleep => _loadedSleep;
+  List<Sleep> get weeklySleep => _weeklyLoadedSleep;
 
   //This method wraps the findAllSleeps() method of the DAO
   @override
@@ -53,15 +54,15 @@ class SleepRepository extends ChangeNotifier implements Repository {
       }
 
       await insertAll(sleep);
-      _loadedSleep.clear();
-      _loadedSleep.addAll(sleep);
+      _weeklyLoadedSleep.clear();
+      _weeklyLoadedSleep.addAll(sleep);
       notifyListeners();
 
       return Future<List<Sleep>>.value(sleep);
     }
 
-    _loadedSleep.clear();
-    _loadedSleep.addAll(results);
+    _weeklyLoadedSleep.clear();
+    _weeklyLoadedSleep.addAll(results);
     notifyListeners();
 
     return results;

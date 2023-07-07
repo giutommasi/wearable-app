@@ -95,13 +95,13 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `steps` INTEGER NOT NULL, `last` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Calories` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `dayOfTheWeek` INTEGER NOT NULL, `burned` REAL NOT NULL, `eaten` REAL NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Calories` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `dayOfTheWeek` INTEGER NOT NULL, `burned` REAL NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `minutesAsleep` INTEGER NOT NULL, `minutesAwake` INTEGER NOT NULL, `efficiency` INTEGER NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `password` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `profile_username` TEXT NOT NULL, `pregnantWeek` INTEGER, `birthday` INTEGER, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `profile_username` TEXT NOT NULL, `pregnantWeek` INTEGER, `birthday` INTEGER, `timestamp` INTEGER NOT NULL, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE UNIQUE INDEX `index_User_username` ON `User` (`username`)');
 
@@ -220,7 +220,7 @@ class _$StepsDao extends StepsDao {
 
   @override
   Future<void> insertAllSteps(List<Steps> steps) async {
-    await _stepsInsertionAdapter.insertList(steps, OnConflictStrategy.abort);
+    await _stepsInsertionAdapter.insertList(steps, OnConflictStrategy.replace);
   }
 
   @override
@@ -246,8 +246,7 @@ class _$CaloriesDao extends CaloriesDao {
                   'id': item.id,
                   'date': _dateTimeConverter.encode(item.date),
                   'dayOfTheWeek': item.dayOfTheWeek,
-                  'burned': item.burned,
-                  'eaten': item.eaten
+                  'burned': item.burned
                 }),
         _caloriesUpdateAdapter = UpdateAdapter(
             database,
@@ -257,8 +256,7 @@ class _$CaloriesDao extends CaloriesDao {
                   'id': item.id,
                   'date': _dateTimeConverter.encode(item.date),
                   'dayOfTheWeek': item.dayOfTheWeek,
-                  'burned': item.burned,
-                  'eaten': item.eaten
+                  'burned': item.burned
                 }),
         _caloriesDeletionAdapter = DeletionAdapter(
             database,
@@ -268,8 +266,7 @@ class _$CaloriesDao extends CaloriesDao {
                   'id': item.id,
                   'date': _dateTimeConverter.encode(item.date),
                   'dayOfTheWeek': item.dayOfTheWeek,
-                  'burned': item.burned,
-                  'eaten': item.eaten
+                  'burned': item.burned
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -435,7 +432,7 @@ class _$SleepDao extends SleepDao {
 
   @override
   Future<void> insertAllSleep(List<Sleep> sleep) async {
-    await _sleepInsertionAdapter.insertList(sleep, OnConflictStrategy.abort);
+    await _sleepInsertionAdapter.insertList(sleep, OnConflictStrategy.replace);
   }
 
   @override
@@ -562,7 +559,8 @@ class _$ProfileDao extends ProfileDao {
                   'id': item.id,
                   'profile_username': item.profileUsername,
                   'pregnantWeek': item.pregnantWeek,
-                  'birthday': _nullDateTimeConverter.encode(item.birthday)
+                  'birthday': _nullDateTimeConverter.encode(item.birthday),
+                  'timestamp': _dateTimeConverter.encode(item.timestamp)
                 }),
         _profileUpdateAdapter = UpdateAdapter(
             database,
@@ -572,7 +570,8 @@ class _$ProfileDao extends ProfileDao {
                   'id': item.id,
                   'profile_username': item.profileUsername,
                   'pregnantWeek': item.pregnantWeek,
-                  'birthday': _nullDateTimeConverter.encode(item.birthday)
+                  'birthday': _nullDateTimeConverter.encode(item.birthday),
+                  'timestamp': _dateTimeConverter.encode(item.timestamp)
                 }),
         _profileDeletionAdapter = DeletionAdapter(
             database,
@@ -582,7 +581,8 @@ class _$ProfileDao extends ProfileDao {
                   'id': item.id,
                   'profile_username': item.profileUsername,
                   'pregnantWeek': item.pregnantWeek,
-                  'birthday': _nullDateTimeConverter.encode(item.birthday)
+                  'birthday': _nullDateTimeConverter.encode(item.birthday),
+                  'timestamp': _dateTimeConverter.encode(item.timestamp)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -604,7 +604,8 @@ class _$ProfileDao extends ProfileDao {
             id: row['id'] as int?,
             profileUsername: row['profile_username'] as String,
             pregnantWeek: row['pregnantWeek'] as int?,
-            birthday: _nullDateTimeConverter.decode(row['birthday'] as int?)));
+            birthday: _nullDateTimeConverter.decode(row['birthday'] as int?),
+            timestamp: _dateTimeConverter.decode(row['timestamp'] as int)));
   }
 
   @override
@@ -615,7 +616,8 @@ class _$ProfileDao extends ProfileDao {
             id: row['id'] as int?,
             profileUsername: row['profile_username'] as String,
             pregnantWeek: row['pregnantWeek'] as int?,
-            birthday: _nullDateTimeConverter.decode(row['birthday'] as int?)),
+            birthday: _nullDateTimeConverter.decode(row['birthday'] as int?),
+            timestamp: _dateTimeConverter.decode(row['timestamp'] as int)),
         arguments: [username]);
   }
 

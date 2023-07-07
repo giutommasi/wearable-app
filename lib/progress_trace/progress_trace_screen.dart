@@ -74,7 +74,7 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
-          future: weeklyView ? getWeeklyData() : getDailyData(),
+          future: getData(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if (!snapshot.hasData) {
               print("Not Done");
@@ -99,7 +99,16 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
     );
   }
 
+  Future<bool> getData() async {
+    bool res = await getDailyData();
+
+    if (res) res = await getWeeklyData();
+
+    return res;
+  }
+
   Future<bool> getWeeklyData() async {
+    print(" CAlled get weekly");
     final stepsRepo = Provider.of<StepsRepository>(context, listen: false);
     final caloriesRepo =
         Provider.of<CaloriesRepository>(context, listen: false);
@@ -107,20 +116,20 @@ class ProgressTraceScreenState extends State<ProgressTraceScreen>
 
     await ImpactAuth.getAndStoreTokens();
 
+    print("STEPS ARE: ${stepsRepo.weeklySteps.length}");
     final steps = stepsRepo.loadAll();
     final calories = caloriesRepo.loadAll();
     final sleep = sleepRepo.loadAll();
 
     try {
       await Future.wait([steps, calories, sleep]);
+      print("STEPS NOW ARE: ${stepsRepo.weeklySteps.length}");
     } catch (e) {
       print(e);
       if (context.mounted) {
         Navigator.pop(context, "Error while retrieving data from impact");
       }
     }
-
-    print("Data retrieved");
 
     return true;
   }

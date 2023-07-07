@@ -12,6 +12,7 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   CaloriesRepository({required this.database});
 
   final List<Calories> _loadedCalories = [];
+  final List<Calories> _weeklyLoadedCalories = [];
 
   void updateDailyCalories(DateTime day) async {
     _loadedCalories.clear();
@@ -27,7 +28,7 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
 
   Calories? get dailyCalories =>
       _loadedCalories.isEmpty ? null : _loadedCalories.first;
-  List<Calories> get weeklyCalories => _loadedCalories;
+  List<Calories> get weeklyCalories => _weeklyLoadedCalories;
 
   //This method wraps the findAllCaloriess() method of the DAO
   @override
@@ -49,15 +50,15 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
       }
 
       await insertAll(calories);
-      _loadedCalories.clear();
-      _loadedCalories.addAll(calories);
+      _weeklyLoadedCalories.clear();
+      _weeklyLoadedCalories.addAll(calories);
       notifyListeners();
 
       return Future<List<Calories>>.value(calories);
     }
 
-    _loadedCalories.clear();
-    _loadedCalories.addAll(results);
+    _weeklyLoadedCalories.clear();
+    _weeklyLoadedCalories.addAll(results);
     notifyListeners();
 
     return results;

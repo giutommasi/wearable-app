@@ -10,7 +10,7 @@ class Sleep {
   final DateTime date;
   final DateTime startTime;
   final DateTime endTime;
-  final int duration; // minutes
+  final int duration; // seconds
   final int minutesAsleep;
   final int minutesAwake;
   final int efficiency;

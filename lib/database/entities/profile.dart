@@ -14,10 +14,15 @@ class Profile {
   final String profileUsername;
   int? pregnantWeek;
   DateTime? birthday;
+  DateTime timestamp;
+
+  int get actualWeek =>
+      pregnantWeek! + (DateTime.now().difference(timestamp).inDays ~/ 7);
 
   Profile(
       {this.id,
       required this.profileUsername,
       this.pregnantWeek,
-      this.birthday});
+      this.birthday,
+      required this.timestamp});
 }//Steps
