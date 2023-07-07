@@ -93,7 +93,7 @@ class _WelcomePageState extends State<WelcomePage> {
               child: Column(
                 children: [
                   Text(
-                    'Nome app',
+                    'Pregnancy Health',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 50,
@@ -124,14 +124,6 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                       ),
                     ],
-                  ),
-                  SizedBox(height: 2),
-                  Text(
-                    'subTitle',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.w200),
                   ),
                 ],
               ),
