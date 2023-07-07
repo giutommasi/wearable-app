@@ -1,6 +1,4 @@
-import 'package:exam/main.dart';
 import 'package:flutter/material.dart';
-
 import '../../Constants/pregnancy_health_app_theme.dart';
 
 class StepsAlertView extends StatelessWidget {
@@ -9,6 +7,7 @@ class StepsAlertView extends StatelessWidget {
 
   const StepsAlertView({Key? key, this.animationController, this.animation})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -23,54 +22,84 @@ class StepsAlertView extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 24, right: 24, top: 0, bottom: 24),
+                      left: 24, right: 24, top: 0, bottom: 0),
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(top: 16),
+                        padding: const EdgeInsets.only(top: 16, bottom: 16),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: HexColor("#a82aa4"),
+                            color: PHAppTheme.white,
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 bottomLeft: Radius.circular(8.0),
                                 bottomRight: Radius.circular(8.0),
                                 topRight: Radius.circular(8.0)),
-                            // boxShadow: <BoxShadow>[
-                            //   BoxShadow(
-                            //       color: FitnessAppTheme.grey.withOpacity(0.2),
-                            //       offset: Offset(1.1, 1.1),
-                            //       blurRadius: 10.0),
-                            // ],
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: PHAppTheme.grey.withOpacity(0.4),
+                                  offset: const Offset(1.1, 1.1),
+                                  blurRadius: 10.0),
+                            ],
                           ),
-                          child: Column(
+                          child: Stack(
+                            alignment: Alignment.topLeft,
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 68, bottom: 12, right: 16, top: 12),
-                                child: Text(
-                                  'In the last 24 hours, you walked 7000 steps and exceeded of 300 Kcal. Keep an eye.',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: PHAppTheme.fontName,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                    letterSpacing: 0.0,
-                                    color: HexColor("#211f20").withOpacity(0.8),
+                              ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(8.0)),
+                                child: SizedBox(
+                                  height: 74,
+                                  child: AspectRatio(
+                                    aspectRatio: 1.714,
+                                    child: Image.asset(
+                                        "assets/images/progress_trace/back.png"),
                                   ),
                                 ),
+                              ),
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 100, top: 10, right: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Flexible(
+                                          child: Text(
+                                            "It is suggested to do aerobic activity for 30/40 minutes at low intensity",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily: PHAppTheme.fontName,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                              letterSpacing: 0.0,
+                                              color: Color.fromARGB(
+                                                  255, 159, 14, 91),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
                       ),
                       Positioned(
-                        top: -12,
+                        top: -15,
                         left: 0,
                         child: SizedBox(
-                          width: 80,
-                          height: 80,
+                          width: 115,
+                          height: 110,
                           child: Image.asset(
                               "assets/images/progress_trace/runner.png"),
                         ),

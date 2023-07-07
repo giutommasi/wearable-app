@@ -82,21 +82,6 @@ class StepsCardView extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      // Padding(
-                                      //   padding:
-                                      //       EdgeInsets.only(left: 8, bottom: 8),
-                                      //   child: Text(
-                                      //     'Ibs',
-                                      //     textAlign: TextAlign.center,
-                                      //     style: TextStyle(
-                                      //       fontFamily: PHAppTheme.fontName,
-                                      //       fontWeight: FontWeight.w500,
-                                      //       fontSize: 18,
-                                      //       letterSpacing: -0.2,
-                                      //       color: PHAppTheme.nearlyDarkBlue,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                   Column(

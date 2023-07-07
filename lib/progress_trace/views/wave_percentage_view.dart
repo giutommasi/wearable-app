@@ -56,41 +56,64 @@ class _WavePercentageViewState extends State<WavePercentageView>
                       topRight: Radius.circular(68.0)),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 16, left: 16, right: 16, bottom: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 16, right: 8, top: 16),
-                        child: Container(
-                          width: 120,
-                          height: 400,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255)
-                                .withOpacity(0.5),
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(80.0),
-                                bottomLeft: Radius.circular(80.0),
-                                bottomRight: Radius.circular(80.0),
-                                topRight: Radius.circular(80.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: Color.fromARGB(255, 255, 255, 255)
-                                      .withOpacity(0.6),
-                                  offset: const Offset(2, 2),
-                                  blurRadius: 4),
-                            ],
-                          ),
-                          child: WaveView(
-                            percentageValue: percentage,
-                          ),
+                    padding: const EdgeInsets.only(
+                        top: 16, left: 16, right: 16, bottom: 16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 8, top: 16),
+                              child: Container(
+                                width: 120,
+                                height: 400,
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255)
+                                          .withOpacity(0.5),
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(80.0),
+                                      bottomLeft: Radius.circular(80.0),
+                                      bottomRight: Radius.circular(80.0),
+                                      topRight: Radius.circular(80.0)),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: const Color.fromARGB(
+                                                255, 255, 255, 255)
+                                            .withOpacity(0.6),
+                                        offset: const Offset(2, 2),
+                                        blurRadius: 4),
+                                  ],
+                                ),
+                                child: WaveView(
+                                  percentageValue: percentage,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                "You reached $percentage% of your goal \nin the last 7 days!",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontFamily: PHAppTheme.fontName,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  letterSpacing: 0.0,
+                                  color: Color.fromARGB(255, 244, 115, 158),
+                                ))
+                          ],
+                        )
+                      ],
+                    )),
               ),
             ),
           ),
@@ -110,9 +133,9 @@ class _WavePercentageViewState extends State<WavePercentageView>
     final step = stepsRepo.weeklySteps;
     int count = 0;
     for (var s in step) {
-      count += 1;
-
       if (s.steps == 0) continue; // Data for that day were not available
+
+      count += 1;
 
       if (s.steps >= Steps.maxGoal) {
         stepsGoal += 100;
@@ -123,16 +146,16 @@ class _WavePercentageViewState extends State<WavePercentageView>
         stepsGoal += (s.steps * 100 / Steps.maxGoal).floor();
       }
     }
-    stepsGoal = stepsGoal / count;
+
+    if (count > 0) stepsGoal = stepsGoal / count;
 
     final sleep = sleepRepo.weeklySleep;
     final maxMinutes = Sleep.maxGoal * 60;
     double sleepGoal = 0;
     count = 0;
     for (var s in sleep) {
-      count += 1;
-
       if (s.duration == 0) continue; // Data for that day were not available
+      count += 1;
 
       final duration = s.duration / 60;
 
@@ -145,24 +168,23 @@ class _WavePercentageViewState extends State<WavePercentageView>
         sleepGoal += duration * 100 ~/ maxMinutes;
       }
     }
-    sleepGoal = sleepGoal / count;
+    if (count > 0) sleepGoal = sleepGoal / count;
 
     final cal = caloriesRepo.weeklyCalories;
     double caloriesGoal = 0;
     count = 0;
     for (var c in cal) {
+      if (c.burned == 0) continue; // Data for that day were not available
       count += 1;
 
-      if (c.burned == 0) continue; // Data for that day were not available
-
-      if (c.burned.floor() >= Calories.caloriesGoal) {
+      if (c.burned.floor() >= getCaloriesGoal(caloriesRepo)) {
         caloriesGoal += 100;
         continue;
       }
 
       if (c.burned.floor() >= 0) {
         caloriesGoal +=
-            (c.burned.floor() * 100 / Calories.caloriesGoal).floor();
+            (c.burned.floor() * 100 / getCaloriesGoal(caloriesRepo)).floor();
       }
     }
     caloriesGoal = caloriesGoal / count;
@@ -170,5 +192,14 @@ class _WavePercentageViewState extends State<WavePercentageView>
     print(((caloriesGoal + sleepGoal + stepsGoal) / 3).floor());
 
     return ((caloriesGoal + sleepGoal + stepsGoal) / 3).floor();
+  }
+
+  int getCaloriesGoal(CaloriesRepository repo) {
+    final cal = repo.dailyCalories;
+
+    if (cal != null) {
+      return cal.getCaloriesEaten();
+    }
+    return 0;
   }
 }

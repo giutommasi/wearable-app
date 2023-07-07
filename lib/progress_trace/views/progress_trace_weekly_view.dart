@@ -3,7 +3,6 @@ import 'package:exam/progress_trace/views/wave_percentage_view.dart';
 import 'package:exam/progress_trace/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
-
 class ProgressTraceWeeklyUI extends StatefulWidget {
   const ProgressTraceWeeklyUI({Key? key, required this.animationController})
       : super(key: key);
@@ -25,6 +24,7 @@ class _ProgressTraceWeeklyUIState extends State<ProgressTraceWeeklyUI>
     progressAppBar = ProgressAppBar(
       animationController: widget.animationController,
       scrollController: scrollController,
+      weekly: true,
     );
 
     super.initState();
@@ -32,38 +32,6 @@ class _ProgressTraceWeeklyUIState extends State<ProgressTraceWeeklyUI>
 
   void addAllListData() {
     const int count = 9;
-
-    // listViews.add(
-    //   TitleView(
-    //     titleTxt: 'Water',
-    //     subTxt: 'Aqua SmartBottle',
-    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-    //         parent: widget.animationController!,
-    //         curve: const Interval((1 / count) * 6, 1.0,
-    //             curve: Curves.fastOutSlowIn))),
-    //     animationController: widget.animationController!,
-    //   ),
-    // );
-
-    // listViews.add(
-    //   WaterView(
-    //     mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
-    //         CurvedAnimation(
-    //             parent: widget.animationController!,
-    //             curve: const Interval((1 / count) * 7, 1.0,
-    //                 curve: Curves.fastOutSlowIn))),
-    //     mainScreenAnimationController: widget.animationController!,
-    //   ),
-    // );
-    // listViews.add(
-    //   GlassView(
-    //       animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-    //           CurvedAnimation(
-    //               parent: widget.animationController!,
-    //               curve: const Interval((1 / count) * 8, 1.0,
-    //                   curve: Curves.fastOutSlowIn))),
-    //       animationController: widget.animationController!),
-    // );
 
     listViews.add(
       WavePercentageView(

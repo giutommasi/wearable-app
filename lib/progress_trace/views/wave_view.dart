@@ -87,9 +87,9 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
             ClipPath(
               clipper: WaveClipper(animationController!.value, animList1),
               child: Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 244, 143, 177),
-                  borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 244, 143, 177),
+                  borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(80.0),
                       bottomLeft: Radius.circular(80.0),
                       bottomRight: Radius.circular(80.0),
@@ -110,10 +110,10 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.pink.shade200,
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [
                       Color.fromARGB(255, 244, 143, 177),
-                      const Color(0xFF80DEEA),
+                      Color(0xFF80DEEA),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,

@@ -122,7 +122,7 @@ class CaloriesCardView extends StatelessWidget {
                                                                 left: 4,
                                                                 bottom: 3),
                                                         child: Text(
-                                                          '${(getEaten() * animation!.value).toInt()}',
+                                                          '${(getEaten(repo) * animation!.value).toInt()}',
                                                           textAlign:
                                                               TextAlign.center,
                                                           style:
@@ -331,7 +331,7 @@ class CaloriesCardView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Kcal left',
+                                                  'To burn',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontFamily:
@@ -425,8 +425,7 @@ class CaloriesCardView extends StatelessWidget {
                                           child: Row(
                                             children: <Widget>[
                                               Container(
-                                                width: (getGoalStatus(repo,
-                                                        Calories.caloriesGoal) *
+                                                width: (getGoalStatus(repo) *
                                                     animation!.value),
                                                 height: 4,
                                                 decoration: BoxDecoration(
@@ -448,7 +447,7 @@ class CaloriesCardView extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(top: 6),
                                         child: Text(
-                                          '${Calories.caloriesGoal} Kcal',
+                                          '${getCaloriesEaten(repo)} Kcal',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: PHAppTheme.fontName,
@@ -621,10 +620,21 @@ class CaloriesCardView extends StatelessWidget {
   }
 }
 
-int getGoalStatus(CaloriesRepository repo, int max) {
+int getCaloriesEaten(CaloriesRepository repo) {
+  final cal = repo.dailyCalories;
+
+  if (cal != null) {
+    return cal.getCaloriesEaten();
+  }
+  return 0;
+}
+
+int getGoalStatus(CaloriesRepository repo) {
   final cal = repo.dailyCalories;
   final burned = getBurned(repo);
   if (cal != null) {
+    final max = getCaloriesEaten(repo);
+
     if (burned >= max) return 100;
 
     if (burned >= 0) {
@@ -635,8 +645,13 @@ int getGoalStatus(CaloriesRepository repo, int max) {
   return 0;
 }
 
-int getEaten() {
-  return 3000;
+int getEaten(CaloriesRepository repo) {
+  final cal = repo.dailyCalories;
+  if (cal != null) {
+    return cal.getCaloriesEaten();
+  }
+
+  return 0;
 }
 
 int getBurned(CaloriesRepository repo) {
@@ -649,16 +664,16 @@ int getBurned(CaloriesRepository repo) {
 }
 
 int getLeft(CaloriesRepository repo) {
-  final remainedCalories = Calories.caloriesGoal - getBurned(repo);
+  final remainedCalories = Calories.caloriesBurnedGoal - getBurned(repo);
   if (remainedCalories == 0) return 0;
   if (remainedCalories <= 0) return 0;
   return remainedCalories;
 }
 
 double getAngle(CaloriesRepository repo) {
-  final remainedCalories = Calories.caloriesGoal - getBurned(repo);
+  final remainedCalories = Calories.caloriesBurnedGoal - getBurned(repo);
   if (remainedCalories == 0) return 0;
-  if (remainedCalories >= Calories.caloriesGoal) return 360;
+  if (remainedCalories >= Calories.caloriesBurnedGoal) return 360;
   if (remainedCalories <= 0) return 360;
-  return 360 * remainedCalories / Calories.caloriesGoal;
+  return 360 * remainedCalories / Calories.caloriesBurnedGoal;
 }

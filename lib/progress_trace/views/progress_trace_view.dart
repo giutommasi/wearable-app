@@ -1,12 +1,11 @@
 import 'package:exam/progress_trace/views/sleep_card_view.dart';
+import 'package:exam/progress_trace/views/steps_alert_view.dart';
 import 'package:exam/progress_trace/views/steps_card_view.dart';
 import 'package:exam/progress_trace/views/calories_card_view.dart';
 import 'package:exam/progress_trace/views/title_view.dart';
 import 'package:exam/Constants/pregnancy_health_app_theme.dart';
 import 'package:exam/progress_trace/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
-
-import '../views/analysis_alert_view.dart';
 
 class ProgressTraceUI extends StatefulWidget {
   const ProgressTraceUI({Key? key, required this.animationController})
@@ -29,6 +28,7 @@ class _ProgressTraceUIState extends State<ProgressTraceUI>
     progressAppBar = ProgressAppBar(
       animationController: widget.animationController,
       scrollController: scrollController,
+      weekly: false,
     );
 
     super.initState();
@@ -81,7 +81,7 @@ class _ProgressTraceUIState extends State<ProgressTraceUI>
     );
 
     listViews.add(
-      AnalysisAlertView(
+      StepsAlertView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval((1 / count) * 3, 1.0,
