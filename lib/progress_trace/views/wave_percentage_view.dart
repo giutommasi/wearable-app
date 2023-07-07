@@ -68,7 +68,8 @@ class _WavePercentageViewState extends State<WavePercentageView>
                           width: 120,
                           height: 400,
                           decoration: BoxDecoration(
-                            color: HexColor('#E8EDFE'),
+                            color: Color.fromARGB(255, 255, 255, 255)
+                                .withOpacity(0.5),
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(80.0),
                                 bottomLeft: Radius.circular(80.0),
@@ -76,7 +77,8 @@ class _WavePercentageViewState extends State<WavePercentageView>
                                 topRight: Radius.circular(80.0)),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                  color: PHAppTheme.grey.withOpacity(0.4),
+                                  color: Color.fromARGB(255, 255, 255, 255)
+                                      .withOpacity(0.6),
                                   offset: const Offset(2, 2),
                                   blurRadius: 4),
                             ],

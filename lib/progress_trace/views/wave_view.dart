@@ -88,7 +88,7 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
               clipper: WaveClipper(animationController!.value, animList1),
               child: Container(
                 decoration: BoxDecoration(
-                  color: PHAppTheme.nearlyDarkBlue.withOpacity(0.5),
+                  color: const Color.fromARGB(255, 244, 143, 177),
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(80.0),
                       bottomLeft: Radius.circular(80.0),
@@ -96,8 +96,8 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
                       topRight: Radius.circular(80.0)),
                   gradient: LinearGradient(
                     colors: [
-                      PHAppTheme.nearlyDarkBlue.withOpacity(0.2),
-                      PHAppTheme.nearlyDarkBlue.withOpacity(0.5)
+                      Color.fromARGB(255, 255, 255, 255),
+                      Color.fromARGB(255, 247, 247, 247)
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -109,11 +109,11 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
               clipper: WaveClipper(animationController!.value, animList2),
               child: Container(
                 decoration: BoxDecoration(
-                  color: PHAppTheme.nearlyDarkBlue,
+                  color: Colors.pink.shade200,
                   gradient: LinearGradient(
                     colors: [
-                      PHAppTheme.nearlyDarkBlue.withOpacity(0.4),
-                      PHAppTheme.nearlyDarkBlue
+                      Color.fromARGB(255, 244, 143, 177),
+                      const Color(0xFF80DEEA),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -127,7 +127,7 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 48),
+              padding: const EdgeInsets.only(top: 0),
               child: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -139,20 +139,20 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
                       style: const TextStyle(
                         fontFamily: PHAppTheme.fontName,
                         fontWeight: FontWeight.w500,
-                        fontSize: 24,
+                        fontSize: 30,
                         letterSpacing: 0.0,
                         color: PHAppTheme.white,
                       ),
                     ),
                     const Padding(
-                      padding: EdgeInsets.only(top: 3.0),
+                      padding: EdgeInsets.only(top: 2.0),
                       child: Text(
                         '%',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: PHAppTheme.fontName,
                           fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                          fontSize: 27,
                           letterSpacing: 0.0,
                           color: PHAppTheme.white,
                         ),
