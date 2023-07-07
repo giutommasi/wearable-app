@@ -1,8 +1,8 @@
-import 'package:exam/Constants/colors.dart';
-import 'package:exam/Pages/pregnancy.dart';
-import 'package:exam/Pages/welcome_page.dart';
-import 'package:exam/database/entities/user.dart';
-import 'package:exam/repositories/profile_repository.dart';
+import 'package:pregnancy_health/Constants/colors.dart';
+import 'package:pregnancy_health/Pages/pregnancy.dart';
+import 'package:pregnancy_health/Pages/welcome_page.dart';
+import 'package:pregnancy_health/database/entities/user.dart';
+import 'package:pregnancy_health/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

@@ -1,20 +1,20 @@
 //Imports that are necessary to the code generator of floor
 import 'dart:async';
 
-import 'package:exam/database/daos/profile_dao.dart';
-import 'package:exam/database/daos/sleep_dao.dart';
-import 'package:exam/database/daos/steps_dao.dart';
-import 'package:exam/database/daos/user_dao.dart';
-import 'package:exam/database/entities/profile.dart';
-import 'package:exam/database/typeConverters/dateTimeConverter.dart';
-import 'package:exam/database/typeConverters/nullDateTimeConverter.dart';
+import 'package:pregnancy_health/database/daos/profile_dao.dart';
+import 'package:pregnancy_health/database/daos/sleep_dao.dart';
+import 'package:pregnancy_health/database/daos/steps_dao.dart';
+import 'package:pregnancy_health/database/daos/user_dao.dart';
+import 'package:pregnancy_health/database/entities/profile.dart';
+import 'package:pregnancy_health/database/typeConverters/dateTimeConverter.dart';
+import 'package:pregnancy_health/database/typeConverters/nullDateTimeConverter.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 //Here, we are importing the entities and the daos of the database
-import 'package:exam/database/entities/steps.dart';
-import 'package:exam/database/entities/calories.dart';
-import 'package:exam/database/entities/sleep.dart';
+import 'package:pregnancy_health/database/entities/steps.dart';
+import 'package:pregnancy_health/database/entities/calories.dart';
+import 'package:pregnancy_health/database/entities/sleep.dart';
 
 import 'daos/calories_dao.dart';
 import 'entities/user.dart';

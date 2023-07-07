@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:exam/Pages/home_page.dart';
+import 'package:pregnancy_health/Pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'food_plan/appbar.dart';
 import 'food_plan/body.dart';
-
 
 class FoodPlanPage extends StatefulWidget {
   const FoodPlanPage({Key? key}) : super(key: key);
@@ -13,11 +12,9 @@ class FoodPlanPage extends StatefulWidget {
   State<StatefulWidget> createState() => _FoodPlanState();
 }
 
-
 class _FoodPlanState extends State<FoodPlanPage> {
   bool isOpen = false;
 
- 
   void toggleValue() {
     setState(() {
       isOpen = false;
@@ -35,7 +32,12 @@ class _FoodPlanState extends State<FoodPlanPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: const CustomAppBar(page: false, actions: Icons.import_contacts_outlined, icon: Icons.arrow_back, title: 'Food Plan', color: Colors.white),
+        appBar: const CustomAppBar(
+            page: false,
+            actions: Icons.import_contacts_outlined,
+            icon: Icons.arrow_back,
+            title: 'Food Plan',
+            color: Colors.white),
         extendBodyBehindAppBar: true,
         extendBody: true,
         body: const Body(),
@@ -89,8 +91,6 @@ class _FoodPlanState extends State<FoodPlanPage> {
     }
   }
 }
-
-
 
 void _HomePage(BuildContext context) {
   Navigator.push(

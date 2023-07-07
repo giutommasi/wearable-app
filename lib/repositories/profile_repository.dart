@@ -1,5 +1,5 @@
-import 'package:exam/database/database.dart';
-import 'package:exam/database/entities/profile.dart';
+import 'package:pregnancy_health/database/database.dart';
+import 'package:pregnancy_health/database/entities/profile.dart';
 import 'package:flutter/material.dart';
 
 class ProfileRepository extends ChangeNotifier {

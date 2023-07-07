@@ -1,6 +1,6 @@
 import 'package:crypt/crypt.dart';
-import 'package:exam/Pages/widgets/profile_alert.dart';
-import 'package:exam/repositories/profile_repository.dart';
+import 'package:pregnancy_health/Pages/widgets/profile_alert.dart';
+import 'package:pregnancy_health/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -1,5 +1,5 @@
-import 'package:exam/database/database.dart';
-import 'package:exam/repositories/repository.dart';
+import 'package:pregnancy_health/database/database.dart';
+import 'package:pregnancy_health/repositories/repository.dart';
 import 'package:flutter/material.dart';
 
 import '../database/entities/sleep.dart';

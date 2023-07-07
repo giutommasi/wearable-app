@@ -1,6 +1,6 @@
-import 'package:exam/Constants/pregnancy_health_app_theme.dart';
-import 'package:exam/progress_trace/views/wave_percentage_view.dart';
-import 'package:exam/progress_trace/widgets/app_bar.dart';
+import 'package:pregnancy_health/Constants/pregnancy_health_app_theme.dart';
+import 'package:pregnancy_health/progress_trace/views/wave_percentage_view.dart';
+import 'package:pregnancy_health/progress_trace/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class ProgressTraceWeeklyUI extends StatefulWidget {

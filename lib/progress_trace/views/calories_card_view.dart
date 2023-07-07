@@ -1,7 +1,7 @@
-import 'package:exam/Constants/pregnancy_health_app_theme.dart';
-import 'package:exam/database/entities/calories.dart';
-import 'package:exam/main.dart';
-import 'package:exam/repositories/calories_repository.dart';
+import 'package:pregnancy_health/Constants/pregnancy_health_app_theme.dart';
+import 'package:pregnancy_health/database/entities/calories.dart';
+import 'package:pregnancy_health/main.dart';
+import 'package:pregnancy_health/repositories/calories_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

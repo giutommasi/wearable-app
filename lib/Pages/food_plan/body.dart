@@ -1,7 +1,7 @@
-import 'package:exam/Pages/dailyPlan1.dart';
+import 'package:pregnancy_health/Pages/dailyPlan1.dart';
 import 'package:flutter/material.dart';
 import '../../Constants/colors.dart';
-import 'package:exam/Pages/food_plan/widget/widgetFoodplan.dart';
+import 'package:pregnancy_health/Pages/food_plan/widget/widgetFoodplan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void showSnackbar(BuildContext context) {
@@ -14,7 +14,6 @@ void showSnackbar(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
 
-
 class Body extends StatefulWidget {
   const Body({super.key});
 
@@ -22,14 +21,13 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
-
-class _BodyState extends State<Body>{
+class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final H = size.height;
     final W = size.width;
-    
+
     return Container(
       height: H, //Ritorna dimensioni telefono attuale
       decoration: const BoxDecoration(
@@ -41,7 +39,7 @@ class _BodyState extends State<Body>{
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: H*0.07),
+          SizedBox(height: H * 0.07),
           Container(
             padding: const EdgeInsets.all(11),
             decoration: BoxDecoration(
@@ -61,27 +59,34 @@ class _BodyState extends State<Body>{
             child: Column(
               children: [
                 Expanded(
-                    child: GridView.builder( //########################################
+                  child: GridView.builder(
+                      //########################################
                       padding: const EdgeInsets.only(top: 1, bottom: 1),
                       itemCount: products.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        ), 
-                     itemBuilder: (context, index) 
-                      {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.push(context, MaterialPageRoute(builder: ((context) => DailyPlan1(count: index))));},
-                          child: PlanCard(products: products[index],));
-                      }
                       ),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) =>
+                                          DailyPlan1(count: index))));
+                            },
+                            child: PlanCard(
+                              products: products[index],
+                            ));
+                      }),
                 ),
               ],
             ),
           ),
-           const SizedBox(height: 2),
-           const Divider(
+          const SizedBox(height: 2),
+          const Divider(
             height: 2.0,
             color: Colors.white,
             thickness: 0.5,
@@ -138,14 +143,11 @@ class _BodyState extends State<Body>{
               )
             ],
           ),
-      
-        
         ],
       ),
     );
   }
 }
-
 
 class PlanCard extends StatefulWidget {
   final DailyPlanItem products;
@@ -157,7 +159,6 @@ class PlanCard extends StatefulWidget {
 }
 
 class _PlanCardState extends State<PlanCard> {
-
   @override
   void initState() {
     super.initState();
@@ -165,14 +166,13 @@ class _PlanCardState extends State<PlanCard> {
   }
 
   void restoreSavedValues() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  setState(() {
-    for (var item in products) {
-      item.favorite = prefs.getBool('favorite_${item.dayNumb}') ?? false;
-    }
-  });
-}
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      for (var item in products) {
+        item.favorite = prefs.getBool('favorite_${item.dayNumb}') ?? false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +189,7 @@ class _PlanCardState extends State<PlanCard> {
               width: WIDTH,
               decoration: BoxDecoration(
                 boxShadow: const [
-                  BoxShadow (
+                  BoxShadow(
                     color: Colors.grey,
                     //spreadRadius: 1,
                     blurRadius: 1,
@@ -199,52 +199,56 @@ class _PlanCardState extends State<PlanCard> {
                 color: widget.products.color.withOpacity(0.90),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Column(
-                children: [
+              child: Column(children: [
                 SizedBox(
                   height: HEIGHT * 0.75,
-                  child: Stack(
-                    children: [
+                  child: Stack(children: [
                     Positioned(
                       right: 0.1,
-                      child: 
-                        widget.products.starred? const Text('') :
-                      IconButton(
-                        icon: Icon(
-                            widget.products.favorite
-                                ? Icons.star
-                                : Icons.star_border_outlined,
-                            color: widget.products.favorite
-                                ? Colors.orange.shade600
-                                : Colors.white,
-                            ),
-                        iconSize: 22,
-                        onPressed: () async {
-                          setState(() {
-                            widget.products.favorite = !widget.products.favorite;
-                          });
+                      child: widget.products.starred
+                          ? const Text('')
+                          : IconButton(
+                              icon: Icon(
+                                widget.products.favorite
+                                    ? Icons.star
+                                    : Icons.star_border_outlined,
+                                color: widget.products.favorite
+                                    ? Colors.orange.shade600
+                                    : Colors.white,
+                              ),
+                              iconSize: 22,
+                              onPressed: () async {
+                                setState(() {
+                                  widget.products.favorite =
+                                      !widget.products.favorite;
+                                });
 
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          await prefs.setBool('favorite_${widget.products.dayNumb}', widget.products.favorite);
-                        }
-                      ),
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool(
+                                    'favorite_${widget.products.dayNumb}',
+                                    widget.products.favorite);
+                              }),
                     ),
                     Center(
-                      child:
-                        widget.products.starred? Icon(Icons.star_border_outlined, size : 90, color: Colors.white.withOpacity(0.9),)  :
-                        Text(
-                        widget.products.dayNumb,
-                        style: TextStyle(
-                            fontSize: 80,
-                            color: Colors.white.withOpacity(0.9),
-                            fontWeight: FontWeight.bold),
-                      ),
+                      child: widget.products.starred
+                          ? Icon(
+                              Icons.star_border_outlined,
+                              size: 90,
+                              color: Colors.white.withOpacity(0.9),
+                            )
+                          : Text(
+                              widget.products.dayNumb,
+                              style: TextStyle(
+                                  fontSize: 80,
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontWeight: FontWeight.bold),
+                            ),
                     ),
                   ]),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.only(left: 15, right: 10),
+                  padding: const EdgeInsets.only(left: 15, right: 10),
                   decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -253,17 +257,17 @@ class _PlanCardState extends State<PlanCard> {
                   height: HEIGHT * 0.25,
                   width: WIDTH,
                   child: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        widget.products.dayString, style: const TextStyle(fontWeight: FontWeight.bold),
+                        widget.products.dayString,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 5.0),
-                        child: 
-                          widget.products.training
-                            ? const Icon(Icons.fitness_center_outlined, size: 24, color: Colors.green)
+                        child: widget.products.training
+                            ? const Icon(Icons.fitness_center_outlined,
+                                size: 24, color: Colors.green)
                             : const Text(''),
                       ),
                     ],
@@ -277,5 +281,3 @@ class _PlanCardState extends State<PlanCard> {
     );
   }
 }
-
-

@@ -1,4 +1,4 @@
-import 'package:exam/database/entities/user.dart';
+import 'package:pregnancy_health/database/entities/user.dart';
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'Profile', foreignKeys: [

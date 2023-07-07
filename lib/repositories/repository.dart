@@ -1,4 +1,4 @@
-import 'package:exam/database/database.dart';
+import 'package:pregnancy_health/database/database.dart';
 
 abstract class Repository<T> {
   //The state of the database is just the AppDatabase
