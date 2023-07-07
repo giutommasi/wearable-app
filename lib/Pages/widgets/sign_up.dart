@@ -413,7 +413,8 @@ class _SignUpState extends State<SignUp> {
           lastName: _lastName,
           password: _password));
 
-      await profileRepo.insert(Profile(profileUsername: _username));
+      await profileRepo.insert(
+          Profile(profileUsername: _username, timestamp: DateTime.now()));
 
       form.reset();
       if (context.mounted) {
