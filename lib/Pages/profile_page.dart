@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     lastName.text = user.lastName;
 
     birthday.text = DateFormat("yyyy-MM-dd").format(profile.birthday!);
-    pregWeek.text = profile.pregnantWeek.toString();
+    pregWeek.text = profile.actualWeek.toString();
   }
 
   @override

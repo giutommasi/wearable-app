@@ -10,11 +10,13 @@ class ProgressAppBar extends StatefulWidget {
   const ProgressAppBar(
       {Key? key,
       required this.animationController,
-      required this.scrollController})
+      required this.scrollController,
+      required this.weekly})
       : super(key: key);
 
   final AnimationController? animationController;
   final ScrollController? scrollController;
+  final bool weekly;
 
   @override
   ProgressAppBarState createState() => ProgressAppBarState();
@@ -93,156 +95,12 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                         height: MediaQuery.of(context).padding.top,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 16 - 8.0 * topBarOpacity,
-                            bottom: 12 - 8.0 * topBarOpacity),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: PHAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Progress',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: PHAppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: PHAppTheme.darkerText,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  setState(() {
-                                    selectedDate = getPreviousDay(selectedDate);
-                                    nextDayEnabled = true;
-
-                                    DateTime d = DateFormat('dd MMM yy')
-                                        .parse(selectedDate);
-
-                                    Provider.of<CaloriesRepository>(context,
-                                            listen: false)
-                                        .updateDailyCalories(d);
-
-                                    Provider.of<StepsRepository>(context,
-                                            listen: false)
-                                        .updateDailySteps(d);
-                                    Provider.of<SleepRepository>(context,
-                                            listen: false)
-                                        .updateDailySleep(d);
-                                  });
-                                },
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: PHAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  const Padding(
-                                    padding: EdgeInsets.only(right: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: PHAppTheme.grey,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  Text(
-                                    selectedDate,
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                      fontFamily: PHAppTheme.fontName,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 18,
-                                      letterSpacing: -0.2,
-                                      color: PHAppTheme.darkerText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  setState(() {
-                                    final nextSelection =
-                                        getNextDay(selectedDate);
-
-                                    DateTime d = DateFormat('dd MMM yy')
-                                        .parse(nextSelection);
-
-                                    final now = DateTime.now();
-                                    nextDayEnabled = !d.isAtSameMomentAs(
-                                        DateTime(now.year, now.month, now.day));
-                                    if (!nextDayEnabled) return;
-
-                                    selectedDate = nextSelection;
-
-                                    Provider.of<CaloriesRepository>(context,
-                                            listen: false)
-                                        .updateDailyCalories(d);
-                                    Provider.of<StepsRepository>(context,
-                                            listen: false)
-                                        .updateDailySteps(d);
-                                    Provider.of<SleepRepository>(context,
-                                            listen: false)
-                                        .updateDailySleep(d);
-                                  });
-                                },
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: PHAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                          padding: EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              top: 16 - 8.0 * topBarOpacity,
+                              bottom: 12 - 8.0 * topBarOpacity),
+                          child: getAppBarRow())
                     ],
                   ),
                 ),
@@ -250,6 +108,188 @@ class ProgressAppBarState extends State<ProgressAppBar> {
             );
           },
         )
+      ],
+    );
+  }
+
+  Widget getAppBarRow() {
+    if (widget.weekly) return getWeeklyAppbar();
+
+    return getAppbarDaily();
+  }
+
+  Widget getWeeklyAppbar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          height: 38,
+          width: 38,
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Center(
+              child: Icon(
+                Icons.arrow_back,
+                color: PHAppTheme.grey,
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Progress',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: PHAppTheme.fontName,
+                fontWeight: FontWeight.w700,
+                fontSize: 22 + 6 - 6 * topBarOpacity,
+                letterSpacing: 1.2,
+                color: PHAppTheme.darkerText,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getAppbarDaily() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        SizedBox(
+          height: 38,
+          width: 38,
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Center(
+              child: Icon(
+                Icons.arrow_back,
+                color: PHAppTheme.grey,
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Progress',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: PHAppTheme.fontName,
+                fontWeight: FontWeight.w700,
+                fontSize: 22 + 6 - 6 * topBarOpacity,
+                letterSpacing: 1.2,
+                color: PHAppTheme.darkerText,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 38,
+          width: 38,
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+            onTap: () {
+              setState(() {
+                selectedDate = getPreviousDay(selectedDate);
+                nextDayEnabled = true;
+
+                DateTime d = DateFormat('dd MMM yy').parse(selectedDate);
+
+                Provider.of<CaloriesRepository>(context, listen: false)
+                    .updateDailyCalories(d);
+
+                Provider.of<StepsRepository>(context, listen: false)
+                    .updateDailySteps(d);
+                Provider.of<SleepRepository>(context, listen: false)
+                    .updateDailySleep(d);
+              });
+            },
+            child: const Center(
+              child: Icon(
+                Icons.keyboard_arrow_left,
+                color: PHAppTheme.grey,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 8,
+            right: 8,
+          ),
+          child: Row(
+            children: <Widget>[
+              const Padding(
+                padding: EdgeInsets.only(right: 8),
+                child: Icon(
+                  Icons.calendar_today,
+                  color: PHAppTheme.grey,
+                  size: 18,
+                ),
+              ),
+              Text(
+                selectedDate,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: PHAppTheme.fontName,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  letterSpacing: -0.2,
+                  color: PHAppTheme.darkerText,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 38,
+          width: 38,
+          child: InkWell(
+            highlightColor: Colors.transparent,
+            borderRadius: const BorderRadius.all(Radius.circular(32.0)),
+            onTap: () {
+              setState(() {
+                final nextSelection = getNextDay(selectedDate);
+
+                DateTime d = DateFormat('dd MMM yy').parse(nextSelection);
+
+                final now = DateTime.now();
+                nextDayEnabled =
+                    !d.isAtSameMomentAs(DateTime(now.year, now.month, now.day));
+                if (!nextDayEnabled) return;
+
+                selectedDate = nextSelection;
+
+                Provider.of<CaloriesRepository>(context, listen: false)
+                    .updateDailyCalories(d);
+                Provider.of<StepsRepository>(context, listen: false)
+                    .updateDailySteps(d);
+                Provider.of<SleepRepository>(context, listen: false)
+                    .updateDailySleep(d);
+              });
+            },
+            child: const Center(
+              child: Icon(
+                Icons.keyboard_arrow_right,
+                color: PHAppTheme.grey,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
