@@ -1,6 +1,5 @@
-import 'package:exam/Constants/impact.dart';
-import 'package:exam/database/database.dart';
-import 'package:exam/repositories/repository.dart';
+import 'package:pregnancy_health/database/database.dart';
+import 'package:pregnancy_health/repositories/repository.dart';
 import 'package:flutter/material.dart';
 
 import '../database/entities/steps.dart';
@@ -13,6 +12,7 @@ class StepsRepository extends ChangeNotifier implements Repository {
   StepsRepository({required this.database});
 
   final List<Steps> _loadedSteps = [];
+  final List<Steps> _weeklyLoadedSteps = [];
 
   void updateDailySteps(DateTime day) async {
     _loadedSteps.clear();
@@ -21,35 +21,43 @@ class StepsRepository extends ChangeNotifier implements Repository {
   }
 
   void updateWeeklySteps(DateTime day) async {
-    if (_loadedSteps.isEmpty) _loadedSteps.addAll(await selectAll());
+    if (_loadedSteps.isEmpty) _loadedSteps.addAll(await loadAll());
     notifyListeners();
   }
 
   Steps? get dailySteps => _loadedSteps.isEmpty ? null : _loadedSteps.first;
-  List<Steps> get weeklySteps => _loadedSteps;
+  List<Steps> get weeklySteps => _weeklyLoadedSteps;
 
   //This method wraps the findAllStepss() method of the DAO
   @override
-  Future<List<Steps>> selectAll() async {
-    List<Steps> results = await database.stepsDao.findAllSteps();
+  Future<List<Steps>> loadAll() async {
+    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+    DateTime sevenDaysAgo = yesterday.subtract(const Duration(days: 7));
 
-    if (results.isEmpty) {
-      DateTime now = DateTime.now();
-      DateTime sevenDaysBefore = DateTime(now.year, now.month, now.day)
-          .subtract(const Duration(days: 6));
+    List<Steps> results =
+        await database.stepsDao.findAllSteps(sevenDaysAgo, yesterday);
 
-      List<Steps>? steps = await ImpactApi.getStepsRange(
-          ImpactDataType.steps, sevenDaysBefore, now);
+    if (results.isEmpty || results.length < 7) {
+      List<Steps>? steps =
+          await ImpactApi.getStepsRange(sevenDaysAgo, yesterday);
 
       if (steps == null) {
-        print("Steps not available");
-        return Future.value([Steps(date: now, steps: 0, last: now)]);
+        return Future.value(
+            [Steps(date: yesterday, steps: 0, last: yesterday)]);
       }
 
-      await insert(steps);
+      await insertAll(steps);
+
+      _weeklyLoadedSteps.clear();
+      _weeklyLoadedSteps.addAll(steps);
+      notifyListeners();
 
       return Future<List<Steps>>.value(steps);
     }
+
+    _weeklyLoadedSteps.clear();
+    _weeklyLoadedSteps.addAll(results);
+    notifyListeners();
 
     return results;
   } //findAllStepss
@@ -60,7 +68,7 @@ class StepsRepository extends ChangeNotifier implements Repository {
 
     if (results.isEmpty) {
       DateTime now = DateTime.now();
-      Steps? steps = await ImpactApi.getSteps(ImpactDataType.steps, day);
+      Steps? steps = await ImpactApi.getSteps(day);
 
       if (steps == null) {
         print("Could not retrieve steps from Impact");
@@ -87,6 +95,12 @@ class StepsRepository extends ChangeNotifier implements Repository {
   @override
   Future<void> insert(steps) async {
     await database.stepsDao.insertSteps(steps);
+    notifyListeners();
+  } //insertSteps
+
+  @override
+  Future<void> insertAll(steps) async {
+    await database.stepsDao.insertAllSteps(steps.cast<Steps>());
     notifyListeners();
   } //insertSteps
 

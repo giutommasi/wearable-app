@@ -1,5 +1,6 @@
-import 'package:exam/Constants/pregnancy_health_app_theme.dart';
-import 'package:exam/repositories/steps_repository.dart';
+import 'package:pregnancy_health/Constants/pregnancy_health_app_theme.dart';
+import 'package:pregnancy_health/database/entities/steps.dart';
+import 'package:pregnancy_health/repositories/steps_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,8 @@ class StepsCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color:
-                            const Color.fromARGB(236, 128, 222, 234).withOpacity(0.6),
+                        color: const Color.fromARGB(236, 128, 222, 234)
+                            .withOpacity(0.6),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -81,21 +82,6 @@ class StepsCardView extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      // Padding(
-                                      //   padding:
-                                      //       EdgeInsets.only(left: 8, bottom: 8),
-                                      //   child: Text(
-                                      //     'Ibs',
-                                      //     textAlign: TextAlign.center,
-                                      //     style: TextStyle(
-                                      //       fontFamily: PHAppTheme.fontName,
-                                      //       fontWeight: FontWeight.w500,
-                                      //       fontSize: 18,
-                                      //       letterSpacing: -0.2,
-                                      //       color: PHAppTheme.nearlyDarkBlue,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                   Column(
@@ -389,7 +375,7 @@ int getGoalStatus(StepsRepository repo, int max) {
 }
 
 int getMaxSteps() {
-  return 10000;
+  return Steps.maxGoal;
 }
 
 String getLastMeasurement(StepsRepository repo) {

@@ -1,6 +1,6 @@
 import 'package:crypt/crypt.dart';
-import 'package:exam/Pages/widgets/profile_alert.dart';
-import 'package:exam/repositories/profile_repository.dart';
+import 'package:pregnancy_health/Pages/widgets/profile_alert.dart';
+import 'package:pregnancy_health/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +27,24 @@ class _LoginState extends State<Login> {
 
   final _focusNodeEmail = FocusNode();
   final _focusNodePw = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    setSavedUsername();
+  }
+
+  Future<void> setSavedUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedUsername = prefs.getString("saved_username");
+
+    if (savedUsername != null) {
+      username.text = savedUsername;
+      setState(() {
+        isChecked = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -70,10 +88,6 @@ class _LoginState extends State<Login> {
                       child: _checkBox(),
                     ),
                     const SizedBox(height: 70),
-                    Container(
-                        //padding: const EdgeInsets.only(right: 20),
-                        alignment: Alignment.bottomCenter,
-                        child: _forgotPwButton()),
                   ],
                 ),
               )),
@@ -171,18 +185,6 @@ class _LoginState extends State<Login> {
         ),
       );
 
-  Widget _forgotPwButton() => TextButton(
-      onPressed: () {}, //TODO//,
-      child: const Text(
-        'Forgot password?',
-        style: TextStyle(
-          fontSize: 14.0,
-          color: Color(0xFFF48FB1),
-          //fontWeight: FontWeight.bold,
-          decoration: TextDecoration.underline,
-        ),
-      ));
-
   Widget _signInButton() => ElevatedButton(
         style: ElevatedButton.styleFrom(
           surfaceTintColor: const Color(0xFFF48FB1),
@@ -217,6 +219,7 @@ class _LoginState extends State<Login> {
           if (isChecked) {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
+            prefs.setString("saved_username", username.text);
             prefs.setString("username", username.text);
           }
 
@@ -241,13 +244,11 @@ void _homePage(BuildContext context) async {
     bool? profileUpdated = await alert.showProfileAlert(context);
     if (profileUpdated != null && profileUpdated) {
       if (context.mounted) {
-        Navigator.pop(context);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => (const HomePage())));
       }
     }
   } else {
-    Navigator.pop(context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => (const HomePage())));
   }

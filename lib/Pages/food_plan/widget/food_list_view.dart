@@ -1,4 +1,4 @@
-import 'package:exam/Constants/colors.dart';
+import 'package:pregnancy_health/Constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'class.dart';
 
@@ -8,7 +8,9 @@ class FoodListView extends StatefulWidget {
   final Function callback;
   final PageController pageController;
 
-  const FoodListView(this. count,this.selected, this.callback, this.pageController, {super.key});
+  const FoodListView(
+      this.count, this.selected, this.callback, this.pageController,
+      {super.key});
   @override
   _FoodListViewState createState() => _FoodListViewState();
 }
@@ -50,8 +52,9 @@ class _FoodListViewState extends State<FoodListView> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final W = size.width;
-    final List<Food> selectedFoods = Week[widget.count].weeklyMeals[widget.selected].foods;
-    
+    final List<Food> selectedFoods =
+        Week[widget.count].weeklyMeals[widget.selected].foods;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 17),
       child: PageView(
@@ -64,7 +67,6 @@ class _FoodListViewState extends State<FoodListView> {
                 ListView.separated(
                     padding: const EdgeInsets.only(bottom: 10, top: 10),
                     itemBuilder: (context, index) {
-                      
                       final food = selectedFoods[index];
                       print(food);
                       final isExpanded = isExpandedList[index];
@@ -200,48 +202,68 @@ class _FoodListViewState extends State<FoodListView> {
                                           if (food.details != null)
                                             Row(
                                               children: [
-                                                const Icon(Icons.info_outline_rounded, color: gradientEnd,),
+                                                const Icon(
+                                                  Icons.info_outline_rounded,
+                                                  color: gradientEnd,
+                                                ),
                                                 const SizedBox(width: 10),
                                                 Text(
                                                   '${food.details}',
-                                                  style:
-                                                      const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
                                               ],
                                             ),
-                                          const SizedBox(height: 10,),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
                                           Row(
                                             children: [
-                                              const Icon(Icons.add_circle, color: Colors.blueAccent, ),
+                                              const Icon(
+                                                Icons.add_circle,
+                                                color: Colors.blueAccent,
+                                              ),
                                               const SizedBox(width: 10),
                                               Text(
                                                 'Protein: ${food.prot.toString()}g',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(
+                                                    fontSize: 15),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 10,),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
                                           Row(
                                             children: [
-                                              const Icon(Icons.add_circle, color: Colors.yellowAccent, ),
+                                              const Icon(
+                                                Icons.add_circle,
+                                                color: Colors.yellowAccent,
+                                              ),
                                               const SizedBox(width: 10),
                                               Text(
                                                 'Carbohydrates: ${food.carbs.toString()}g',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(
+                                                    fontSize: 15),
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(height: 10,),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
                                           Row(
                                             children: [
-                                              const Icon(Icons.add_circle, color: Colors.redAccent, ),
+                                              const Icon(
+                                                Icons.add_circle,
+                                                color: Colors.redAccent,
+                                              ),
                                               const SizedBox(width: 10),
                                               Text(
                                                 'Fat: ${food.fat.toString()}g',
-                                                style:
-                                                    const TextStyle(fontSize: 15),
+                                                style: const TextStyle(
+                                                    fontSize: 15),
                                               ),
                                             ],
                                           ),

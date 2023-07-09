@@ -1,6 +1,6 @@
-import 'package:exam/Pages/widgets/login.dart';
-import 'package:exam/Pages/widgets/sign_up.dart';
-import 'package:exam/misc/bubble_indicator_painter.dart';
+import 'package:pregnancy_health/Pages/widgets/login.dart';
+import 'package:pregnancy_health/Pages/widgets/sign_up.dart';
+import 'package:pregnancy_health/misc/bubble_indicator_painter.dart';
 import 'package:flutter/material.dart';
 import '../Constants/button.dart';
 import '../Constants/colors.dart';

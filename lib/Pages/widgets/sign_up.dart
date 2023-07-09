@@ -1,8 +1,8 @@
 import 'package:crypt/crypt.dart';
-import 'package:exam/database/entities/profile.dart';
-import 'package:exam/database/entities/user.dart';
-import 'package:exam/repositories/profile_repository.dart';
-import 'package:exam/repositories/user_repository.dart';
+import 'package:pregnancy_health/database/entities/profile.dart';
+import 'package:pregnancy_health/database/entities/user.dart';
+import 'package:pregnancy_health/repositories/profile_repository.dart';
+import 'package:pregnancy_health/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -134,7 +134,8 @@ class _SignUpState extends State<SignUp> {
                   borderSide: BorderSide(
                       width: 1, color: Color.fromRGBO(244, 143, 177, 1))),
               hintText: 'Enter your First name',
-              hintStyle: TextStyle(color: Color(0xFFF48FB1), fontSize: 17.0),
+              hintStyle: TextStyle(
+                  color: Color.fromARGB(255, 244, 143, 177), fontSize: 17.0),
               icon: Icon(Icons.person_outlined,
                   color: Color(0xFFF48FB1), size: 22.0)),
           onFieldSubmitted: (_) {
@@ -406,13 +407,13 @@ class _SignUpState extends State<SignUp> {
       _password = Crypt.sha256(password.text, rounds: 10000, salt: 'abcde1234')
           .toString();
 
-      await userRepo.insert(User(
-          username: _username,
+      await userRepo.insert(User(username: _username, password: _password));
+
+      await profileRepo.insert(Profile(
+          profileUsername: _username,
           firstName: _firstName,
           lastName: _lastName,
-          password: _password));
-
-      await profileRepo.insert(Profile(profileUsername: _username));
+          timestamp: DateTime.now()));
 
       form.reset();
       if (context.mounted) {

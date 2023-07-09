@@ -1,9 +1,9 @@
-import 'package:exam/database/database.dart';
-import 'package:exam/repositories/calories_repository.dart';
-import 'package:exam/repositories/profile_repository.dart';
-import 'package:exam/repositories/sleep_repository.dart';
-import 'package:exam/repositories/steps_repository.dart';
-import 'package:exam/repositories/user_repository.dart';
+import 'package:pregnancy_health/database/database.dart';
+import 'package:pregnancy_health/repositories/calories_repository.dart';
+import 'package:pregnancy_health/repositories/profile_repository.dart';
+import 'package:pregnancy_health/repositories/sleep_repository.dart';
+import 'package:pregnancy_health/repositories/steps_repository.dart';
+import 'package:pregnancy_health/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -58,7 +58,7 @@ const double windowHeight = 926;
 void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
     WidgetsFlutterBinding.ensureInitialized();
-    setWindowTitle('Provider Demo');
+    setWindowTitle('Pregnancy Health');
     setWindowMinSize(const Size(windowWidth, windowHeight));
     setWindowMaxSize(const Size(windowWidth, windowHeight));
     getCurrentScreen().then((screen) {

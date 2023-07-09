@@ -1,4 +1,4 @@
-import 'package:exam/database/database.dart';
+import 'package:pregnancy_health/database/database.dart';
 
 abstract class Repository<T> {
   //The state of the database is just the AppDatabase
@@ -7,11 +7,12 @@ abstract class Repository<T> {
   //Default constructor
   Repository(this.database);
 
-  Future<List<T>> selectAll();
+  Future<List<T>> loadAll();
 
   Future<T> selectDay(DateTime day);
 
   Future<void> insert(T entity);
+  Future<void> insertAll(List<T> entity);
 
   Future<void> delete(T entity);
 

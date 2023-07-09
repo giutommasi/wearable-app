@@ -11,6 +11,8 @@ class Steps {
 
   Steps({this.id, required this.date, required this.steps, required this.last});
 
+  static int maxGoal = 10000;
+
   Steps.fromJson(Map<String, dynamic> json)
       : date = DateFormat('yyyy-MM-dd').parse('${json["date"]}'),
         // Steps is a double

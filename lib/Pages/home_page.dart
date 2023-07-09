@@ -1,10 +1,12 @@
-import 'package:exam/Constants/colors.dart';
-import 'package:exam/Pages/welcome_page.dart';
-import 'package:exam/database/entities/user.dart';
-import 'package:exam/repositories/profile_repository.dart';
+import 'package:pregnancy_health/Constants/colors.dart';
+import 'package:pregnancy_health/Pages/pregnancy.dart';
+import 'package:pregnancy_health/Pages/welcome_page.dart';
+import 'package:pregnancy_health/database/entities/user.dart';
+import 'package:pregnancy_health/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../database/entities/profile.dart';
 import '../repositories/user_repository.dart';
@@ -19,9 +21,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Color signInColor = Colors.white;
   Color signUpColor = Colors.pink.shade200;
-  bool isFemale = true; //Da inserire icona in profilo
   late User user;
   late Profile profile;
+  late Pregnancy pregnancy;
 
   @override
   void initState() {
@@ -30,6 +32,8 @@ class _HomePageState extends State<HomePage> {
     user = userRepo.signedUser;
     final profileRepo = Provider.of<ProfileRepository>(context, listen: false);
     profile = profileRepo.signedProfile;
+
+    pregnancy = Pregnancy(profile.actualWeek);
   }
 
   @override
@@ -86,41 +90,53 @@ class _HomePageState extends State<HomePage> {
                                       const AssetImage('assets/profile.png')),
                             ),
                             SizedBox(width: W.toDouble() * 0.05),
-                            Consumer<UserRepository>(
-                              builder: (context, userRepo, child) {
+                            Consumer<ProfileRepository>(
+                              builder: (context, profileRepo, child) {
                                 return Text(
-                                    'Hi ${userRepo.signedUser.firstName}!',
+                                    'Hi ${profileRepo.signedProfile.firstName}!',
                                     style: const TextStyle(
                                         fontSize: 33,
-                                        fontWeight: FontWeight.w300));
+                                        fontWeight: FontWeight.w300,
+                                        fontFamily: 'Roboto',
+                                        color: Color.fromARGB(221, 5, 36, 62)));
                               },
                             ),
                           ]),
-                      SizedBox(height: H.toDouble() * 0.04),
+                      SizedBox(height: H.toDouble() * 0.1),
+                      SizedBox(
+                        height: H.toDouble() * 0.05,
+                        child: Text('Week ${profile.actualWeek}',
+                            style: const TextStyle(
+                                fontSize: 27,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto',
+                                color: Color.fromARGB(160, 7, 50, 86))),
+                      ),
                       SizedBox(
                         height: H.toDouble() * 0.06,
-                        child: Text('Week ${profile.pregnantWeek}',
+                        child: Text(
+                            'Your baby size with ${pregnancy.getBabySize()}',
                             style: const TextStyle(
-                                fontSize: 27, fontWeight: FontWeight.w300)),
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto',
+                                color: Color.fromARGB(150, 5, 36, 62))),
                       ),
-                      Card(
-                          color: Colors.white,
-                          clipBehavior: Clip.hardEdge,
-                          child: Padding(
-                            padding: const EdgeInsets.all(7.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                    height: H.toDouble() * 0.3,
-                                    width: W.toDouble() * 0.6,
-                                    child: const Image(
-                                        image: AssetImage(
-                                            'assets/baby.png'))), //Non sarà const la variabile
-                              ],
-                            ),
-                          ))
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                height: H.toDouble() * 0.3,
+                                width: W.toDouble() * 0.6,
+                                child: Image(
+                                    image: AssetImage(
+                                        'assets/baby_dimension/baby_size${pregnancy.getBabyPhase()}.png'))), //Non sarà const la variabile
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -136,7 +152,8 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                Consumer<UserRepository>(builder: (context, userRepo, child) {
+                Consumer<ProfileRepository>(
+                    builder: (context, profileRepo, child) {
                   return UserAccountsDrawerHeader(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -148,8 +165,9 @@ class _HomePageState extends State<HomePage> {
                           end: FractionalOffset(1.0, 1.0)),
                     ),
                     accountName: Text(
-                        "${userRepo.signedUser.firstName} ${userRepo.signedUser.lastName}"),
-                    accountEmail: Text(userRepo.signedUser.username),
+                        "${profileRepo.signedProfile.firstName} ${profileRepo.signedProfile.lastName}"),
+                    accountEmail:
+                        Text(profileRepo.signedProfile.profileUsername),
                     currentAccountPicture: CircleAvatar(
                         radius: (W.toDouble()) *
                             0.15, //dimensione proporzionale allo schermo
@@ -175,12 +193,22 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: isFemale ? ColorFemale : ColorMale,
-          foregroundColor:
-              isFemale ? Colors.pink.shade200 : Colors.blue.shade200,
+          onPressed: () async {
+            final Uri url = Uri.parse(
+                'https://www.omicsonline.org/scholarly/pregnancy-nutrition-journals-articles-ppts-list.php');
+            if (!await launchUrl(url)) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context)
+                  ..removeCurrentSnackBar()
+                  ..showSnackBar(
+                      SnackBar(content: Text('Could not access $url')));
+              }
+            }
+          },
+          backgroundColor: ColorFemale,
+          foregroundColor: Colors.pink.shade200,
           elevation: 0,
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.link),
         ),
         bottomNavigationBar: _BottomBar(),
       ),
