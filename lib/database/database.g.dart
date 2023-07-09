@@ -101,7 +101,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `password` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `profile_username` TEXT NOT NULL, `pregnantWeek` INTEGER, `birthday` INTEGER, `timestamp` INTEGER NOT NULL, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `profile_username` TEXT NOT NULL, `childName` TEXT, `pregnantWeek` INTEGER, `birthday` INTEGER, `timestamp` INTEGER NOT NULL, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE UNIQUE INDEX `index_User_username` ON `User` (`username`)');
 
@@ -550,6 +550,7 @@ class _$ProfileDao extends ProfileDao {
                   'firstName': item.firstName,
                   'lastName': item.lastName,
                   'profile_username': item.profileUsername,
+                  'childName': item.childName,
                   'pregnantWeek': item.pregnantWeek,
                   'birthday': _nullDateTimeConverter.encode(item.birthday),
                   'timestamp': _dateTimeConverter.encode(item.timestamp)
@@ -563,6 +564,7 @@ class _$ProfileDao extends ProfileDao {
                   'firstName': item.firstName,
                   'lastName': item.lastName,
                   'profile_username': item.profileUsername,
+                  'childName': item.childName,
                   'pregnantWeek': item.pregnantWeek,
                   'birthday': _nullDateTimeConverter.encode(item.birthday),
                   'timestamp': _dateTimeConverter.encode(item.timestamp)
@@ -576,6 +578,7 @@ class _$ProfileDao extends ProfileDao {
                   'firstName': item.firstName,
                   'lastName': item.lastName,
                   'profile_username': item.profileUsername,
+                  'childName': item.childName,
                   'pregnantWeek': item.pregnantWeek,
                   'birthday': _nullDateTimeConverter.encode(item.birthday),
                   'timestamp': _dateTimeConverter.encode(item.timestamp)
@@ -603,6 +606,7 @@ class _$ProfileDao extends ProfileDao {
             lastName: row['lastName'] as String,
             pregnantWeek: row['pregnantWeek'] as int?,
             birthday: _nullDateTimeConverter.decode(row['birthday'] as int?),
+            childName: row['childName'] as String?,
             timestamp: _dateTimeConverter.decode(row['timestamp'] as int)));
   }
 
@@ -617,6 +621,7 @@ class _$ProfileDao extends ProfileDao {
             lastName: row['lastName'] as String,
             pregnantWeek: row['pregnantWeek'] as int?,
             birthday: _nullDateTimeConverter.decode(row['birthday'] as int?),
+            childName: row['childName'] as String?,
             timestamp: _dateTimeConverter.decode(row['timestamp'] as int)),
         arguments: [username]);
   }
