@@ -10,7 +10,8 @@ class ChildAlert extends AlertDialog {
 
   final Profile profile;
   final TextEditingController _childName = TextEditingController();
-  RegExp digitNameValidator = RegExp('[a-z A-Z]'); //Constrains in textNameInput
+  final RegExp digitNameValidator =
+      RegExp('[a-z A-Z]'); //Constrains in textNameInput
 
   Future<void> updateChildName(BuildContext context) async {
     return showDialog(

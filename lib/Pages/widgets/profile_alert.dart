@@ -16,7 +16,8 @@ class ProfileAlert extends AlertDialog {
 
   final RegExp weekRegex =
       RegExp('\b([1-9]|[123][0-9]|40)\b'); //Constrains in textNameInput
-  RegExp digitNameValidator = RegExp('[a-z A-Z]'); //Constrains in textNameInput
+  final RegExp digitNameValidator =
+      RegExp('[a-z A-Z]'); //Constrains in textNameInput
 
   Future<bool?> showProfileAlert(BuildContext context) async {
     return showDialog<bool>(

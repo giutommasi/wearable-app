@@ -1,6 +1,6 @@
 {
-    "name": "exam",
-    "short_name": "exam",
+    "name": "pregnancy_health",
+    "short_name": "pregnancy_health",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

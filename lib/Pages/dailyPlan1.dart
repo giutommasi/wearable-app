@@ -69,7 +69,7 @@ class _DailyPlan1State extends State<DailyPlan1> {
                       bottomRight: Radius.elliptical(500, 95))),
               child: Padding(
                 padding: const EdgeInsets.only(
-                    bottom: 18, top: 40, left: 32, right: 26),
+                    bottom: 18, top: 40, left: 32, right: 15),
                 child: Column(
                   //Intestazione colorata
                   children: [
