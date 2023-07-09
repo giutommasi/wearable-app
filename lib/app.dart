@@ -1,8 +1,8 @@
+import 'package:pregnancy_health/Pages/profile_page.dart';
 import 'package:pregnancy_health/progress_trace/progress_trace_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'Pages/food_plan.dart';
-import 'Pages/profile_page.dart';
 import 'Pages/welcome_page.dart';
 
 class App extends StatelessWidget {

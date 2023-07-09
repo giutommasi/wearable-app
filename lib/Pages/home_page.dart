@@ -1,15 +1,15 @@
 import 'package:pregnancy_health/Constants/colors.dart';
 import 'package:pregnancy_health/Pages/pregnancy.dart';
-import 'package:pregnancy_health/Pages/welcome_page.dart';
 import 'package:pregnancy_health/database/entities/user.dart';
 import 'package:pregnancy_health/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:date_format/date_format.dart';
 import '../database/entities/profile.dart';
 import '../repositories/user_repository.dart';
+import 'models/web.dart';
+import 'models/weekTips.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Color signInColor = Colors.white;
   Color signUpColor = Colors.pink.shade200;
+  int currentWeek = 1;
   late User user;
   late Profile profile;
   late Pregnancy pregnancy;
@@ -36,6 +37,17 @@ class _HomePageState extends State<HomePage> {
     pregnancy = Pregnancy(profile.actualWeek);
   }
 
+  String? getWeekUrl() {
+    final currentWeek = int.parse(
+        formatDate(DateTime.now(), [W])); // Ottieni la settimana corrente
+    for (var weekUrl in pregnancyWeeks) {
+      if (weekUrl.week == currentWeek) {
+        return weekUrl.link;
+      }
+    }
+    return null; // Se non viene trovato nessun URL per la settimana corrente
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -47,6 +59,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
+          automaticallyImplyLeading: false,
           actions: const [
             Padding(
               padding: EdgeInsets.all(15),
@@ -82,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: H.toDouble() * 0.2,
+                              height: H.toDouble() * 0.1,
                               child: CircleAvatar(
                                   radius: (W.toDouble()) *
                                       0.15, //dimensione proporzionale allo schermo
@@ -102,22 +115,24 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                           ]),
-                      SizedBox(height: H.toDouble() * 0.1),
                       SizedBox(
                         height: H.toDouble() * 0.05,
+                      ),
+                      SizedBox(
+                        height: H.toDouble() * 0.04,
                         child: Text('Week ${profile.actualWeek}',
                             style: const TextStyle(
-                                fontSize: 27,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Roboto',
                                 color: Color.fromARGB(160, 7, 50, 86))),
                       ),
                       SizedBox(
-                        height: H.toDouble() * 0.06,
+                        height: H.toDouble() * 0.04,
                         child: Text(
-                            'Your baby size with ${pregnancy.getBabySize()}',
+                            'Your Baby size with ${pregnancy.getBabySize()}',
                             style: const TextStyle(
-                                fontSize: 25,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Roboto',
                                 color: Color.fromARGB(150, 5, 36, 62))),
@@ -129,63 +144,55 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                                height: H.toDouble() * 0.3,
+                                height: H.toDouble() * 0.25,
                                 width: W.toDouble() * 0.6,
                                 child: Image(
                                     image: AssetImage(
                                         'assets/baby_dimension/baby_size${pregnancy.getBabyPhase()}.png'))), //Non sarà const la variabile
                           ],
                         ),
-                      )
+                      ),
+                      SizedBox(height: H.toDouble() * 0.07),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                        height: 120,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            _buildBox(
+                              height: H,
+                              width: W,
+                              imageUrl: 'assets/healthFood.jpg',
+                              title: 'Food Tips',
+                              subtitle: 'How to eat well:',
+                              url: categories[0].websites[DateTime.now().day %
+                                  categories[0].websites.length],
+                            ),
+                            const SizedBox(width: 15),
+                            _buildBox(
+                              height: H,
+                              width: W,
+                              imageUrl: 'assets/fitness.jpg',
+                              title: 'Fitness Tips',
+                              subtitle: 'How to feel better:',
+                              url: categories[1].websites[DateTime.now().day %
+                                  categories[1].websites.length],
+                            ),
+                            const SizedBox(width: 15),
+                            _buildBox(
+                              height: H,
+                              width: W,
+                              imageUrl: 'assets/sleep.jpg',
+                              title: 'General Tips',
+                              subtitle: 'How to deal with it:',
+                              url: categories[2].websites[DateTime.now().day %
+                                  categories[2].websites.length],
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                const Text(''),
-              ],
-            ),
-          ),
-        ),
-        drawer: SizedBox(
-          width: MediaQuery.of(context).size.width *
-              0.75, // 75% of screen will be occupied
-          child: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                Consumer<ProfileRepository>(
-                    builder: (context, profileRepo, child) {
-                  return UserAccountsDrawerHeader(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            gradientStart,
-                            gradientEnd,
-                          ],
-                          begin: FractionalOffset(0.0, 0.0),
-                          end: FractionalOffset(1.0, 1.0)),
-                    ),
-                    accountName: Text(
-                        "${profileRepo.signedProfile.firstName} ${profileRepo.signedProfile.lastName}"),
-                    accountEmail:
-                        Text(profileRepo.signedProfile.profileUsername),
-                    currentAccountPicture: CircleAvatar(
-                        radius: (W.toDouble()) *
-                            0.15, //dimensione proporzionale allo schermo
-                        backgroundImage:
-                            const AssetImage('assets/profile.png')),
-                  );
-                }),
-                ListTile(
-                  leading: const Icon(Icons.logout),
-                  title: const Text("Logout"),
-                  onTap: () async {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (c) => const WelcomePage()),
-                        (route) => false);
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.setString('username', '');
-                  },
                 ),
               ],
             ),
@@ -337,4 +344,82 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       );
+}
+
+Widget _buildBox({
+  required String imageUrl,
+  required String title,
+  required String subtitle,
+  required String url,
+  required height,
+  required width,
+}) {
+  return GestureDetector(
+    onTap: () => _launchURL(url),
+    child: SizedBox(
+      width: width * 0.35,
+      child: Column(children: [
+        ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.fitWidth,
+              height: 50,
+              width: 180,
+            )),
+        Container(
+          width: 180,
+          height: 67,
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            ),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 6.0, top: 2, right: 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 17),
+                    ),
+                    const Icon(
+                      Icons.lightbulb,
+                      size: 11,
+                      color: Colors.amber,
+                    )
+                  ],
+                ),
+                FittedBox(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      subtitle,
+                      style: const TextStyle(color: gradientEnd),
+                    ))
+              ],
+            ),
+          ),
+        )
+      ]),
+    ),
+  );
+}
+
+void _launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }

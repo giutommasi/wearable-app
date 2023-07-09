@@ -14,6 +14,7 @@ class Profile {
   String lastName;
   @ColumnInfo(name: 'profile_username')
   final String profileUsername;
+  String? childName;
   int? pregnantWeek;
   DateTime? birthday;
   DateTime timestamp;
@@ -28,5 +29,6 @@ class Profile {
       required this.lastName,
       this.pregnantWeek,
       this.birthday,
+      this.childName,
       required this.timestamp});
 }//Steps
