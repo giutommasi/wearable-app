@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+
+class BottomBarIconData {
+  BottomBarIconData(
+      {this.imagePath = '',
+      this.index = 0,
+      this.selectedImagePath = '',
+      this.isSelected = false,
+      this.animationController,
+      this.description = ''});
+
+  String imagePath;
+  String selectedImagePath;
+  String description;
+  bool isSelected;
+  int index;
+
+  AnimationController? animationController;
+
+  static List<BottomBarIconData> tabIconsList = <BottomBarIconData>[
+    BottomBarIconData(
+        imagePath: 'assets/images/progress_trace/page_1.png',
+        selectedImagePath: 'assets/images/progress_trace/page_1s.png',
+        index: 0,
+        isSelected: true,
+        animationController: null,
+        description: 'Daily'),
+    BottomBarIconData(
+        imagePath: 'assets/images/progress_trace/page_2.png',
+        selectedImagePath: 'assets/images/progress_trace/page_2s.png',
+        index: 1,
+        isSelected: false,
+        animationController: null,
+        description: '7 Days'),
+  ];
+}
