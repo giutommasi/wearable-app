@@ -56,6 +56,8 @@ class _HomePageState extends State<HomePage> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset:
+            false, // Altrimenti la tastiera causa un overflow quando si torna indietro dalla pagina profilo
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -160,34 +162,34 @@ class _HomePageState extends State<HomePage> {
                           scrollDirection: Axis.horizontal,
                           children: [
                             _buildBox(
-                              height: H,
-                              width: W,
-                              imageUrl: 'assets/healthFood.jpg',
-                              title: 'Food Tips',
-                              subtitle: 'How to eat well:',
-                              url: categories[0].websites[DateTime.now().day %
-                                  categories[0].websites.length],
-                            ),
+                                height: H,
+                                width: W,
+                                imageUrl: 'assets/healthFood.jpg',
+                                title: 'Food Tips',
+                                subtitle: 'How to eat well:',
+                                url: categories[0].websites[DateTime.now().day %
+                                    categories[0].websites.length],
+                                context: context),
                             const SizedBox(width: 15),
                             _buildBox(
-                              height: H,
-                              width: W,
-                              imageUrl: 'assets/fitness.jpg',
-                              title: 'Fitness Tips',
-                              subtitle: 'How to feel better:',
-                              url: categories[1].websites[DateTime.now().day %
-                                  categories[1].websites.length],
-                            ),
+                                height: H,
+                                width: W,
+                                imageUrl: 'assets/fitness.jpg',
+                                title: 'Fitness Tips',
+                                subtitle: 'How to feel better:',
+                                url: categories[1].websites[DateTime.now().day %
+                                    categories[1].websites.length],
+                                context: context),
                             const SizedBox(width: 15),
                             _buildBox(
-                              height: H,
-                              width: W,
-                              imageUrl: 'assets/sleep.jpg',
-                              title: 'General Tips',
-                              subtitle: 'How to deal with it:',
-                              url: categories[2].websites[DateTime.now().day %
-                                  categories[2].websites.length],
-                            ),
+                                height: H,
+                                width: W,
+                                imageUrl: 'assets/sleep.jpg',
+                                title: 'General Tips',
+                                subtitle: 'How to deal with it:',
+                                url: categories[2].websites[DateTime.now().day %
+                                    categories[2].websites.length],
+                                context: context),
                           ],
                         ),
                       ),
@@ -201,15 +203,24 @@ class _HomePageState extends State<HomePage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final Uri url = Uri.parse(
+            final Uri link = Uri.parse(
                 'https://www.omicsonline.org/scholarly/pregnancy-nutrition-journals-articles-ppts-list.php');
-            if (!await launchUrl(url)) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context)
-                  ..removeCurrentSnackBar()
-                  ..showSnackBar(
-                      SnackBar(content: Text('Could not access $url')));
+
+            try {
+              bool result = await launchUrl(link);
+              if (!result) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context)
+                    ..removeCurrentSnackBar()
+                    ..showSnackBar(
+                        SnackBar(content: Text('Could not access $link')));
+                }
               }
+            } catch (e) {
+              ScaffoldMessenger.of(context)
+                ..removeCurrentSnackBar()
+                ..showSnackBar(
+                    SnackBar(content: Text('Could not access $link')));
             }
           },
           backgroundColor: ColorFemale,
@@ -353,9 +364,10 @@ Widget _buildBox({
   required String url,
   required height,
   required width,
+  required context,
 }) {
   return GestureDetector(
-    onTap: () => _launchURL(url),
+    onTap: () => _launchURL(url, context),
     child: SizedBox(
       width: width * 0.35,
       child: Column(children: [
@@ -416,10 +428,13 @@ Widget _buildBox({
   );
 }
 
-void _launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+void _launchURL(String url, BuildContext context) async {
+  final link = Uri.parse(url);
+  try {
+    await launchUrl(link);
+  } catch (e) {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(const SnackBar(content: Text('Could not open the link')));
   }
 }
