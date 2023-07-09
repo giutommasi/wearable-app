@@ -32,6 +32,8 @@ void main() async {
   final profileRepository = ProfileRepository(database: database);
 
   setupWindow();
+  // Be sure to add this line if `PackageInfo.fromPlatform()` is called before runApp()
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(MultiProvider(
     providers: [
