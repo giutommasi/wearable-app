@@ -84,10 +84,16 @@ class _FoodPlanState extends State<FoodPlanPage> {
       );
 
   Future launchEmail({required String toEmail}) async {
-    final url = 'mailto:$toEmail';
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: toEmail,
+      queryParameters: {'subject': 'Advise', 'body': ''},
+    );
 
-    if (await canLaunch(url)) {
-      await launch(url);
+    try {
+      await launchUrl(emailLaunchUri);
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

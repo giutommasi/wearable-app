@@ -1,41 +1,28 @@
-# Wearable-app
+# Pregnancy Health App
+
+App developed for Biomedical Wearable Technologies for Healthcare and Wellbeing exam
+
+## Release Date
+
+07-09-2023
 
 ## Version
-0.1.0
+1.0.0
 
-< Brief Application Description >
-
-## Getting Started
-
-This file describes at a high level the architecture of the wearable applcation, together with the functionalities exposed and the instructions to make it up and running.
+This application is used to monitor the lifestyle of a pregnant woman using data retrieved from a fitbit (through the Impact platform) and the Food Plan provided by a nutritionist
 
 ### Prerequisites
 
-* Dart == 2.19.3
-* Flutter == 3.7.6
+* Dart == 3.0.0
+* Flutter == 3.10.0
 
 ### Installing
 
-Download this project, import it into your IDE and run it
-
-We can add here more steps
-
-    example command
-
-
-## Deployment
-
-Additional notes to deploy this on a live system
-
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning
+* Download this project
+* Modify .env file from the root folder of the app and add your credentials for accessing the Impact platform
+* Import/Open the app folder into your IDE and run it
 
 ## Authors (Lexical Order)
 
   - **Tommasi Giulia**
   - **Varotto Nicolo**
-
-## License
-
-Empty for now

@@ -93,12 +93,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              //const SizedBox(height: 10),
-              Text(profile.firstName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  )),
+              Consumer<ProfileRepository>(
+                  builder: (context, profileRepo, child) {
+                return
+                    //const SizedBox(height: 10),
+                    Text(profileRepo.signedProfile.firstName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ));
+              }),
               const SizedBox(height: 2),
               Consumer<ProfileRepository>(
                 builder: (context, profileRepo, child) {
@@ -106,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         TextSpan(
                             text:
-                                "Mom of ${profileRepo.signedProfile.childName}"),
+                                "Mom of ${profileRepo.signedProfile.childName ?? ""}"),
                         WidgetSpan(
                             child: InkWell(
                                 child: const Icon(
