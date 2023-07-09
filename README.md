@@ -1,6 +1,10 @@
-# Wearable-app
+# Pregnancy Health App
 
-Pregnancy Health App
+App developed for Biomedical Wearable Technologies for Healthcare and Wellbeing exam
+
+## Release Date
+
+07-09-2023
 
 ## Version
 1.0.0
