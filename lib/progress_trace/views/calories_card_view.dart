@@ -1,6 +1,7 @@
-import 'package:exam/Constants/pregnancy_health_app_theme.dart';
-import 'package:exam/main.dart';
-import 'package:exam/repositories/calories_repository.dart';
+import 'package:pregnancy_health/Constants/pregnancy_health_app_theme.dart';
+import 'package:pregnancy_health/database/entities/calories.dart';
+import 'package:pregnancy_health/main.dart';
+import 'package:pregnancy_health/repositories/calories_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,8 +37,8 @@ class CaloriesCardView extends StatelessWidget {
                       topRight: Radius.circular(68.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                        color:
-                            const Color.fromARGB(255, 244, 143, 177).withOpacity(0.7),
+                        color: const Color.fromARGB(255, 244, 143, 177)
+                            .withOpacity(0.7),
                         offset: const Offset(1.1, 1.1),
                         blurRadius: 10.0),
                   ],
@@ -121,7 +122,7 @@ class CaloriesCardView extends StatelessWidget {
                                                                 left: 4,
                                                                 bottom: 3),
                                                         child: Text(
-                                                          '${(getEaten() * animation!.value).toInt()}',
+                                                          '${(getEaten(repo) * animation!.value).toInt()}',
                                                           textAlign:
                                                               TextAlign.center,
                                                           style:
@@ -316,7 +317,7 @@ class CaloriesCardView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${((1600 - getEaten()) * animation!.value).toInt()}',
+                                                  '${(getLeft(repo) * animation!.value).toInt()}',
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
                                                     fontFamily:
@@ -330,7 +331,7 @@ class CaloriesCardView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Kcal left',
+                                                  'To burn',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontFamily:
@@ -355,8 +356,8 @@ class CaloriesCardView extends StatelessWidget {
                                                   HexColor("#8A98E8"),
                                                   HexColor("#8A98E8")
                                                 ],
-                                                angle: getAngle(1600) +
-                                                    (360 - getAngle(1600)) *
+                                                angle: getAngle(repo) +
+                                                    (360 - getAngle(repo)) *
                                                         (1.0 -
                                                             animation!.value)),
                                             child: const SizedBox(
@@ -424,9 +425,8 @@ class CaloriesCardView extends StatelessWidget {
                                           child: Row(
                                             children: <Widget>[
                                               Container(
-                                                width:
-                                                    (getGoalStatus(repo, 1600) *
-                                                        animation!.value),
+                                                width: (getGoalStatus(repo) *
+                                                    animation!.value),
                                                 height: 4,
                                                 decoration: BoxDecoration(
                                                   gradient:
@@ -447,7 +447,7 @@ class CaloriesCardView extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(top: 6),
                                         child: Text(
-                                          '1600 Kcal',
+                                          '${getCaloriesEaten(repo)} Kcal',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             fontFamily: PHAppTheme.fontName,
@@ -620,21 +620,38 @@ class CaloriesCardView extends StatelessWidget {
   }
 }
 
-int getGoalStatus(CaloriesRepository repo, int max) {
+int getCaloriesEaten(CaloriesRepository repo) {
   final cal = repo.dailyCalories;
-  if (cal != null) {
-    if (cal.eaten.floor() >= max) return 100;
 
-    if (cal.eaten >= 0) {
-      return (cal.eaten.floor() * 100 / max).floor();
+  if (cal != null) {
+    return cal.getCaloriesEaten();
+  }
+  return 0;
+}
+
+int getGoalStatus(CaloriesRepository repo) {
+  final cal = repo.dailyCalories;
+  final burned = getBurned(repo);
+  if (cal != null) {
+    final max = getCaloriesEaten(repo);
+
+    if (burned >= max) return 100;
+
+    if (burned >= 0) {
+      return (burned * 100 / max).floor();
     }
   }
 
   return 0;
 }
 
-int getEaten() {
-  return 1200;
+int getEaten(CaloriesRepository repo) {
+  final cal = repo.dailyCalories;
+  if (cal != null) {
+    return cal.getCaloriesEaten();
+  }
+
+  return 0;
 }
 
 int getBurned(CaloriesRepository repo) {
@@ -646,9 +663,17 @@ int getBurned(CaloriesRepository repo) {
   return 0;
 }
 
-double getAngle(int max) {
-  final remainedCalories = max - getEaten();
+int getLeft(CaloriesRepository repo) {
+  final remainedCalories = Calories.caloriesBurnedGoal - getBurned(repo);
   if (remainedCalories == 0) return 0;
-  if (remainedCalories >= max) return 360;
-  return 360 * remainedCalories / max;
+  if (remainedCalories <= 0) return 0;
+  return remainedCalories;
+}
+
+double getAngle(CaloriesRepository repo) {
+  final remainedCalories = Calories.caloriesBurnedGoal - getBurned(repo);
+  if (remainedCalories == 0) return 0;
+  if (remainedCalories >= Calories.caloriesBurnedGoal) return 360;
+  if (remainedCalories <= 0) return 360;
+  return 360 * remainedCalories / Calories.caloriesBurnedGoal;
 }

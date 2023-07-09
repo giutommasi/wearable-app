@@ -1,8 +1,7 @@
-import 'package:exam/database/database.dart';
-import 'package:exam/repositories/repository.dart';
+import 'package:pregnancy_health/database/database.dart';
+import 'package:pregnancy_health/repositories/repository.dart';
 import 'package:flutter/material.dart';
 
-import '../Constants/impact.dart';
 import '../database/entities/calories.dart';
 import '../services/impact_api.dart';
 
@@ -13,6 +12,7 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   CaloriesRepository({required this.database});
 
   final List<Calories> _loadedCalories = [];
+  final List<Calories> _weeklyLoadedCalories = [];
 
   void updateDailyCalories(DateTime day) async {
     _loadedCalories.clear();
@@ -22,35 +22,44 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   }
 
   void updateWeeklyCalories(DateTime day) async {
-    if (_loadedCalories.isEmpty) _loadedCalories.addAll(await selectAll());
+    if (_loadedCalories.isEmpty) _loadedCalories.addAll(await loadAll());
     notifyListeners();
   }
 
   Calories? get dailyCalories =>
       _loadedCalories.isEmpty ? null : _loadedCalories.first;
-  List<Calories> get weeklyCalories => _loadedCalories;
+  List<Calories> get weeklyCalories => _weeklyLoadedCalories;
 
   //This method wraps the findAllCaloriess() method of the DAO
   @override
-  Future<List<Calories>> selectAll() async {
-    final results = await database.caloriesDao.findAllCalories();
+  Future<List<Calories>> loadAll() async {
+    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+    DateTime sevenDaysAgo = yesterday.subtract(const Duration(days: 7));
 
-    if (results.isEmpty) {
-      DateTime now = DateTime.now();
-      DateTime sevenDaysAgo = now.subtract(const Duration(days: 6));
+    final results =
+        await database.caloriesDao.findAllCalories(sevenDaysAgo, yesterday);
 
-      List<Calories>? calories = await ImpactApi.getCaloriesRange(
-          ImpactDataType.steps, sevenDaysAgo, DateTime.now());
+    if (results.isEmpty || results.length < 7) {
+      List<Calories>? calories =
+          await ImpactApi.getCaloriesRange(sevenDaysAgo, yesterday);
 
       if (calories == null) {
         print("No Calories available");
-        return Future.value([Calories(date: now, burned: 0, dayOfTheWeek: 1)]);
+        return Future.value(
+            [Calories(date: yesterday, burned: 0, dayOfTheWeek: 1)]);
       }
 
-      await insert(calories);
+      await insertAll(calories);
+      _weeklyLoadedCalories.clear();
+      _weeklyLoadedCalories.addAll(calories);
+      notifyListeners();
 
       return Future<List<Calories>>.value(calories);
     }
+
+    _weeklyLoadedCalories.clear();
+    _weeklyLoadedCalories.addAll(results);
+    notifyListeners();
 
     return results;
   } //selectAll
@@ -60,8 +69,7 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
     final results = await database.caloriesDao.findCalories(day);
 
     if (results.isEmpty) {
-      Calories? calories =
-          await ImpactApi.getCalories(ImpactDataType.calories, day);
+      Calories? calories = await ImpactApi.getCalories(day);
 
       if (calories == null) {
         return Future.value(Calories(date: day, burned: 0, dayOfTheWeek: 1));
@@ -86,6 +94,11 @@ class CaloriesRepository extends ChangeNotifier implements Repository {
   @override
   Future<void> insert(calories) async {
     await database.caloriesDao.insertCalories(calories);
+  } //insertCalories
+
+  @override
+  Future<void> insertAll(calories) async {
+    await database.caloriesDao.insertAllCalories(calories.cast<Calories>());
   } //insertCalories
 
   //This method wraps the deleteCalories() method of the DAO.

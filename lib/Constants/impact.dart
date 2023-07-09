@@ -22,7 +22,7 @@ class Impact {
 
   static String dataEndpointRange(
       ImpactDataType type, String startDate, String endDate) {
-    return '$baseUrl$dataUrl${type.name}$patient/daterange/start_date/$startDate/end_date/$endDate';
+    return '$baseUrl$dataUrl${type.name}/${patient}daterange/start_date/$startDate/end_date/$endDate/';
   }
 }
 // stessa cosa per un range di date

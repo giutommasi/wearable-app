@@ -1,4 +1,4 @@
-import 'package:exam/database/entities/user.dart';
+import 'package:pregnancy_health/database/entities/user.dart';
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'Profile', foreignKeys: [
@@ -10,14 +10,23 @@ import 'package:floor/floor.dart';
 class Profile {
   @PrimaryKey(autoGenerate: true)
   int? id;
+  String firstName;
+  String lastName;
   @ColumnInfo(name: 'profile_username')
   final String profileUsername;
   int? pregnantWeek;
   DateTime? birthday;
+  DateTime timestamp;
+
+  int get actualWeek =>
+      pregnantWeek! + (DateTime.now().difference(timestamp).inDays ~/ 7);
 
   Profile(
       {this.id,
       required this.profileUsername,
+      required this.firstName,
+      required this.lastName,
       this.pregnantWeek,
-      this.birthday});
+      this.birthday,
+      required this.timestamp});
 }//Steps

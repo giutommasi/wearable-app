@@ -117,7 +117,8 @@ class ProfileAlert extends AlertDialog {
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
             context: context,
-            initialDate: DateTime(2023), //get today's date
+            initialDate: DateTime(2023)
+                .subtract(const Duration(days: 365 * 18)), //get today's date
             firstDate: DateTime(1900),
             lastDate: DateTime(2023));
         if (pickedDate != null) {

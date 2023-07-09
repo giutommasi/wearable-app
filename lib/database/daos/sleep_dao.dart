@@ -7,8 +7,8 @@ import '../entities/sleep.dart';
 @dao
 abstract class SleepDao {
   //Query #1: SELECT -> this allows to obtain all the entries of the Sleep table
-  @Query('SELECT * FROM Sleep')
-  Future<List<Sleep>> findAllSleep();
+  @Query('SELECT * FROM Sleep WHERE date >= :start AND date <= :end')
+  Future<List<Sleep>> findAllSleep(DateTime start, DateTime end);
 
   //Query #2: INSERT -> this allows to add a Sleep in the table
   @insert
@@ -23,7 +23,7 @@ abstract class SleepDao {
   Future<void> updateSleep(Sleep sleep);
 
   //Query #5: INSERT -> this allows to add all Steps in the table
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertAllSleep(List<Sleep> sleep);
 
   //Query #6: SELECT -> this allows to obtain all the entries of the Sleep table

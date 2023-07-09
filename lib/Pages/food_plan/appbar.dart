@@ -1,4 +1,4 @@
-import 'package:exam/Pages/food_plan.dart';
+import 'package:pregnancy_health/Pages/food_plan.dart';
 import 'package:flutter/material.dart';
 
 import '../home_page.dart';
@@ -10,7 +10,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color color;
   final bool page;
 
-  const CustomAppBar({super.key, 
+  const CustomAppBar({
+    super.key,
     required this.color,
     required this.title,
     required this.icon,
@@ -27,16 +28,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: TextStyle(
-            fontFamily: 'PlayFair',
-            fontSize: 26,
-            fontWeight: FontWeight.normal,
-            color: color,
-            ),
+          fontFamily: 'PlayFair',
+          fontSize: 26,
+          fontWeight: FontWeight.normal,
+          color: color,
+        ),
         textAlign: TextAlign.center,
       ),
       leading: IconButton(
           onPressed: () {
-            page == true? _PreviousPage(context) : _HomePage(context);
+            page == true ? _PreviousPage(context) : _HomePage(context);
           },
           icon: Icon(
             icon,
@@ -55,19 +56,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-
-
 
 // ###################################
 void _PreviousPage(BuildContext context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => (const FoodPlanPage())));
 }
+
 void _HomePage(BuildContext context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => (const HomePage())));
 }
-
