@@ -1,14 +1,10 @@
 import 'package:pregnancy_health/Constants/colors.dart';
 import 'package:pregnancy_health/Pages/pregnancy.dart';
-import 'package:pregnancy_health/Pages/welcome_page.dart';
 import 'package:pregnancy_health/database/entities/user.dart';
 import 'package:pregnancy_health/repositories/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
 import 'package:date_format/date_format.dart';
 import '../database/entities/profile.dart';
 import '../repositories/user_repository.dart';
@@ -360,7 +356,7 @@ Widget _buildBox({
 }) {
   return GestureDetector(
     onTap: () => _launchURL(url),
-    child: Container(
+    child: SizedBox(
       width: width * 0.35,
       child: Column(children: [
         ClipRRect(
