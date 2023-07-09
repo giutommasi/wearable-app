@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         TextSpan(
                             text:
-                                "Mom of ${profileRepo.signedProfile.childName}"),
+                                "Mom of ${profileRepo.signedProfile.childName ?? ""}"),
                         WidgetSpan(
                             child: InkWell(
                                 child: const Icon(
