@@ -407,14 +407,13 @@ class _SignUpState extends State<SignUp> {
       _password = Crypt.sha256(password.text, rounds: 10000, salt: 'abcde1234')
           .toString();
 
-      await userRepo.insert(User(
-          username: _username,
+      await userRepo.insert(User(username: _username, password: _password));
+
+      await profileRepo.insert(Profile(
+          profileUsername: _username,
           firstName: _firstName,
           lastName: _lastName,
-          password: _password));
-
-      await profileRepo.insert(
-          Profile(profileUsername: _username, timestamp: DateTime.now()));
+          timestamp: DateTime.now()));
 
       form.reset();
       if (context.mounted) {

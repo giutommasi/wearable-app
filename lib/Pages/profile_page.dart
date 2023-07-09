@@ -36,8 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
     final profileRepo = Provider.of<ProfileRepository>(context, listen: false);
     profile = profileRepo.signedProfile;
 
-    firstName.text = user.firstName;
-    lastName.text = user.lastName;
+    firstName.text = profile.firstName;
+    lastName.text = profile.lastName;
 
     birthday.text = DateFormat("yyyy-MM-dd").format(profile.birthday!);
     pregWeek.text = profile.actualWeek.toString();
@@ -116,8 +116,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Crypt.sha256(password.text, rounds: 10000, salt: 'abcde1234')
                     .toString();
 
-            user.firstName = firstName.text;
-            user.lastName = lastName.text;
+            profile.firstName = firstName.text;
+            profile.lastName = lastName.text;
             user.password = hashedPwd;
             final userRepo =
                 Provider.of<UserRepository>(context, listen: false);

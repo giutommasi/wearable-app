@@ -8,14 +8,7 @@ class User {
   int? id;
 
   final String username;
-  String firstName;
-  String lastName;
   String password;
 
-  User(
-      {this.id,
-      required this.username,
-      required this.firstName,
-      required this.lastName,
-      required this.password});
+  User({this.id, required this.username, required this.password});
 }//Steps

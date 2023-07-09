@@ -99,9 +99,9 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Sleep` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `date` INTEGER NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `duration` INTEGER NOT NULL, `minutesAsleep` INTEGER NOT NULL, `minutesAwake` INTEGER NOT NULL, `efficiency` INTEGER NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `password` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `username` TEXT NOT NULL, `password` TEXT NOT NULL)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `profile_username` TEXT NOT NULL, `pregnantWeek` INTEGER, `birthday` INTEGER, `timestamp` INTEGER NOT NULL, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+            'CREATE TABLE IF NOT EXISTS `Profile` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `profile_username` TEXT NOT NULL, `pregnantWeek` INTEGER, `birthday` INTEGER, `timestamp` INTEGER NOT NULL, FOREIGN KEY (`profile_username`) REFERENCES `User` (`username`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE UNIQUE INDEX `index_User_username` ON `User` (`username`)');
 
@@ -457,8 +457,6 @@ class _$UserDao extends UserDao {
             (User item) => <String, Object?>{
                   'id': item.id,
                   'username': item.username,
-                  'firstName': item.firstName,
-                  'lastName': item.lastName,
                   'password': item.password
                 }),
         _userUpdateAdapter = UpdateAdapter(
@@ -468,8 +466,6 @@ class _$UserDao extends UserDao {
             (User item) => <String, Object?>{
                   'id': item.id,
                   'username': item.username,
-                  'firstName': item.firstName,
-                  'lastName': item.lastName,
                   'password': item.password
                 }),
         _userDeletionAdapter = DeletionAdapter(
@@ -479,8 +475,6 @@ class _$UserDao extends UserDao {
             (User item) => <String, Object?>{
                   'id': item.id,
                   'username': item.username,
-                  'firstName': item.firstName,
-                  'lastName': item.lastName,
                   'password': item.password
                 });
 
@@ -513,8 +507,6 @@ class _$UserDao extends UserDao {
         mapper: (Map<String, Object?> row) => User(
             id: row['id'] as int?,
             username: row['username'] as String,
-            firstName: row['firstName'] as String,
-            lastName: row['lastName'] as String,
             password: row['password'] as String),
         arguments: [username, password]);
   }
@@ -525,8 +517,6 @@ class _$UserDao extends UserDao {
         mapper: (Map<String, Object?> row) => User(
             id: row['id'] as int?,
             username: row['username'] as String,
-            firstName: row['firstName'] as String,
-            lastName: row['lastName'] as String,
             password: row['password'] as String),
         arguments: [username]);
   }
@@ -557,6 +547,8 @@ class _$ProfileDao extends ProfileDao {
             'Profile',
             (Profile item) => <String, Object?>{
                   'id': item.id,
+                  'firstName': item.firstName,
+                  'lastName': item.lastName,
                   'profile_username': item.profileUsername,
                   'pregnantWeek': item.pregnantWeek,
                   'birthday': _nullDateTimeConverter.encode(item.birthday),
@@ -568,6 +560,8 @@ class _$ProfileDao extends ProfileDao {
             ['id'],
             (Profile item) => <String, Object?>{
                   'id': item.id,
+                  'firstName': item.firstName,
+                  'lastName': item.lastName,
                   'profile_username': item.profileUsername,
                   'pregnantWeek': item.pregnantWeek,
                   'birthday': _nullDateTimeConverter.encode(item.birthday),
@@ -579,6 +573,8 @@ class _$ProfileDao extends ProfileDao {
             ['id'],
             (Profile item) => <String, Object?>{
                   'id': item.id,
+                  'firstName': item.firstName,
+                  'lastName': item.lastName,
                   'profile_username': item.profileUsername,
                   'pregnantWeek': item.pregnantWeek,
                   'birthday': _nullDateTimeConverter.encode(item.birthday),
@@ -603,6 +599,8 @@ class _$ProfileDao extends ProfileDao {
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int?,
             profileUsername: row['profile_username'] as String,
+            firstName: row['firstName'] as String,
+            lastName: row['lastName'] as String,
             pregnantWeek: row['pregnantWeek'] as int?,
             birthday: _nullDateTimeConverter.decode(row['birthday'] as int?),
             timestamp: _dateTimeConverter.decode(row['timestamp'] as int)));
@@ -615,6 +613,8 @@ class _$ProfileDao extends ProfileDao {
         mapper: (Map<String, Object?> row) => Profile(
             id: row['id'] as int?,
             profileUsername: row['profile_username'] as String,
+            firstName: row['firstName'] as String,
+            lastName: row['lastName'] as String,
             pregnantWeek: row['pregnantWeek'] as int?,
             birthday: _nullDateTimeConverter.decode(row['birthday'] as int?),
             timestamp: _dateTimeConverter.decode(row['timestamp'] as int)),

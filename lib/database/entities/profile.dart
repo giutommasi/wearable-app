@@ -10,6 +10,8 @@ import 'package:floor/floor.dart';
 class Profile {
   @PrimaryKey(autoGenerate: true)
   int? id;
+  String firstName;
+  String lastName;
   @ColumnInfo(name: 'profile_username')
   final String profileUsername;
   int? pregnantWeek;
@@ -22,6 +24,8 @@ class Profile {
   Profile(
       {this.id,
       required this.profileUsername,
+      required this.firstName,
+      required this.lastName,
       this.pregnantWeek,
       this.birthday,
       required this.timestamp});

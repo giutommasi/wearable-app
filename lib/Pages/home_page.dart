@@ -90,10 +90,10 @@ class _HomePageState extends State<HomePage> {
                                       const AssetImage('assets/profile.png')),
                             ),
                             SizedBox(width: W.toDouble() * 0.05),
-                            Consumer<UserRepository>(
-                              builder: (context, userRepo, child) {
+                            Consumer<ProfileRepository>(
+                              builder: (context, profileRepo, child) {
                                 return Text(
-                                    'Hi ${userRepo.signedUser.firstName}!',
+                                    'Hi ${profileRepo.signedProfile.firstName}!',
                                     style: const TextStyle(
                                         fontSize: 33,
                                         fontWeight: FontWeight.w300,
@@ -152,7 +152,8 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                Consumer<UserRepository>(builder: (context, userRepo, child) {
+                Consumer<ProfileRepository>(
+                    builder: (context, profileRepo, child) {
                   return UserAccountsDrawerHeader(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -164,8 +165,9 @@ class _HomePageState extends State<HomePage> {
                           end: FractionalOffset(1.0, 1.0)),
                     ),
                     accountName: Text(
-                        "${userRepo.signedUser.firstName} ${userRepo.signedUser.lastName}"),
-                    accountEmail: Text(userRepo.signedUser.username),
+                        "${profileRepo.signedProfile.firstName} ${profileRepo.signedProfile.lastName}"),
+                    accountEmail:
+                        Text(profileRepo.signedProfile.profileUsername),
                     currentAccountPicture: CircleAvatar(
                         radius: (W.toDouble()) *
                             0.15, //dimensione proporzionale allo schermo
