@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:pregnancy_health/Constants/pregnancy_health_app_theme.dart';
 import 'package:pregnancy_health/repositories/calories_repository.dart';
 import 'package:pregnancy_health/repositories/sleep_repository.dart';
@@ -241,16 +242,36 @@ class ProgressAppBarState extends State<ProgressAppBar> {
                   size: 18,
                 ),
               ),
-              Text(
-                selectedDate,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  fontFamily: PHAppTheme.fontName,
-                  fontWeight: FontWeight.normal,
-                  fontSize: 18,
-                  letterSpacing: -0.2,
-                  color: PHAppTheme.darkerText,
+              InkWell(
+                child: Text(
+                  selectedDate,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    fontFamily: PHAppTheme.fontName,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 18,
+                    letterSpacing: -0.2,
+                    color: PHAppTheme.darkerText,
+                  ),
                 ),
+                onTap: () {
+                  if (selectedDate != getYesterdayDate()) {
+                    setState(() {
+                      nextDayEnabled = false;
+                      selectedDate = getYesterdayDate();
+
+                      DateTime d = DateFormat('dd MMM yy').parse(selectedDate);
+
+                      Provider.of<CaloriesRepository>(context, listen: false)
+                          .updateDailyCalories(d);
+
+                      Provider.of<StepsRepository>(context, listen: false)
+                          .updateDailySteps(d);
+                      Provider.of<SleepRepository>(context, listen: false)
+                          .updateDailySleep(d);
+                    });
+                  }
+                },
               ),
             ],
           ),
